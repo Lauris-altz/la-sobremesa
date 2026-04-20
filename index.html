@@ -423,49 +423,18 @@ function Nav({ route, setRoute, cartCount, onDark = false }) {
 
 function Footer({ setRoute }) {
   return (
-    <footer className="bg-tinta" style={{ color: "var(--crema)", padding: "80px 0 32px" }}>
+    <footer className="bg-tinta" style={{ color: "var(--crema)", padding: "24px 0" }}>
       <div className="wrap">
-        <div className="display" style={{ fontSize: "clamp(56px, 10vw, 140px)", lineHeight: 0.9, color: "var(--verde-lima)" }}>
-          ¡Aquí se<br />viene a jugar!
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr 1fr", gap: 32, marginTop: 72, alignItems: "start" }}>
-          <div>
-            <LogoImg color="cream" height={22} />
-            <p className="body-s" style={{ marginTop: 16, opacity: 0.75, maxWidth: 280 }}>
-              Juegos de mesa para alargar la sobremesa. Hecho en España, jugado en cualquier mesa.
-            </p>
-          </div>
-          <div>
-            <div className="label" style={{ opacity: 0.6, marginBottom: 12 }}>Explora</div>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }} className="stack-xs body-s">
-              <li><button onClick={() => setRoute("home")} style={linkBtn}>Inicio</button></li>
-              <li><button onClick={() => setRoute("producto")} style={linkBtn}>El juego</button></li>
-              <li><button onClick={() => setRoute("nosotros")} style={linkBtn}>Nosotros</button></li>
-              <li><button onClick={() => setRoute("contacto")} style={linkBtn}>Contacto</button></li>
-            </ul>
-          </div>
-          <div>
-            <div className="label" style={{ opacity: 0.6, marginBottom: 12 }}>Pequeños detalles</div>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }} className="stack-xs body-s">
-              <li>Envío 48 h península</li>
-              <li>Devolución 30 días</li>
-              <li>Preguntas frecuentes</li>
-              <li>Aviso legal</li>
-            </ul>
-          </div>
-          <div>
-            <div className="label" style={{ opacity: 0.6, marginBottom: 12 }}>Redes</div>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }} className="stack-xs body-s">
-              <li>Instagram</li>
-              <li>TikTok</li>
-
-            </ul>
-          </div>
-        </div>
-        <div className="divider" style={{ margin: "56px 0 20px" }} />
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", opacity: 0.6 }}>
-          <span>© {new Date().getFullYear()} La Sobremesa</span>
-          <span>Una más y nos vamos.</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 32, fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", opacity: 0.6, flexWrap: "wrap" }}>
+          <span>© {new Date().getFullYear()} Don Refranote</span>
+          <button onClick={() => setRoute("home")} style={linkBtn}>Inicio</button>
+          <button onClick={() => setRoute("producto")} style={linkBtn}>El juego</button>
+          <button onClick={() => setRoute("nosotros")} style={linkBtn}>Nosotros</button>
+          <button onClick={() => setRoute("contacto")} style={linkBtn}>Contacto</button>
+          <span>Envío 48 h península</span>
+          <span>Devolución 30 días</span>
+          <span>Aviso legal</span>
+          <span style={{ marginLeft: "auto" }}>Una más y nos vamos.</span>
         </div>
       </div>
     </footer>);
@@ -517,7 +486,6 @@ function Home({ setRoute, tone, heroVariant }) {
       <StoryGrid />
       <GameCard setRoute={setRoute} />
       <PhraseBlock />
-      <Testimonies />
       <BigCTA setRoute={setRoute} />
     </main>);
 
@@ -535,7 +503,7 @@ function HeroEditorial({ copy, setRoute }) {
     <section className="bg-rojo" style={{ padding: "56px 0 80px", position: "relative", overflow: "hidden" }}>
       <div className="wrap">
         <div className="label" style={{ color: "var(--verde-lima)" }}>{copy.eyebrow}</div>
-        <h1 className="display" style={{ fontSize: "clamp(72px, 14vw, 220px)", margin: "32px 0 0", color: "var(--verde-lima)" }}>
+        <h1 className="display" style={{ fontSize: "clamp(72px, 10vw, 220px)", margin: "32px auto 0", color: "var(--verde-lima)", textAlign: "center" }}>
           {copy.hero.map((line, i) =>
           <div key={i} style={{ display: "block" }}>
               {line.join(" ")}
@@ -615,7 +583,7 @@ function HeroSplit({ copy, setRoute }) {
 function Marquee() {
   const phrases = [
   "¡Aquí se viene a jugar!",
-  "Que no se enfríe la sobremesa",
+  "Qué empiece la partida",
   "Una más y nos vamos",
   "Aquí empieza lo bueno",
   "Cuando nadie mira el reloj",
@@ -659,9 +627,9 @@ function ConceptBlock() {
 // ---------- Story grid — 3 beats with color blocks ----------
 function StoryGrid() {
   const beats = [
-  { bg: "bg-azul", label: "Conversación", title: "Nadie mira el reloj.", body: "Preguntas que abren la sobremesa en canal. Sin polémica, con picardía.", tone: "var(--crema)", accent: "var(--amarillo)" },
-  { bg: "bg-rosa", label: "Risas", title: "Gana el que más haga reír.", body: "Retos, mímica, confesiones. La mesa decide quién se lleva el punto.", tone: "var(--rojo)", accent: "var(--rojo)" },
-  { bg: "bg-verde", label: "Rematar", title: "Una más y nos vamos.", body: "La ronda final es traicionera. Nunca es la última. Lo sabes tú, lo sabemos todos.", tone: "var(--crema)", accent: "var(--amarillo)" }];
+  { bg: "bg-azul", label: "Conversación", title: "Se habla de todo.", body: "Opiniones, historias y algún que otro pique que se queda en la mesa.", tone: "var(--crema)", accent: "var(--amarillo)" },
+  { bg: "bg-rosa", label: "Compañía", title: "Esto va de estar juntos.", body: "De alargar el rato y compartir sin prisa.", tone: "var(--rojo)", accent: "var(--rojo)" },
+  { bg: "bg-verde", label: "Juego", title: "Siempre hay algo que hacer.", body: "Una partida, otra más… y aquí nadie se levanta.", tone: "var(--crema)", accent: "var(--amarillo)" }];
 
   return (
     <section style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
@@ -696,12 +664,12 @@ function GameCard({ setRoute }) {
           <div>
             <div className="label" style={{ color: "var(--rojo)" }}>El juego</div>
             <h2 className="display" style={{ fontSize: "clamp(44px, 6vw, 88px)", margin: "20px 0 0", color: "var(--tinta)", lineHeight: 0.92 }}>
-              La Sobremesa<br />
-              <span style={{ color: "var(--rojo)" }}>— El juego.</span>
+              Don refranote<br />
+              
             </h2>
             <p className="body-l" style={{ marginTop: 24 }}>
-              156 cartas, 3 mazos, 2 dados y una regla de oro: que no se levante nadie hasta el último café.
-              Pensado para mesas de 2 a 8, probado en mesas de 12.
+              200 cartas, 1 caja, 1 dado y una regla de oro: que no se levante nadie hasta la última carta.
+              Pensado para mesas de más de 4 personas, probado en mesas de 12.
             </p>
             <div style={{ display: "flex", gap: 24, margin: "32px 0" }}>
               <Stat label="Jugadores" value="2–8" />
@@ -739,32 +707,8 @@ function PhraseBlock() {
           “Una más<br />y nos <em style={{ fontStyle: "normal", color: "var(--amarillo)" }}>vamos.”</em>
         </h2>
         <p className="body-l" style={{ color: "var(--crema)", opacity: 0.8, maxWidth: 520, margin: "32px auto 0" }}>
-          Lo hemos dicho todos. Nunca ha sido verdad. Por eso existe este juego.
+          Lo decimos todos y sabemos de sobra que no es verdad. Por eso existe este juego.
         </p>
-      </div>
-    </section>);
-
-}
-
-// ---------- Testimonies ----------
-function Testimonies() {
-  const items = [
-  { text: "“Empezamos con el café. Terminamos cenando.”", who: "Marta, 29, Sevilla" },
-  { text: "“Mi tía pidió una expansión. Mi tía.”", who: "Nacho, 34, Madrid" },
-  { text: "“La sobremesa más larga de 2025.”", who: "Grupo de WhatsApp «Los del jueves»" }];
-
-  return (
-    <section className="bg-crema" style={{ padding: "120px 0" }}>
-      <div className="wrap">
-        <div className="label" style={{ marginBottom: 40 }}>Lo que cuentan las mesas</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
-          {items.map((t, i) =>
-          <div key={i} className="hover-lift" style={{ border: "1px solid rgba(20,19,19,0.15)", borderRadius: 20, padding: 32, background: "var(--crema-2)" }}>
-              <div className="display" style={{ fontSize: 28, lineHeight: 1.1, color: "var(--rojo)" }}>{t.text}</div>
-              <div className="label" style={{ marginTop: 24, opacity: 0.6 }}>{t.who}</div>
-            </div>
-          )}
-        </div>
       </div>
     </section>);
 
@@ -798,11 +742,8 @@ function Producto({ setRoute, addToCart, tone }) {
   return (
     <main className="page-enter">
       <ProdHero />
-      <ProdHistoria />
-      <ProdQueEs />
-      <ProdComoSeJuega />
-      <ProdSituaciones />
       <ProdCompra addToCart={addToCart} />
+      <ProdComoSeJuega />
       <ProdFAQ />
     </main>);
 
@@ -815,70 +756,13 @@ function ProdHero() {
         <div>
           <div className="label" style={{ color: "var(--verde-lima)" }}>Edición única · 2025</div>
           <h1 className="display" style={{ fontSize: "clamp(48px, 7vw, 112px)", color: "var(--verde-lima)", margin: "24px 0 0", lineHeight: 0.9 }}>
-            La Sobremesa<br />— El juego.
+            Don Refranote
           </h1>
-          <p className="body-l" style={{ opacity: 0.9, marginTop: 28, maxWidth: 500, color: "rgb(208, 202, 10)" }}>Un juego de cartas de refranes y expresiones para esas sobremesas que no tienen fin.
-
-
-          </p>
+          <p className="body-l" style={{ opacity: 0.9, marginTop: 28, maxWidth: 500, color: "rgb(208, 202, 10)" }}>Juego de cartas y dado para 4+ jugadores. Consigue una carta de cada categoría antes que nadie.</p>
         </div>
         <div style={{ position: "relative" }}>
           <div className="placeholder dark" data-label="caja del juego · frontal" style={{ aspectRatio: "1/1", borderRadius: 12 }} />
-          <div className="rotate-chip" style={{ position: "absolute", bottom: -14, left: -14, background: "var(--amarillo)", color: "var(--rojo)", padding: "10px 16px", borderRadius: 999, fontFamily: "var(--display)", textTransform: "uppercase", fontSize: 16 }}>200 CARTAS · 1 CAJA · 1 DADO
-
-          </div>
-        </div>
-      </div>
-    </section>);
-
-}
-
-function ProdHistoria() {
-  return (
-    <section className="bg-crema" style={{ padding: "120px 0" }}>
-      <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 80 }}>
-        <div>
-          <div className="label">01 — La historia</div>
-        </div>
-        <div>
-          <h2 className="display" style={{ fontSize: "clamp(40px, 6vw, 72px)", margin: 0, lineHeight: 1 }}>
-            Empezó en una mesa de domingo.
-          </h2>
-          <p className="body-l" style={{ marginTop: 24, maxWidth: 640 }}>Seis amigos, dos botellas, un café. Se nos ocurrió apuntar las preguntas que salían cuando nadie tenía prisa. Llenamos una servilleta. Luego dos. Luego una libreta entera.
-
-
-          </p>
-          <p className="body-l" style={{ marginTop: 16, maxWidth: 640 }}>
-            La Sobremesa es esa libreta, pero con mejor diseño y reglas que se aguantan de pie.
-          </p>
-        </div>
-      </div>
-    </section>);
-
-}
-
-function ProdQueEs() {
-  const features = [
-  { label: "156 cartas", text: "Tres mazos: «Tira de hilo», «A ver, cuenta», «Te la juegas»." },
-  { label: "2 dados", text: "Uno para el turno, otro para las penitencias. Ninguno es opcional." },
-  { label: "Libreto", text: "Reglas en 2 páginas. El resto son chistes malos." },
-  { label: "Caja", text: "De cartón serio. Que aguante caerse al suelo a las 3 de la mañana." }];
-
-  return (
-    <section className="bg-azul" style={{ padding: "120px 0", color: "var(--crema)" }}>
-      <div className="wrap">
-        <div className="label" style={{ color: "var(--amarillo)" }}>02 — Qué es</div>
-        <h2 className="display" style={{ fontSize: "clamp(52px, 8vw, 110px)", margin: "20px 0 48px", color: "var(--verde-lima)", lineHeight: 0.9 }}>
-          Cartas, dados,<br />y una regla de oro.
-        </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
-          {features.map((f, i) =>
-          <div key={i} className="hover-lift" style={{ border: "1px solid rgba(246,239,217,0.25)", borderRadius: 16, padding: 28, background: "rgba(0,0,0,0.15)" }}>
-              <div className="display" style={{ fontSize: 44, color: "var(--amarillo)" }}>{`0${i + 1}`}</div>
-              <div className="label" style={{ marginTop: 20, color: "var(--amarillo)" }}>{f.label}</div>
-              <p className="body-s" style={{ marginTop: 10, opacity: 0.85 }}>{f.text}</p>
-            </div>
-          )}
+          <div className="rotate-chip" style={{ position: "absolute", bottom: -14, left: -14, background: "var(--amarillo)", color: "var(--rojo)", padding: "10px 16px", borderRadius: 999, fontFamily: "var(--display)", textTransform: "uppercase", fontSize: 16 }}>Cartas · Dado · 4+ Jugadores</div>
         </div>
       </div>
     </section>);
@@ -886,57 +770,30 @@ function ProdQueEs() {
 }
 
 function ProdComoSeJuega() {
-  const steps = [
-  { t: "Te repartes", d: "Cada jugador roba 3 cartas. El que tenga el café más frío empieza." },
-  { t: "Tiras", d: "El primer dado marca el mazo. El segundo, lo que toca hacer con la carta." },
-  { t: "La mesa vota", d: "Cada respuesta la puntúa la mesa, no tú. Aprendes humildad o trampas." },
-  { t: "Se alarga", d: "Gana quien consiga que nadie mire el reloj durante dos rondas seguidas." }];
+  const cats = [
+  { bg: "bg-rojo", label: "Al grano", desc: "Definición" },
+  { bg: "bg-azul", label: "Vaya cuadro", desc: "Dibujo" },
+  { bg: "bg-tinta", label: "Ni pío", desc: "Mímica" },
+  { bg: "bg-verde", label: "Quien sabe, sabe", desc: "Preguntados" },
+  { bg: "bg-amarillo", label: "¡Invente, Román!", desc: "Situaciones" },
+  { bg: "bg-rosa", label: "A toda mecha", desc: "Contrarreloj" }];
 
   return (
-    <section className="bg-crema" style={{ padding: "120px 0" }}>
+    <section className="bg-crema" style={{ padding: "80px 0 100px" }}>
       <div className="wrap">
-        <div className="label">03 — Cómo se juega</div>
-        <h2 className="display" style={{ fontSize: "clamp(52px, 8vw, 110px)", margin: "20px 0 56px", lineHeight: 0.9 }}>
-          En cuatro pasos<br />y un cafelito.
+        <div className="label" style={{ marginBottom: 8 }}>Cómo se juega</div>
+        <h2 className="display" style={{ fontSize: "clamp(44px, 7vw, 100px)", margin: "0 0 16px", lineHeight: 0.9 }}>
+          Consigue una carta<br />de cada categoría.
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
-          {steps.map((s, i) =>
-          <div key={i} style={{ borderTop: "2px solid var(--tinta)", paddingTop: 20 }}>
-              <div className="display" style={{ fontSize: 72, color: "var(--rojo)", lineHeight: 1 }}>{`0${i + 1}`}</div>
-              <div className="display" style={{ fontSize: 28, marginTop: 16 }}>{s.t}</div>
-              <p className="body-m" style={{ marginTop: 12, maxWidth: 260 }}>{s.d}</p>
+        <p className="body-l" style={{ marginBottom: 48, maxWidth: 560 }}>Juego de cartas y dado para 4 o más jugadores. Lanza el dado, actúa según la categoría y gana el que antes complete su colección.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          {cats.map((c, i) =>
+          <div key={i} className={c.bg} style={{ padding: "28px 24px", borderRadius: 16, display: "flex", flexDirection: "column", gap: 8 }}>
+              <div className="label" style={{ opacity: 0.7, fontSize: 10 }}>{c.desc}</div>
+              <div className="display" style={{ fontSize: "clamp(22px, 3vw, 36px)" }}>{c.label}</div>
             </div>
           )}
         </div>
-      </div>
-    </section>);
-
-}
-
-function ProdSituaciones() {
-  const tiles = [
-  { bg: "bg-rosa", label: "Cumpleaños", q: "¿Qué frase dijo tu padre en el último brindis?" },
-  { bg: "bg-verde", label: "Navidad", q: "Nombra tres tíos que no conoces en la mesa." },
-  { bg: "bg-amarillo", label: "Viernes de tapeo", q: "Imita a alguien de la mesa. Adivinan. Si no, bebes tú." },
-  { bg: "bg-azul", label: "Fin de semana en casa", q: "Cuenta una mentira pequeña. La mesa decide si cuela." }];
-
-  return (
-    <section>
-      <div className="bg-tinta" style={{ padding: "24px 0" }}>
-        <div className="wrap">
-          <div className="label" style={{ color: "var(--amarillo)" }}>04 — Situaciones reales de juego</div>
-        </div>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
-        {tiles.map((t, i) =>
-        <div key={i} className={t.bg} style={{ padding: 32, minHeight: 360, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-            <div className="label">{t.label}</div>
-            <div className="display" style={{ fontSize: 34, lineHeight: 1.05 }}>{t.q}</div>
-            <div style={{ fontFamily: "var(--body)", fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              Mazo «A ver, cuenta»
-            </div>
-          </div>
-        )}
       </div>
     </section>);
 
@@ -946,14 +803,13 @@ function ProdCompra({ addToCart }) {
   const [qty, setQty] = useStateProd(1);
   const price = 29;
   return (
-    <section className="bg-lima" style={{ padding: "120px 0" }}>
+    <section className="bg-lima" style={{ padding: "80px 0" }}>
       <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
         <div>
           <div className="placeholder" data-label="bodegón · producto 3/4 con cartas" style={{ aspectRatio: "1/1", borderRadius: 12, background: "var(--crema)" }} />
         </div>
         <div>
-          <div className="label" style={{ color: "var(--rojo)" }}>05 — Compra</div>
-          <h2 className="display" style={{ fontSize: "clamp(56px, 8vw, 120px)", margin: "20px 0 0", color: "var(--rojo)", lineHeight: 0.9 }}>
+          <h2 className="display" style={{ fontSize: "clamp(56px, 8vw, 120px)", margin: "0 0 0", color: "var(--rojo)", lineHeight: 0.9 }}>
             Aquí<br />empieza<br />lo bueno.
           </h2>
           <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginTop: 32 }}>
@@ -971,9 +827,9 @@ function ProdCompra({ addToCart }) {
             </button>
           </div>
           <ul style={{ marginTop: 32, padding: 0, listStyle: "none", color: "var(--rojo)" }} className="stack-xs body-m">
-            <li>◆ Para 2–8 jugadores (probado con 12 y algún primo).</li>
-            <li>◆ Sesiones de 30 min a «madre mía, son las dos».</li>
-            <li>◆ Expansión de invierno disponible en diciembre.</li>
+            <li>◆ Para más de 4 jugadores.</li>
+            <li>◆ Duración de 30 min.</li>
+            <li>◆ Recomendado para mayores de 14 años.</li>
           </ul>
         </div>
       </div>
@@ -984,15 +840,15 @@ function ProdCompra({ addToCart }) {
 function ProdFAQ() {
   const [open, setOpen] = useStateProd(0);
   const faqs = [
-  { q: "¿Se juega con niños?", a: "Hay cartas que sí, y cartas que mejor guarda la tía Mari. A partir de 16 años." },
-  { q: "¿Cuánto dura una partida?", a: "De 30 minutos a la madrugada. Depende de tu mesa y del café." },
-  { q: "¿Habrá expansiones?", a: "Dos al año. La próxima es «Cuñados», y sí, viene cargada." },
-  { q: "¿Llega a Canarias y Baleares?", a: "Sí, tarda un par de días más. Paciencia, está en el barco." }];
+  { q: "¿Se juega con niños?", a: "A partir de 14, que los refranes no se aprenden en un día. Aun así, si se animan, aquí juega toda la familia." },
+  { q: "¿Cuánto dura una partida?", a: "Desde 30 minutos hasta cuando tú quieras. Depende de tu mesa." },
+  { q: "¿Habrá expansiones?", a: "Sí, y vienen con ganas. Esto no se queda en una sola baraja." },
+  { q: "¿Llega a Canarias y Baleares?", a: "Sí, llega. Tarda un poco más, pero llega." }];
 
   return (
     <section className="bg-crema" style={{ padding: "120px 0" }}>
       <div className="wrap">
-        <div className="label">Dudas razonables</div>
+        <div className="label">Preguntas frecuentes</div>
         <div style={{ marginTop: 32, borderTop: "1px solid var(--tinta)" }}>
           {faqs.map((f, i) =>
           <div key={i} style={{ borderBottom: "1px solid var(--tinta)" }}>
@@ -1024,8 +880,8 @@ function Nosotros({ setRoute }) {
       <section className="bg-azul" style={{ padding: "96px 0 120px", color: "var(--crema)" }}>
         <div className="wrap">
           <div className="label" style={{ color: "var(--amarillo)" }}>Nosotros</div>
-          <h1 className="display" style={{ fontSize: "clamp(64px, 11vw, 180px)", color: "var(--verde-lima)", margin: "24px 0 0", lineHeight: 0.9 }}>
-            Existimos porque<br />la mejor hora<br />es la que sobra.
+          <h1 className="display" style={{ fontSize: "clamp(64px, 11vw, 120px)", color: "var(--verde-lima)", margin: "24px 0 0", lineHeight: 0.9 }}>
+            Tenemos claro<br />lo que nos gusta:<br />quedarnos hasta <br />que nos echen.
           </h1>
         </div>
       </section>
@@ -1038,24 +894,23 @@ function Nosotros({ setRoute }) {
           <div className="stack-m">
             <p className="body-l" style={{ margin: 0, fontSize: 24 }}>
               La Sobremesa nace de una obsesión muy concreta: la mesa que nadie quiere recoger.
-              Esa hora larga entre el último plato y el primer café. Entre «pedimos la cuenta» y «pues otra».
+              Esa hora larga entre el último plato y el que dice “uy, qué tarde es ya, no?”.
             </p>
             <p className="body-l" style={{ margin: 0 }}>
-              Cogemos la cultura popular española —expresiones, costumbres, manías de familia, humor de barrio—
-              y la metemos en una caja. No para explicarla, sino para jugar con ella.
-            </p>
+              <br />Partimos de la cultura popular española: costumbres, tradiciones, formas de hablar, gestos que nos hacen únicos... y la llevamos al juego.
+No para explicarla, sino para compartirla jugando.
+            </p> 
             <p className="body-l" style={{ margin: 0 }}>
-              Ni infantil, ni nostálgico, ni cuñado. Lo suficientemente elegante para regalarlo, lo suficientemente gamberro
-              para que nadie lo deje en la estantería.
+              
             </p>
           </div>
         </div>
       </section>
 
       <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
-        <Value bg="bg-rojo" color="var(--verde-lima)" n="01" t="La cultura se juega." body="Recuperamos expresiones, refranes, costumbres. No los enseñamos: los ponemos encima de la mesa." />
-        <Value bg="bg-lima" color="var(--rojo)" n="02" t="La mesa manda." body="Todo lo que hacemos empieza por una pregunta: ¿esto alarga la sobremesa o la mata?" />
-        <Value bg="bg-amarillo" color="var(--rojo)" n="03" t="Cerca, nunca cursi." body="Hablamos de tú. Sin tecnicismos, sin postureo. Como se habla en casa de la abuela, pero más divertido." />
+        <Value bg="bg-rojo" color="var(--verde-lima)" n="01" t="Somos cercanos." body="Hablamos de tú. Sin tecnicismos, como si estuviéramos en la mesa." />
+        <Value bg="bg-lima" color="var(--rojo)" n="02" t="Somos sociales." body="Esto va de juntarse. De compartir tiempo entre generaciones." />
+        <Value bg="bg-amarillo" color="var(--rojo)" n="03" t="Somos actuales." body="Recuperamos expresiones, refranes, costumbres. Partimos de la tradición y la traemos al presente." />
       </section>
 
       <section className="bg-crema" style={{ padding: "120px 0" }}>
@@ -1217,11 +1072,11 @@ function Cesta({ cart, setCart, setRoute }) {
       <section className="bg-crema" style={{ padding: "72px 0 0" }}>
         <div className="wrap">
           <div className="label">Cesta</div>
-          <h1 className="display" style={{ fontSize: "clamp(56px, 9vw, 140px)", margin: "20px 0 16px", lineHeight: 0.9 }}>
+          <h1 className="display" style={{ fontSize: "clamp(56px, 9vw, 110px)", margin: "20px 0 16px", lineHeight: 0.9 }}>
             {empty ? "Cesta vacía. De momento." : "Esto ya casi es tuyo."}
           </h1>
           <p className="body-l" style={{ maxWidth: 540 }}>
-            {empty ? "No pasa nada. Una sobremesa buena también empieza sin plan." : "No lo dejes enfriar. El cartero está al caer."}
+            
           </p>
         </div>
       </section>
@@ -1241,8 +1096,8 @@ function Cesta({ cart, setCart, setRoute }) {
             <div key={i} style={{ display: "grid", gridTemplateColumns: "120px 1fr auto", gap: 20, padding: "24px 0", borderBottom: "1px solid rgba(20,19,19,0.15)", alignItems: "center" }}>
                   <div className="placeholder" data-label="caja" style={{ aspectRatio: "1/1", borderRadius: 10 }} />
                   <div>
-                    <div className="display" style={{ fontSize: 28 }}>La Sobremesa — El juego</div>
-                    <div className="body-s" style={{ opacity: 0.7, marginTop: 6 }}>Edición estándar · 156 cartas · 2 dados</div>
+                    <div className="display" style={{ fontSize: 28 }}>Don Refranote · El juego</div>
+                    <div className="body-s" style={{ opacity: 0.7, marginTop: 6 }}>Edición estándar · 200 cartas · 1 dado</div>
                     <div style={{ display: "flex", alignItems: "center", gap: 6, border: "1.5px solid var(--tinta)", borderRadius: 999, padding: "4px 10px", marginTop: 12, width: "fit-content" }}>
                       <button onClick={() => changeQty(i, -1)} style={iconBtn}>−</button>
                       <div style={{ minWidth: 24, textAlign: "center", fontWeight: 700 }}>{it.qty}</div>
@@ -1263,7 +1118,7 @@ function Cesta({ cart, setCart, setRoute }) {
             <Row k="Total" v={`${total.toFixed(2)} €`} big />
             {!empty && subtotal < 40 &&
             <p className="body-s" style={{ marginTop: 8, color: "var(--rojo)" }}>
-                Te quedan {(40 - subtotal).toFixed(2)} € para envío gratis. ¿Otra? Por pedir...
+                Te quedan {(40 - subtotal).toFixed(2)} € para envío gratis. ¿Otra? 
               </p>
             }
             <button disabled={empty} className="btn btn-filled-dark" style={{ width: "100%", justifyContent: "center", marginTop: 20, opacity: empty ? 0.4 : 1 }}>
@@ -1279,7 +1134,7 @@ function Cesta({ cart, setCart, setRoute }) {
               <div>
                 <div className="label" style={{ color: "var(--rojo)" }}>Un empujoncito</div>
                 <div className="display" style={{ fontSize: 40, color: "var(--rojo)", marginTop: 10 }}>
-                  Una más y nos vamos. <em style={{ fontStyle: "normal", fontSize: 22 }}>(mentira)</em>
+                  Dale una vuelta. <em style={{ fontStyle: "normal", fontSize: 22 }}></em>
                 </div>
               </div>
               <button className="btn btn-filled-rojo" onClick={() => setRoute("producto")}>
