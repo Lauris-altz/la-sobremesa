@@ -1,0 +1,1519 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>La Sobremesa · ¡Aquí se viene a jugar!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* LA SOBREMESA — Design tokens + base styles */
+
+:root {
+  /* Principales */
+  --rojo: #D90E15;
+  --azul: #355FA9;
+  --verde-lima: #CEC80A;
+  /* Secundarios */
+  --rosa: #F4A8BE;
+  --verde: #049368;
+  --amarillo: #F6D518;
+  /* Neutros */
+  --crema: #F6EFD9;
+  --crema-2: #EFE6C8;
+  --tinta: #141313;
+  --tinta-soft: #1E1B1B;
+
+  --display: "Palmore-Regular", "Bodoni Moda", "DM Serif Display", Georgia, serif;
+  --body: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+  --edge: 1px solid currentColor;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--crema);
+  color: var(--tinta);
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+/* Display type — Palmore sub via Yeseva One, always uppercase */
+.display {
+  font-family: var(--display);
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+
+/* Helvetica heavy for section labels */
+.label {
+  font-family: var(--body);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+.body-l { font-size: 19px; line-height: 1.45; }
+.body-m { font-size: 16px; line-height: 1.5; }
+.body-s { font-size: 14px; line-height: 1.5; }
+
+/* Color blocks */
+.bg-rojo     { background: var(--rojo);     color: var(--verde-lima); }
+.bg-azul     { background: var(--azul);     color: var(--crema); }
+.bg-lima     { background: var(--verde-lima); color: var(--rojo); }
+.bg-crema    { background: var(--crema);    color: var(--tinta); }
+.bg-tinta    { background: var(--tinta);    color: var(--crema); }
+.bg-verde    { background: var(--verde);    color: var(--crema); }
+.bg-rosa     { background: var(--rosa);     color: var(--rojo); }
+.bg-amarillo { background: var(--amarillo); color: var(--rojo); }
+
+/* Layout */
+.wrap {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 700px) {
+  .wrap { padding: 0 20px; }
+}
+
+.stack-xs > * + * { margin-top: 8px; }
+.stack-s  > * + * { margin-top: 14px; }
+.stack-m  > * + * { margin-top: 24px; }
+.stack-l  > * + * { margin-top: 40px; }
+.stack-xl > * + * { margin-top: 72px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--body);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  background: transparent;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.btn:hover { transform: translate(-2px,-2px); }
+.btn:active { transform: translate(0,0); }
+
+.btn-filled-dark { background: var(--tinta); color: var(--crema); border-color: var(--tinta); }
+.btn-filled-dark:hover { background: var(--rojo); border-color: var(--rojo); color: var(--verde-lima); }
+
+.btn-filled-lima { background: var(--verde-lima); color: var(--rojo); border-color: var(--verde-lima); }
+.btn-filled-lima:hover { background: var(--rojo); color: var(--verde-lima); border-color: var(--rojo); }
+
+.btn-filled-rojo { background: var(--rojo); color: var(--verde-lima); border-color: var(--rojo); }
+.btn-filled-rojo:hover { background: var(--tinta); color: var(--verde-lima); border-color: var(--tinta); }
+
+.btn .arrow { display: inline-block; transition: transform 0.2s ease; }
+.btn:hover .arrow { transform: translateX(4px); }
+
+/* Marquee */
+@keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee { overflow: hidden; white-space: nowrap; }
+.marquee-track {
+  display: inline-flex;
+  gap: 48px;
+  animation: marquee-scroll 36s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* Placeholder imagery — diagonal stripes w/ monospace caption */
+.placeholder {
+  position: relative;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(20,19,19,0.08) 0 1px,
+      transparent 1px 14px
+    ),
+    var(--crema-2);
+  color: var(--tinta);
+  display: grid;
+  place-items: center;
+  font-family: "IBM Plex Mono", "Menlo", "Courier New", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(20,19,19,0.12);
+}
+.placeholder::before {
+  content: attr(data-label);
+  padding: 6px 10px;
+  background: var(--tinta);
+  color: var(--crema);
+  border-radius: 999px;
+}
+.placeholder.dark {
+  background:
+    repeating-linear-gradient(45deg, rgba(246,239,217,0.10) 0 1px, transparent 1px 14px),
+    var(--tinta-soft);
+  color: var(--crema);
+  border-color: rgba(246,239,217,0.2);
+}
+.placeholder.dark::before { background: var(--crema); color: var(--tinta); }
+
+/* Spade / suit glyphs (tiny bits we draw ourselves — trivial shapes) */
+.diamond {
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  background: currentColor;
+  transform: rotate(45deg);
+  vertical-align: middle;
+  margin: 0 0.2em;
+}
+
+/* Nav */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+  background: rgba(246,239,217,0.88);
+  border-bottom: 1px solid rgba(20,19,19,0.1);
+}
+.nav.on-dark { background: rgba(20,19,19,0.85); color: var(--crema); border-bottom-color: rgba(246,239,217,0.15); }
+
+/* Focus */
+:focus-visible { outline: 2px solid var(--rojo); outline-offset: 3px; }
+
+/* Utility */
+.hover-lift { transition: transform 0.25s ease; }
+.hover-lift:hover { transform: translateY(-4px); }
+
+.divider { height: 1px; background: currentColor; opacity: 0.2; }
+
+.rotate-chip {
+  display: inline-block;
+  transform: rotate(-4deg);
+}
+
+/* Cesta / toast */
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 80;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--tinta);
+  color: var(--crema);
+  max-width: 320px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: pop 0.3s ease;
+}
+@keyframes pop {
+  from { transform: translateY(20px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Tweaks panel */
+.tweaks-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 100;
+  width: 300px;
+  background: var(--tinta);
+  color: var(--crema);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.3);
+  font-family: var(--body);
+}
+.tweaks-panel h4 {
+  font-family: var(--display);
+  text-transform: uppercase;
+  font-size: 22px;
+  margin: 0 0 10px;
+  letter-spacing: 0;
+}
+.tweaks-row { margin: 12px 0; }
+.tweaks-row .label { font-size: 10px; margin-bottom: 6px; display: block; opacity: 0.7; }
+.tweaks-swatches { display: flex; gap: 6px; }
+.tweaks-swatch {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.2);
+  cursor: pointer; padding: 0;
+}
+.tweaks-swatch[aria-pressed="true"] { border-color: var(--verde-lima); }
+.tweaks-opt {
+  padding: 6px 10px; background: rgba(255,255,255,0.08);
+  border-radius: 999px; border: 1px solid transparent; cursor: pointer;
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  margin-right: 6px; margin-bottom: 6px;
+}
+.tweaks-opt[aria-pressed="true"] { background: var(--verde-lima); color: var(--rojo); }
+
+/* Page transition */
+.page-enter { animation: fadeUp 0.4s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+window.__LOGO_DARK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYkAAABSCAYAAAChUyjlAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAABiaADAAQAAAABAAAAUgAAAAA1XxpyAAA20ElEQVR4Ae2dCZwcRfX4t3s2m3MTchLCmRBBBFQEDMh9iRwCch+GcPxA5RYVBEUU8UBQDpFLQoIIAiK3IB4IiFyigkc4DElACLk32dy7O93/75udnunuqao+pmez67/789mdrqpXr169qnrv1aujm5ryJ+dAzoGcAzkHcg7kHMg5kHMg50DOgZwDOQdyDuQcyDmQcyDnQM6BnAM5B3IO5BzIOZBzIOdAzoGcAzkHcg7kHMg5kHMg50DOgZwDOQdyDuQcyDmQcyDnQM6BnAM5B3IO5BzIOZBzIOdAzoGcAzkHcg7kHMg5kHMg50DOgZwDOQdyDuQcyDmQcyDnQM6BEAesUDgq2DJixIg9ooD86c1NTSsXLFnynD8u5XvzqFGjPmrKa1nW0oULF840wfRk2mabbTZgdVvbBsV+/fq1rF27ZO7y5Uspv8tEg+SZM2fOGhNMA9LssWPHjnQcZ2hXV1d/wQ/Ja1atWrVs+fLlbQSdBpRZg5L2HWcXi6NqEmJGuM3Nqzs7OxcuXbp0GVncmNkqYCNHjvxgwXFaKhGaFwaN22Xbna7rrlyyZMk8wDo1oJHR1LmVOo+PBIwJsKCt7TVAK/SAf0vwl9rUj8JqaVkxf/78Wf64dfm+/vrrD3Y7OjaPQ0PL4MH/effdd1fTXlvRXv3i5ImE6ddv/oIFC+ZHwqkBCqN5GD/DSW4fOHDgEqFPDdodm2ScI3O3bnbdgg6fUyisWbRo0Zu69HrjkeGJno6CZR3K4Nglbi6ky0+AzUJJdFmuO4Wyd9WVjVSQAXK8Lr0n4qXjUs4hCJJ9V7S3j2oq0LaO09TRr1/TqJEjnSbXfbPJtv8KzMsotZdRait4b6GPbU3dPrtixYo3CN/CX6Mei063FWXvCD+3bbKsiRS0YVdHR6kv2OVSi52dTf2huf/IkZ3U5V2i33Qt65/8/oUO+R9+EwvhMmrtjygIx7anwyOKTPEUi03Nti18bgPBH4qu+yBC/N9xMVH3/RzLOiUOPLxrEiIpqwsezrIc5zna+jHaU3gT+xkwYEDX2tWrr6LtR8fOZABEKRxI+7zvgYB3b+p0uhf2ft2urlXDhw8/sK2tTRTqOn8wTo6kT54XSYhlzUEAHyVwwB9M3bIZ745zIyhjj7uhQ4eOaGlpOYA8n6a/TnSLxYLXabGumkaPHLmAtL/RT17GKnyRfihjyEI+jOP3sBXLl+/E72T+Ih/qeQhy9GgtoOMsJ213bXqdCV69YqMZM2bM5k6xeA+M0Wo2DxmVWzC4tfXQrCxjEcAw/S4Pf/iX8lYvXLxYFFjmAixcVjg8rrV1VGdLy6UMSq0SC+ehl9P2Te38DYWf3fLZtm9ikN9cA1tnBErooyirg2DM3pQ1oi50ti3W8x/4ezhrC2bUiBE/AO9+ddHnZbYsl7o+CJOvYZAKn42PWLPFrq5HyCMWof7pxqseO5b1vGXbP0oyo6VfH0a/vlRfYIIU2w4oiXHjxg3qWLv2IepUO0NrUF9LQG0FFOV2D/1zi0qE7sW2v0ife0qSUXLDMFof4bVVwnU9tn0jeOMoCWv0iBEnYzB9Dp62xC7TtlfQxgXkw8BSHst6e9HixYfFyc8sf3RXZ+ejpvKaW1o+OW/evIVx8CWF8QzH2PmYkr2FcHsmTgYG511ZKQgpb/Hixa+hCP6hK1sagM62gS69UfFY5h9CQdyVSEEIMaIYXHe90m9jiCvAj4NlAGLpTIO+IymrPgUhdDrOWP5O4O8eLKbp4N+TWLXQFPgEj1Uo/DQBuBm0e0byGQTJNBTAGDNwUxPul5UM5Duj4ODhHcxSDqUv3sZYWBuAd92dXce5G76cRHwsntCvH0bopHV1BIoPB+bOnbuKOql56rrHiRIJ5+npMAbMxDgKAn6/6ikIoVFmQfDt3p6id6ONNhqIQr8WQ+ts+kB8BSEEOs4QkU9paBXhT0cSo0z74GYdr02sMyGxkpDyrGLx/shyLQsPRsejkXAJAegUj5uyQNsEU3rWaQjIHWzbvoUOkIm7APpkdlH3A1174Aq5j8757TgDMG2B1Psj4L+asu5gsG+XFo+Xr+Su6XZreVF1/0LjBNxntw0bNsw8Q6CkQkvLwwj+YkShLgLqHWatP7YLhc/hPhSXYfXpthjPRaB8m8jIGTcweE2sB6oIsn0bPHTow2AUl0Twcd1ha9euPTIYuQ5CjiNum8iHgfFzBdAD5Rm5Iim7KMZT65rVq29G4e6WEdZk3g7bNss9y2qY3EulJBa2tT1HwywyMQsOPM+i52ITTJo0FM9vTYMYn3bDNGqY3jHDh3+YTnMdQnKwl8ZgX8PfNOLPRngci1L7EmkPQnPQ4vQyhH7xbdelJGRqKtYONF2DtbNZCH01iBI38bEKGPPNdbfGgp6Ku+gbKIshMXMpweg7UQLzPZh0gvAYXl/L359j1GXDlubmyynQaN2L1Ub5zyoJU0Qys34VJXQ+5de0G/QdRFt8U5GtJoo6PAQOo+CgL51OIV+gX90AfGzXgszmyfunmkKJgBmT+UlmFasQpY+zoC1aSTB+cC/V1IFZ2Hv0878Yi7ftu/DznAjfvsGfrAcmemS2RVteTznb+jMKT4m/mN/j+Dsd3DeR/p4fRvdOQ0cZIoGsGE/P0z9k44vygY6GKYlmZYnRkTIgZvJX6+cs57Vd961oNMkh2tvblyAF34HJSmXQSGb5qcWyGIc8/zEdpzqFtKx3YcznSx23CvwGr0/ikprKjOObCO/tq0m1b65tp22TJpk94Lv8JjxYr4IZ4QWvXqE9/oy5+i9oeIcOJwqe9bSmJhkAzqpVY4qWtRGdcAtgPkr09uBI7oYou3dwbU2ivl9hHWCGlJH0QQDOgK/6bJbVuWTxYg+3CHRxeY0jz/m876PLiDD/BP7kIxYuWXKfDkbiy+XvYYLxp9HefwHvz6D4JH+8vMPHg+mvbzHrmB5O84dpk3nMxpYQN9If73+Hrvcoay5xL/A3DYV8Dr8i5CMf2v8V6DuwBpC1Cmg/JIonNfkyiqDdtmNMRLqIof21mTNnKg0taS/adpKBpPb5bW3/JF3+HkFxT6JdfsD7UEMeL8litvU94D/sRdBBXIy5ry1asiRs3Yuymgb+U1G+p9EftQYJCUnHeRc8+Cf5dqvQ4XtBSTVMSaSaSZRoc93KDgofrf5XWdxs1CMDRfnQYRrGLF+BzXSa7xGudjI6TtFxLgopiEoW2d2AP/ULRPyuEpndi8Vgk4W0q/krKQj4INtob6dDHwxNpyIEbuP3JRFGxJcUhBQvPut5S5fOYXb4bBnmHOD2xCr6Ism/J38ii0dw8oyzmU0xo6gVSt3pxv8o36i+VZMf3s5l0H6Zek+rSfRFoIRPJRi1bTJx+f0HDboFXiln1wzus2TdykeG7jVJuV3U90cIh6t1yPzxNOJ//WH/O/SdRLjgj+upd8ZRrD5Cu2rpp88n4Zusbb7Y7DhTaK9lUfVE4MuMdfcAnGXdxXgJKwgPpAP8N7J54evgr4wzL7HOX/0spYEzifRKwrbnmyrMYFxgSq8zTauAGqlRPZoRyMdguVQti+6EGfip/+XBaH47GdgX0eGf06SniZbF6Uuxxj7vWS7w4Gm7uflQyroG4ZloAJUJ6JQFQvJ/BZ/7QSiMu+jwHYmIY2EP99PlDLIpifIBLDuRqMOqpPkEXtYJoPdlbV4W3UcPH76vNr07ITHPSvviLWuqEi9rFKVZZJQgdl1tv1biJRKB9DN49SdduhdPfw2um3gJ3b8b0oc+FYzqkVA/6NovTklG+guFxHwTwwjleLmpbIycsVjuZ4dhisXiveG4cBhj7LEo/OE8McL6fsmOvPV4YuBIDJJaSTDd6jSVhiDMWotWiqPDaKdxCMshcXayVJAlfJFDMAjjk8PZ6BBxBX8RIXYh/JkVxpEibOPK+A51PrSUV6x+274SwXEeO3UyUdJywAiFcSWW0aEoit8mopF2wgo7D7fI/yXKBzANnEwpVQugKZpurgZr31i32rU2thrDeY1UZXPm4SGwLK9i8r05zgdQmIf4Ympe4ZbSnVIDGIro39FxWZRSpb8JX7QP7XQKifpxpc2ZPgHFtAu5q7NxAyoT/cw8U7UX4+T3FCl/6sdxTmGstwQScSnLpoVAnCYAfukPt2uS00Qb26e5uXlCGqRReVIriSjEjUynw1TXARQFcTBnvCI6k6iV7e2H0HFq/Mb4fJWuBlWhWBkrEOZfTWydh5AhfL+Gwty/FI1SRgpcgEC/KwSWSVDcVOzrvpAOcyb8T6qAzsTvfUwmhMRAAg/+Bli7DpQ67KhLqydeZhPw5gkdDtJOIy1ztw4n+ReB+w5duXHi6UcTENp7xoHNDMZxDswMV0pEbGX+scotJIflGE+HhdEipRNtxmE2LvhlLaTuhzY2yj3bcRoi9/qkkqBDG/f6w8wJdbeIBgEdR+mqwL2WyD2C0P0PuH6iKSYyGqv0RIAOLwHKQprrXoLl8mRkxjoB5IoVBtZRKLmnkqDC0r2A6XvQt5sEQTJYB/DXdFnoP7JdOWpdQpfdGE89f6MFYIGWtYm9tel1JBQKhTsQRm11oJBzO6fWlT9BZjm4CL091R+0lMmsAMH/QBiAa2n2gB81fYQxm2icg7fIWuXXkUmrw2UkDTPGjXKPGXJD5F6fVBIwd2MTg2FmQ5glJzzp2B9TlY37bYwq3hSHUP95GisDi297Ova5Hm7qezuLznrh5AFm9CtrBljr54PuJ9DPuInxcHCQXU+XIyQ3igFdNwiD0igwEVLD6y5EgQC+vIIC1fr/5VobRba6o+QgIG2hPjQXFzvbmGmfneKC1wOHX38fhHD/Co6ka16VjPW/9OvokHNOYSG+lwoznT3xeShRRBgPqQ1Cjw7KNso9+NkQudfnlERpTcCyxnqMU/3SIA2ZdiF4tqIhlO6CyAZUESoH5yzrO/yx+STewyAeilL4LnSU2o66zkRB3BAvd6ZQLlPpW6HlYuiP6xNuZdfTd6FCycMsqWMqYeQpJ1SDvubsCmei5Yq7S/nQTyaVjA1lan2RKKj7uE8ocseOqRQW2HtmNhF2Nbnun0x0NTJN3HWsazzsLwMjbBt/2Htn0ImRQ3Kyh7a5mxyvJ8sVgrasTUMxgSBE5UpCOLJq2bItPAEZ4JA/0CCNipJY31+M/x1hrexUfhjVO53nDYTsPao0VRyd9FyEUGXWwvsPgTNuIlDhySpOZjD4QuUwWTxFwYEkFtsnZ1W+Dg98Mu70gG/qBWYdwgTx9BP9LjfXbSZ9UgJ0SUA7ZUtzkgw1sI6zgxwSrYnPMEIOfNJfdqyglO0NJjddBbBxL1j7FeU6ceJEmeEo+w/9ZgBu04kpKCliPYhBiJ2Q/CntXIo4TyJyAdqGJMduzsFY6lsP1+JuHUkx28HiXMEQiScEwOCuCOdQkpgWm6fdVcXU+xbwtYdxhsPMIramk33Gi2dg/R3XzwteeF39cj31n8uKoismDaen5VVM/NgR7ngD7HKEQiS/DfmNSfQTo8WIy2kHI4J1nFi07cS70ZKQzCxuf7+hh9R8hfaamwRHI2EZU6OhTztbYNaxc5ry6XP/Aql2Y4MJZ4tlRcs9ENgN2LTT55QEnelDJmZ6aSw8TfDeM/zVdhzpVOyq+mSassSKQeDfGpUXV8B5/s6LYP5lVJ6eShdFgQL7VhxLiTYciGI8o1G0oUzFdztOi9+y/k1aKotOi9OXgBB8xxeseaXgrWoie1EEnXxX1r22aBRJzBsCu5rYGfhYo8pKiVc/zkFIYveOwhTIGeey2ynerNuHH+M4ltzjOyeZy70+pyQgOJZGZSF5vI/Hmbwi3Iz72Ok8R1FQKp62trb+ks6zREco00i56rtqgbKnfvCwYX/Uwa+LeFxnj8KD6bHK5rqKsjCPBZ4ECEv+OBM8QuopU3q9aXz0aC5tKTuslA88EncFP7306T7fckojqBu73nqbgbeqJLlipct1f9eIstLi5LyBWYhjqK4/fHjgHqe4ZTFG5tLwj8SF9+CQPfHkXgNc7akEmkd4T//KtjmssE3jlMsdRBPiwCWBwXJfYIR33U04D5BqNiGXsCG87tThp5Oc6E+jo72c5TXsftz1vHPi+XryvxSJgw0AUcI8EocCAGX6AXhzuCKpFEWZazqKxd/q0jOKlzUirTuLthzA90dqztpkVHYmaBhn+7HAvkkmyHxIOguFwCyCcp7zrwf4QNfZKwdIF6Hkja5TLPbULjnWJqbTR40bK8KVR1DHmknQv7OXe2FienMYF8UH/b5ME60I3MyZxSV4b5vKlDQ6/dmlHVhRgIr0Tse5nxlQjRUjHzSi3rv7szBt/Yc/3IveHa4E+Qb0aIWkRysd+tNyR78XrvcXBTGWbbZyf1V1a2UYqevevWzZMuP22HCWNGGEgLGMNf36ade30pSXOI9lmQ+FsXsOLX5yYrzmDBZ8OcAPwu2sj/vDveRdBLhxjQT5sjtnlVJtQGDN410MhWfj1lUW+oEfHQceuMzlHgqq7zwwINaUS2rUCI1K474J3tURHBvHJ0jPjIBRJuOmWMqVEE+FEzv695eFvvC20TfCcL0lLFd5cFbgqkh6uEJl7apVe0TCxQBgR84u3BX1c0A31ILb9vt8YnSqNj3DBIyFqF1GwzIsLjkqboVlkJhPAlvWQXyJcv3kyNU5aKNt6ceyhbT7se2Vg4YOfdoL9qpfy3olih4U3tfTGjmFYvHBKPxeOmudseUebTo2rZHqlRf+7VNKgkaJzSzRvCy+tYYrXGdYpqB/jcThusfjb091KGn+smWzFfj3CsehrIyWThi+p8OyPoGiiOQVJ9X3S0lbi7hDxnD1NxbdVNyLct+/3oXDYiE8u7h0JUrKApNkQ0mY168irliIUxb9e5x8TjgOrBJGvqxnejhxzE6eE00gSdLYNRV0NbnuH9eVy5RZ524m2vl4WfSuQRQe37O+wIRHl6YZ50pwZFksV1MpMzNAvuMzXokoZWSfUhLUMcisCEsIqzxTZgmPmWY+GslrGkoOjSG89FZtJJJuADrzEITfR8Pg3HFvdheEM/R8mL7tXoVlg7w0PjJlbzZC1CZuyrcXXsAd8pCDNUebfKwWxBfD4ih0XICCiLQOfbnqeoUmo88ZN0vNlQ9JC6SMkxHiSXlXKQZF/jRuy5mVCMULZRye0XbyZoy8wHod/WOd7GrCuNiGso1GXP/Bg5/CyFmpYEk46jDG+eHhyCzDCOmgcSzfWzE8WXtR+oySKJ9SrQhdOvd8OrDRUsVymWDgZaok7i76IwInWkBzVgPmXlfvAGNf7UcUrqamIUOGrElVgR7MxLUjryMYfmMskq/64YYIKn9jBhJlD7thH3sgu3wICmEqAjEQ3+AA/TPsHgyUyPqWcWE0AKwIyDkTtO8hiqQkUS6bMYyzCYTpAHb7nJAEqQqW69l3os2GV9IYQ7hvX6qEe/CFreSnRRUnlzVS919HwUk6ffwi6rdrHNg0MLRzdXzIrjnLMipX6B6fphxdnj6jJNCOH/ILBsIzsNdn6Som8SiRzJUEaDvAe4upXC+NxprQr1C4oazgvOhEv+yPVp7kZhGfvtn7H0vWACJmE7o61ls7+sjj3Fx7BMLo3/XiSpqfgWVUEgiqmg0KScqg/acwHlqS5FHB8vEc+Rzwu6o0Lw4+HlOa0XoRaX5DribKfAI0xtlWmmKi8uCi25KBY3Q1eTg4a3UrdY82xjhFjyy6Kq2L2StP9SsuRdp5PS8N2udAk7E/k56p3OszSoIRV9WmwjHHmcFU+y2PeapfmJWpRvXK4CqKB6Km6R4svx/khs6fytXDvrj4r3yHQAW8atWqAar43hbHIvZbWELPRtC1ZUR6qmSU9AG4Aq5CwE1MhaCOTLjBjNcjsBhp3P1kKrq0R991jzbBJEgrcphtuhGeDQbcZZq6vPLi7p7+Mhi7RmvYD5vhez8E7iV+Y9OEu/S984gvHVbys6MOF/M1Wc8o4FPA1US/moGBYDSOqd//n0oCTR1gFtptBh95mWOyUsWSrzRiti+doLuEsuO5DBD0/bFKUl1FYdubqEgfOHBgxbpQpfemOKzm+0z00E7KOhrytOMvFrffUgNMKYlZ327seroTi+w4Inps9kX/bDXRhuEQ7bJUIEDhjS0WClcgCFKvRYTR4kJ9BINqYTjeH8Yo+mzaXTOsn+1FG1e3OlvWO+tgdlfgzrAL4VtAjvjrqHrHTXkb8a+p0mriUBTIqR9hmOxTk5YyImwc004z4F07fd/UfzaiuLrXvDyS6ct946GTBWYSa4vF10qXmVnWPG0NLGuDtFvUtDjLCeJvx0K+LgrOS4f+8cWurqmJF7MdR7kFEXzjPNy9/ZcF42dNnZpOmKwunExn8J6PK2lvp6npswiwXxsVtrhlHOeC0lf8ItxAGfHSpm9oZ44M9DXQPz9xWY5zLJblr6jLBonzmjN0wMc7jCCsJ7C1u3JvmBE2nBi+8TXCpx7OnkF4S4yEuxgzR6TA1cX3sC/GKFkRKy8bErBErqC8g2LBRwDRjwJKDYNrRimL687SZmW7PMbEptr0hAl9QklwZcVILMKqsLTted6BKOJNzLJWr169WUKexAZHUdyBgIre7eRhZMscDL+tfDWBF2v6tRB+SosUYbGZKWMvS3MYOE/qaGIgpJ0VuWKR0g7y0flDGcgv68qQeITEASiKy3nFQGvcw7ZUuSBOa+lDxxxKRy4nfibT3wclzhUjQ//+/X8FD5dFgJ5IeiILtfyFt538eHGXPO4PN/zdcfZCsW6Rthz5HjZbYi+CP/HaTM40ue5l3L5wZNoyy/ks+vRWFRx8UoCr4N+UMHJnViVe8QKPJyiiU0X1CSWBWymgTalptzblhQFnZBZWW2bMUnEYAfXtKOHkzwe9Y7oKhVvj7G8fN27cQCqodJHQcNXO4y+gt77b9p+0pHUvwNYluLHM5/J3Osy6jsGM3lE/8P9TDN6z1KnZxDJAjVYcA/wf2ZSUHZbyrPwuI0bHGctM+EAjTCgRofZJ+nC1bblGnWs43gmB9fogC/wyG74yNqFsg6edLy67OWNn8wNyPfgmKLfK2hadeo7suhIY1pGM67HMOMb7cdXz3ieUBAM74Gri6oqqkojQqFheDVUSML8D//J5dKB/xW4IDn05xeJNchgsdp4QIB1wu1BUrw7Saf8Gj0y7WaqCJH1NXDYVTKPNrzAqCsuawk6UndMXY86JYaLcbODloj//1XvvTb/MTu+mX60y0YQSPpn0+HIjdOMr7fKYCX9vTsMIuRuD8IbYNHZv1f6KHPiMnccHyO6qgHEs6xFectTOTpTL5h5svb/xG7vekurIz6APMAuNevioESPukj867Skm1HT6RiuJJvl0JN+xFev0dRMtgTTXHcVhsBvElRaI9wWw7mSBXP1g1a0/bFhm1oK6kOxihUe022wlxm7LP94mACWCYCSK4h6sV/1gZvDC+2+lXYgNllYbor9uUxtbjuHkN0bFc9r0dZggC6LQ/ksjCa67KQp2XyNMORG4jXmt8gIjgUXs38bJ21thUBQ/RVjfFps++hq3AVzMDGzv2HnKgGHjmPDHwTNN/lACXzLhQ+5lJhv6hJJAuARmEjBHFjrF3SKfE5WOqH8aP5MolS03WTpNTZ/DUqpoez1RlZQN+7e0XFv+ElYl0vfSSYcsTS99cZVXzhfsWQn0gRc6239UZKLoZS867Mvu4dOqtzFQ9J8R5dqWle3tdR8S01C8vSae/VXWc6mvBjHPxLRFJklo6eyU766vNeVhVngK6TSb+QHugJC79CWujDDtyjEjTJuaMd+46fjH9K2fxiYH1xPM+q6c9I6dB8CwkkCBr8/fR+WPZKO7mfI2BSaL2XmCaWOS2mUIi09vA7il3SkSo6gNgan70FGMcppKlphtf44paXx3ArOkZW1tl+rw01G035hgynmALl9vjEcLvKuiCyNgkSq+zjhROt9A4HXo8MC/k+T6eV16mnj665a02WhdXq6KuU+XFhUPn86kPs9HwdWTLt97RsA8bMThOFuyeyb6hHEvcTVRn9sZkzea+oKxvopE1iJvQFFcA06aJcbD9tiCbV9d+nRrDHBAChhVH4wHqoBilxUbZMwGtCKbKqrXzyTC2lRVCWNcxtvBjGWRKFYiC05n0oGeiYL10qnjASymHu2FQ79KwVqC4fwFU/rwLCuUvfcEWWxbqKTGdd9XxtcZyUB+j0Gs30nDoiCH2mK5TuKSQltq8dEn3uILfqldTcwq/8u23zMReH+MS08aOLTr7fDNtH6Et8OR2YT2KfVLXFMeALSvYRH7SS/ck7/wvQM30S1Ic9mhFE+oxyCQ/nU7yC4Dpxgk0Q8uZvrb9wCMtPBRwuPpSwOjkeohupqbx+tT46f0eiUBgQEhSGf7M40+NfSndSsIK9i+NiE+S+qHnDlz5lo60JegMdbdL1IisF9SrTEQP9tEEVP6Y0zpvSqtUFipooc6zlLFZxFHfxH3iVYwkH5wFuWUcYj1Z7pPSdZJtLTEpIOzgc434dn8mPCJwUS5QqReuYJRXB7MmrRuNfrlgaGCny7toApF9mSQej1Jve7JskxwPgjOC+ljnbHwOs72GIQnRcHSxoF1WPDPwDj4uf9PZKEJDxt8MpF79One/aBNA8xicEynYa73/8Gsh0y1cDLcDmYqJ5TWBY2XQO/doXh1kG2gaP5vkMjsuPpQN/MaB7OQVCe5q0X02BtbQ3UD6Y1GEcHMbiYMna3F77rbZXXgkl0s+9Jfx2jKepH+kIklXTpx29R0i6acTKK51G+aSbmWCnHdUzWFyTmBTwXSbPuxQHgdBRC+NzEmV2VZPO36ey6RPIexql0/9JdH+afHOCsVMI6Zhd/PbOiH/j/w3ObHG37P6uucvV1JiMDcqlJ5pnXsDHmtEi6/IHzMlmhGGjVcboywSwe6ArifxYAtWWfc/RIYXNTtVWNefI9MYU82wvSSRKxL5doQdfx7g0nUrxHhjmTHTXrfb5Vw2Rd/ejVYfROh5DQ1facaU/8b/eoR8DZsNsFutFkoiT8aKXXdnVXuTuI+jpKo7trjkB7KOrWbzUhDwkTZYILAvTdhtkhwFPcLtMdZ0taRwBiEfMb1fBMcgi+gJLg1uOZSP8a9Ue4x2/vfn0mwG0AWXoZ6zIRxb8tWSi/s/eLrnG2yemi4TJjllZf0l502VzNNvDNOPhZTzwCu4rMsHzyaa8oLX45gYGaySGUqp940pr+DwjiwvhbwQb63w/FZhml/o6LF+q8aIikLxvVyNHiU/Qyh9G2EyH9TotZlk51v03WJWcRjdU+NwoPir5lNEHeAPx/9U7a9ZrbF2Y87zfvarq47EKCyoy7TByv/b7TJ2cgi4+4wKZTyd2PdQXYpqZ5+RG5RSQAfRsHMSrj8Il+ypCztRZHQshmgsL++x64ve2NzN8v14L4Ha6xGm0qyKA44oV4UJZ20TfipCF7Jk/Th9POgegSxTBNptCciy+XqDsrZxw+HkHvGH655l/tiWNOoie9lEUx/a1wxtOlTjSYT4a3tG1I2A7Zq9aYgpuzuO0uZ1bZv4tzGb5RpdUayQeIBZtZaIVEnetmtNwMh9IIRj+vuSf0ryrF89mTvQJ5e4mryaGpvb1/S5ThaFzUKvyqgvUwxf0VRsEZxMXyja5sf+uUUFQTnICYyE2vx0pBf4o5VK1nDeh74B4BLjgvU9fRqJQGzA0oCi0x7qhnYWVpOZLAdrLOzUz4MP1lbRnSCO2z48EvpPDOiQBH4e/hhsMwilQuCbg86REC5+HH0hnc6W81sh7r+rtG0UUbUbbGV2WpSWuSMi9PVdSXbfQaH86Lcf4rQuDkcn1VYNkhgIC3ICp8SD5tElPFeJGcA/O7OVe3te4R4MRdXk3Em56HqyV/j1SCOc5zh7FIkmVj9TzIeb4gCBGYnYCrKwIPnq4UBuYe20coMcMz28ql+kR0VBa5KjxPXu5WEZQUWrVESWmYhfPVKAk7gA6ybWSiiQxLsc67hvwxqy7bF4l9ek+iLwHKY5AvKttpXqd/b/jjVO/m+ZjrBrcrTk3HwL+j752M3CFH9ekFGxGFR1bgo/agZhAP94bjvsvjIjP8n4P9wII989tK2v46wiBQUgXy9MED7vIySNQp5+t2nMFDkPFITvvMD/dVAUcouKZq+7zzQPHLZkiWH1kMxs0c5zPm0CUfZ0q9xOdEfA3IP/is9KIKbMoxyD5fheBMNcdJ6s5IQ2qpChW83zG9rk2mX8uEzjEZmoWDqZhZTwP5YTVOUBMSMRODPQ4BcaQTH/RE65OWiJO4x5pFErnPmuxWyQNrr2nVca+so6NpEyPQeJIfUqeECpLmrq8Za82iQX6yxtf5w5Ltt78+VMI9yUeP9WM3bV+C7t9rKzOgohOuvK/F9/cW2o2YTzXS4Kbi/1kNh7OyvLu4wURJ97sE1egpEy9pA2sft39FxOeN2mQkBcikwJkqwoW/nFDo79UqiBy447XXCxGMoQnIzBu8gL4wA/A/v2tOzbHOdXYFVvVjW5qroxHGue2TZB504q5cBASIfeTFaZ+y4EaFaebgJ90E6XBz/8yQE2DmVjL3kZW1Ly260ITKk8rRzPfX9lVADX5yWlmEm9BDVbkqvSePeLOI29NXnPcJ3FJqbj2STwgW0b0MOB9bQ0UMRGDbPYti8aSoOTX8I22aPhSdVwWrbb8iXCU35emsasmd91iaOqIe+0ul1173RhIONKoFxXnJz+TdAMCudv2zZHB0OeG6We35cOiQR8b1WSbAtMjzl0ruaqCRrBkZmMbWrfyYhzGQ2Uezs/FwEXyOTnYiPvND4/f1ISh9mb2qa7o8zvE/hwM5RhvR1kXSIv1CmyVN76nAVbV9yhfjLD73PDYUjg9D/Cm14ht3c/CkUw8H8/ai0bTQyZ58EcJmp32aknHHB2DjNDwPfH/OH+9y76/6fbFiph+7+gwY9bJxNOM4AP/72xYu3hI/NvrjXeEcHq5/SmpTpg0gZXPTXa5UEHSy8eKOdcgn7Sh8hMljaWO6bAZZNffnADdvXJoIv9YO/+ikEzSodgpa1a5eE08jzCzrcO+F4VRjcX8USOkiV1tNx7NbaGsus6nvlegnqcncP0lF1W6oKLRRqtheqwPxxzD62ZVGwE0t5vj/+f/WdT5z+LrLvsYhdqX/3maYnKuG++ILblxn9yfWQXvr+g2U9pcPBOA1ceMhBsIDcw51plHslvKbFa66eqdfzUW1UXS3WUTyDMDyTiGQW6lY7m0DpDEBY1b0drNwoBbdYvKBO1hSpo9rlxL05TFVVrqVOTnZ+n8GqtSwqNMmA5etYLCh+phK3jl7oZGdXioZ2iL+csNZ1WIHN6sW/bhDGyXUKgwcPFmst2SMf0nGcHzIAJyTL2GehHdptemzquYH3f0GBMkYnIzc2il1vNaB2cwaGRkBJIKcCco/ZaqTcQx7MUhfbHYuXpa4+us6UBINrMAJsK03lZLq1hZfGLEC+CRzp26QyRmaxiFYXszx6yr871mupM+jeDuEsBemYstW3qEpj7/rzpP9KlVYT131F8SXw+Qukka3nH3gkdyNNqpRsWb9gFvFSJdzgF8ofxyDSziRgyktz5sxJerDq9TLZQ/lu+a1Jr4Amr4XgGZp11fna4fryudCs8Xr4aLdHGYsLvLDpt6+5mrSySG5vZVZuqmtUGjf/vq2DYfdRwFBEhgWUBEokUknAa6Pcq3cb7DpTEqw5TC44jrJD02BymKTik0ebyqBUCk0/85m6GZmF5ZelkpD1ia/Us+WUAbfMT7/3TqM/672rfge3tv4waiGxko/FYmz30xGWP8RFNqQS3wMvZSv7wkpRfL0PZX9NJdwDL/DycNpJqyDhThqXyEsonu6Bz44yroC+jTWgU+PcASU84Tvb13Gy8xNZV5/zGp/n9oHKuMkaP/g64dftkXi5dZW+/ftIuF4CwLjYDnp305FDH9qF8fNpXXpUfIfrKsc5Zc5C8b7n5RfDGcNxUy9MH2tjvESul6EEZlfyqF7q/ErdOlESIlhh/GRVfcpxH/enwcwZ/rDuHa1sZpZvdqLDkSjedYcNaGn5Fnm0QsiEDx4o+W8VCk+b8onlS12/TCeKOiRWRcPH4CnvXjr7x6qRjXtj4I1lgf86FHO3YrLteS0dHV+kxM7GlRrELNY6CvLoYKwv1D0I0ygJ2ZJ8bwUTO3oY3GetWbXqCXaWnT9m+PAP+yz6AnRsDN/3RDlcz8zjPtph10rejF5KCtmyUguyuGSwy+6ByH5nWc8i3IxngeKW1yNwjnNujHIuwHiN2gChRNNfM84xXp7xZ8Bw3oG4ikxAqMSSe+Qzy72Iz+n6aVC9VwhSJTYqDmvnNAbvIB1+0gJWFkoicsoluPgmrHEmwUDWubd0pETGM+B3wYo8ORJQAUC9xoSjiXuVLYey3df4yF1A7Dg5F/j4rhLHkQ843YqwuhgXiXFbqLHwiEQ5ZMaaza2AdQ8qy1rCXu8zZEtgRNZMk+GNuNladUjpD7eRlmpthCMB4vILW3lS1mT22N/e0tz8B/j83KiRI19gkD2Msrxa+oppVqOjM048guIscDNBaexTWoh13TtNpVDPx0zpvSlNlDf0fiSSJowdhPYVaU5ic7tzzThH0Tq4RqQPVR7oCJwxYdYmbufIB1kwN0IOiOs+dd/ocSVBo2wBs7X7j2XKBQMD1i4LL7GUROR2MKZy5UNdkYxPAkBjnomVsU+SPCVY1w3UU+JQkLfExcMHbP6BKy6ZosD1Qmc8ChfJQ9D82TSd3kQf12Xvz6C4A5iSgoA38+1C4XT2eputHRPSFGnUbRL97BhdVgbVbKb69+jSo+Ll9Dx1u9oEB58HIrhlfS3uA8nJH+q6I0por4ic6MSMHtu+B3fnSiU2tmPC1z8p03pZZPlMQpxZRDfl3V+R/BaBRHKTvrZduOo0xmMI93f98QzMgMuLfLFmEuBgP4s7x48r8I7rntltYK0jkB4RSFRZPy4OgQz3h2O+t1CZ75gGDieadya9nw/fcq4+eMcXNr+atoMhIDnUtbsZQYrU7gXi74pgipsbZbk99dzYD4/QeYaths/546LeGZAvMWDPQLEq/Z7a/LjK6JRfWtrW9hi0nFbPdSNShmwJpv7XobS+77mY6OSz8JeelOJAlfTL1OsnMpNB2l4Bf9VCl9P7XPD2DcroFNrDDwM4alG5NDuB97+H90+F89cRLuFNkp+2a4XPl0XlaQ4pK/paEuUVQC+uJPpO1d3mT3UcWYtIPDsL0+dHKe/IDa0lTFpUe4XRlcLIlXNAvJkyURNJWfszQ0yykC18PiSADkXKJprr/XGMnw8QHuePW7NmTSzjWPLQB4xGGPJ6Dz/uJO+plQSCYIMkBcmhFITIVXSuiaZ8EBSwyMuVZ9zGfCKYRfmfjIkpGRi3NkL71WjsXWJklI+yBC0YXDIc4/92jLw1ILin/t5cLJ5ET5lTkxgVId8Pd5wzujo7H8effhNC59iSfzvGOsuwYcOGA3+w5ONzaffC24olhBB6GgE6pXQNSRQNoXR26YyGP6mEGHk/wnUZ08g/LIS2EoTOH3DBm34qb1nGvk2fHOsh4/0S+P6OF67z11huGDeCZQhtJ5cLVugJw3hh9t8HNonQV9fz0tL8ru3slC/+rQ3npd0fD8fFCbvNzUZ6aLMA/X6c/vbwx5vecREfQx85zgSjS0NRHIUsE0UBG80PcMcqZOX3w9uDwbl3ABPrjcuXL18ciDMEyD/LkCyn8fYjXW00mTKSlmoglnEGtJ6hHIvOvGtHR8fZNLRoS+0j1wzDmN39NXFi7GryIxRm+fP700rvlvVx/PGbGG+BrMkUL4KyB6Kxr0VwXoW1Ja4MlXJrRqheRAfd1sNKJ1/DYvX59fjs5y1dOgdFfAKHfy6Czwd7uGP/dltqk+jQk4qO00QdVkLjbP7eZ+Av4Y6Z1VTGhtZBtMkYeDwe3BsB381uOf0gDztb+Ltu8aJFdxFS1b8EZvoHHxMJS8Eln34tFgqfdYrFT0OzfyYaKAr6py1cvPiXgcjaQFTfrtCHElyBYjqfcm+lXKOgqy0mGANtsmYUjNSEED47snnhQpi/uQYkEM23PDb3Y4bH0n7Sdv7oQB5TQK7bhoYHQHCsBwf9C/kG98teOMkvdRkvxOgecJvqGdVeFbSyTZhdYKdTadn1VolP+sIYO4b6j4XuS5Elylk8cm93jKezQ7hvRzb8OhQnbub9Q9SwZBH/YYzOBoc+A14L6P04s98X9UDqlFRKAgEyDgbL8XE1Vol1nKMh6ggI/wCLmLEaccWKFfsAH1jQpuNoB7yqcIRZs4Eqmbcijwviq75Slb/uOBG2rnshPNqXDjQVv6M0iiMKcOXKlR+EL19kgH64Ug7WGEL3vMULFrxaiUv5Ur7m4hLKlin/Vykr0sLUFtV99fU2pG8jnc/jKbTrzRHbfpkF6u/Wu/4A33YxCQxoWg9Fex6/QxEeo6Ftq6L3TQhDnwRWFMR12jqXE1D0u8A7LRjlbQqPN2Cwvy9A4k5j9nUqO5dupu1HaTMaEhAo2zFOBhtAZEwdS72HIBC2pU2MM/IwHmgOu0KHUoctqMMbYdi4Yfj5M2CPpM4lOULf+A1hPeMMiDHJd/T6mAqMtPHweIzianSLvmKevTvOdtT1y/BsU5T5TuBPJffCdIFvD9b27mdWchMS/QnGejswFu7OTbts+zAUxIkib7x8tNs9COlrvbD3y+63rctK24uS34I/EPVOfrtSkAaY9hKF3jNKAoIOg0HGqRYwu0YRHa4LeY5Q5NlK3BqlazfCGRRhBviHTAO8lIVyWMCeVo/lrig6GMUpXxi0Pf7LNXSOthXLl4+hwwQbniml7FCSBehg5vpCDPynUUovrmxvP4HBdSLYUvls41JB/d4C9gZmD0/GzWOAK8C3Q00CAz6KxT5FcNBnDKjKSZyqpr9eGWMG0bT+8OHbMpMyzngp1Ga2JH7mm73C5d4mBvsp0P4D4rSH9zz48C+K8XBF3w+DTZYI6hKON4ZFoUGzrIEF4RznQCJSKwlRkuB+DLwlnzv9INWuptKW+FolFqQVYcsMQOid7k/AEJVtoxv74xTvpRlyqPYKsBRRuMHAezFT7K9Cy0IE8WDWu7rX0zx+yw0JlnUz46PSX/wl0WdqN/LQx8G3FUrlNT+s7p0Df1tFjgWUGu21ZVLDAPqSPbIjgEyHJcsVDQ3xO9D5t6uBRLCytVU6R+QDjlY6jNmqECys9nf0739yJMIoAHGtRDw03ACUlgzSgIJgQL1Cxzk+awXhkSNnKbjTfmrLgAEHsDZwFZ13tpeWya98eYuvljEtO5eOfBR/WSiIJgbGXvBsdCY0ggQ+z2QQT4EXUS6mUpG4rI6KWfahwAUsUizJ/3LR34nwehq8wbiM94gRhILYLx50cijG1cn0v9qxbtuH17sVmmvYpa7s+i0dDHs9OXVNTVxvPxn6ArxU4aEdTwgfWKRucdtLhTJeHEYGdaR4wyOWPDfHMta7FYQHKhtKLOt8BLNSQSCzNiD9YA889PvpUFgXtCEuuv90z2o+r0Oii6/tODrIcjwf4zg+y0FcKc51z6m8h19c95SYtzEeJwognF0Z5srvUgMpEw2RlvVPBM+X0Vz743+dxALevoQv4+9vkR2pG+17MP1yhOqpYokZSsokSVxQlHMnVvThuGQmI4ymQ+tbMWkN0tCtFF8UpcO21gOp/xfwyT8DkHkABbGYQjKLOMMEEDuNxeQyn4+Na43hr96c/hPLIBHFT/85UkFPp7i02JP4GdLk4JlyB5U/Hzf+nh673/ozxngvnVlpahJaah8EGq7X02oT4sfIWhi0P4lMeDx+ripkWUiKGyT6wZXHjp/SbEqAmbl9CP7uG50xFcRy+vmV/B1DP995SGvrJ/CjfYHwwyjE1VEYBYa/+zq7uj7D+HvKAP95+NdPlc5YPQI35FhVmj8OPuwLjo38cdp3ZhNy2FObrkiI1N6hPC00yvYQ/2ooPlUQzSs+PNk+uR3+u6HgfluHiAVZ2ZX0oC4dHEPw6e5pwqHIG3AZKNIrUcxmHI7X30iDTyWyYiWWdyA8QNwDNNZGTBd2wuW1DYNmE4TUMKRnPxrwfTrMf6nvk2xxfR7YrIRqhb44L+UdPbKr51qxXlvk4ya2PRFaN0ZxjIbeobxLG8v0eDWCcCnp81j0fBva34B2sRQjZ09xaFHBwL+9oWMgZc9TpRviINtdCf3zGcivs+32WZSXuPAIxn9wZxxPfRdSfrxMjnMIM+sH5MxEOIPMKoi7DCF4NY29I7TtxO/G4B5BfCvvaySP+NlZy9hV+Czheh+EfqVvCi6+yHgcfW+Rtk6uuzvbn2+fN2/ewrRl02YyJtKdsHacY6h7m5a+EFH0w/3h6S8Yh8up1/Hkmx83bwhVOLjCF/EXroD/jn8HEjNz4esL8keb/YCt+pMo/2PQM17GDmN8IGlL6Tnv8v4KcY8JjT6cNa/UYxxjbAdT2+OGFEPk+prM1QibvnWkCUcVtPutaNtH85apiztcRh7OOZBzIOdAzoGcAzkHcg7kHMg5kHMg50DOgZwDOQdyDuQcyDmQcyDnQM6BnAM5B3IO5BzIOZBzIOdAzoGcAzkHcg7kHMg5kHMg50DOgZwDOQdyDuQcyDmQcyDnQM6BnAM5B3IO5BzIOZBzIOdAzoGcAzkHcg7kHMg5kHMg50DOgZwDOQdyDuQcyDnwP86B/wfocnudnOH1OwAAAABJRU5ErkJggg==";
+window.__LOGO_CREAM = "data:image/png;base64,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";
+
+</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
+
+
+
+
+// ===== Logo.jsx =====
+// Logo + brand glyphs
+const { useState } = React;
+
+// The logo from the PDF (cropped), inlined as data URL via window.__LOGO_DARK / __LOGO_CREAM.
+function LogoImg({ color = "dark", height = 32, className = "" }) {
+  const dark = window.__LOGO_DARK || "";
+  const cream = window.__LOGO_CREAM || "";
+  const base = { height, width: "auto" };
+  if (color === "cream") {
+    return <img src={cream} alt="La Sobremesa" style={base} className={className} />;
+  }
+  if (color === "light") {
+    return <img src={dark} alt="La Sobremesa" style={{ ...base, filter: "invert(1)" }} className={className} />;
+  }
+  return <img src={dark} alt="La Sobremesa" style={base} className={className} />;
+}
+
+// Tiny decorative glyphs — baraja española suit marks
+// Only primitive shapes: circle, diamond, lines — never complex SVG
+function SuitCup({ size = 16, color = "currentColor" }) {
+  // copa — simplified: circle + trapezoid pedestal
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden style={{ display: "inline-block", verticalAlign: "middle" }}>
+      <circle cx="12" cy="9" r="6" fill={color} />
+      <rect x="10.5" y="13" width="3" height="6" fill={color} />
+      <rect x="7" y="18" width="10" height="2" fill={color} />
+    </svg>);
+
+}
+function SuitCoin({ size = 16, color = "currentColor" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden style={{ display: "inline-block", verticalAlign: "middle" }}>
+      <circle cx="12" cy="12" r="9" fill={color} />
+      <circle cx="12" cy="12" r="4.5" fill="none" stroke="var(--crema)" strokeWidth="1.2" />
+    </svg>);
+
+}
+function SuitSword({ size = 16, color = "currentColor" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden style={{ display: "inline-block", verticalAlign: "middle" }}>
+      <rect x="11" y="3" width="2" height="14" fill={color} />
+      <rect x="7" y="15" width="10" height="2" fill={color} />
+      <rect x="10" y="17" width="4" height="4" fill={color} />
+    </svg>);
+
+}
+function SuitClub({ size = 16, color = "currentColor" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden style={{ display: "inline-block", verticalAlign: "middle" }}>
+      <rect x="11" y="3" width="2" height="18" fill={color} />
+      <rect x="4" y="11" width="16" height="2" fill={color} />
+    </svg>);
+
+}
+
+Object.assign(window, { LogoImg, SuitCup, SuitCoin, SuitSword, SuitClub });
+
+
+// ===== Nav.jsx =====
+// Nav + Footer
+const { useEffect: useEffectNav } = React;
+
+function Nav({ route, setRoute, cartCount, onDark = false }) {
+  const links = [
+  { key: "home", label: "Inicio" },
+  { key: "producto", label: "El juego" },
+  { key: "nosotros", label: "Nosotros" },
+  { key: "contacto", label: "Contacto" }];
+
+  return (
+    <nav className={`nav ${onDark ? "on-dark" : ""}`}>
+      <div className="wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
+        <button onClick={() => setRoute("home")} style={{ background: "none", border: 0, cursor: "pointer", padding: 0 }}>
+          <LogoImg color={onDark ? "light" : "dark"} height={26} />
+        </button>
+        <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
+          {links.map((l) =>
+          <button
+            key={l.key}
+            onClick={() => setRoute(l.key)}
+            style={{
+              background: "none",
+              border: 0,
+              cursor: "pointer",
+              fontFamily: "var(--body)",
+              fontWeight: 700,
+              fontSize: 12,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              padding: "8px 2px",
+              borderBottom: route === l.key ? "2px solid currentColor" : "2px solid transparent",
+              color: "inherit"
+            }}>
+            
+              {l.label}
+            </button>
+          )}
+          <button
+            onClick={() => setRoute("cesta")}
+            className="btn"
+            style={{
+              padding: "10px 16px",
+              fontSize: 11,
+              borderColor: "currentColor"
+            }}>
+            
+            Cesta ({cartCount})
+          </button>
+        </div>
+      </div>
+    </nav>);
+
+}
+
+function Footer({ setRoute }) {
+  return (
+    <footer className="bg-tinta" style={{ color: "var(--crema)", padding: "80px 0 32px" }}>
+      <div className="wrap">
+        <div className="display" style={{ fontSize: "clamp(56px, 10vw, 140px)", lineHeight: 0.9, color: "var(--verde-lima)" }}>
+          ¡Aquí se<br />viene a jugar!
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr 1fr", gap: 32, marginTop: 72, alignItems: "start" }}>
+          <div>
+            <LogoImg color="cream" height={22} />
+            <p className="body-s" style={{ marginTop: 16, opacity: 0.75, maxWidth: 280 }}>
+              Juegos de mesa para alargar la sobremesa. Hecho en España, jugado en cualquier mesa.
+            </p>
+          </div>
+          <div>
+            <div className="label" style={{ opacity: 0.6, marginBottom: 12 }}>Explora</div>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }} className="stack-xs body-s">
+              <li><button onClick={() => setRoute("home")} style={linkBtn}>Inicio</button></li>
+              <li><button onClick={() => setRoute("producto")} style={linkBtn}>El juego</button></li>
+              <li><button onClick={() => setRoute("nosotros")} style={linkBtn}>Nosotros</button></li>
+              <li><button onClick={() => setRoute("contacto")} style={linkBtn}>Contacto</button></li>
+            </ul>
+          </div>
+          <div>
+            <div className="label" style={{ opacity: 0.6, marginBottom: 12 }}>Pequeños detalles</div>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }} className="stack-xs body-s">
+              <li>Envío 48 h península</li>
+              <li>Devolución 30 días</li>
+              <li>Preguntas frecuentes</li>
+              <li>Aviso legal</li>
+            </ul>
+          </div>
+          <div>
+            <div className="label" style={{ opacity: 0.6, marginBottom: 12 }}>Redes</div>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }} className="stack-xs body-s">
+              <li>Instagram</li>
+              <li>TikTok</li>
+
+            </ul>
+          </div>
+        </div>
+        <div className="divider" style={{ margin: "56px 0 20px" }} />
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", opacity: 0.6 }}>
+          <span>© {new Date().getFullYear()} La Sobremesa</span>
+          <span>Una más y nos vamos.</span>
+        </div>
+      </div>
+    </footer>);
+
+}
+
+const linkBtn = {
+  background: "none", border: 0, padding: 0, margin: 0,
+  color: "inherit", cursor: "pointer", textAlign: "left",
+  fontFamily: "var(--body)", fontSize: "inherit"
+};
+
+Object.assign(window, { Nav, Footer });
+
+
+// ===== Home.jsx =====
+// Home page
+const { useState: useStateHome, useEffect: useEffectHome } = React;
+
+function Home({ setRoute, tone, heroVariant }) {
+  const gamberroCopy = {
+    eyebrow: "Juego de mesa · España · Todas las generaciones",
+    hero: [
+    ["¡Aquí se viene a jugar!"],
+    ],
+
+    lead:
+    "Hay sobremesas que empiezan con un ron y terminan a grito pelao. Ésta es una de ésas. Hecha caja.",
+    cta: "Quiero una caja"
+  };
+  const editorialCopy = {
+    eyebrow: "Un juego de mesa · Hecho en España · 2024",
+    hero: [
+    ["Hay"],
+    ["sobremesas"],
+    ["que no acaban."]],
+
+    lead:
+    "La Sobremesa es un juego de mesa que enlaza la comida con la cena sin que nadie mire el reloj. Cartas, preguntas, risas. Nada más.",
+    cta: "Descubrir la marca"
+  };
+  const copy = tone === "editorial" ? editorialCopy : gamberroCopy;
+
+  return (
+    <main className="page-enter">
+      <Hero copy={copy} setRoute={setRoute} heroVariant={heroVariant} />
+      <Marquee />
+      <ConceptBlock />
+      <StoryGrid />
+      <GameCard setRoute={setRoute} />
+      <PhraseBlock />
+      <Testimonies />
+      <BigCTA setRoute={setRoute} />
+    </main>);
+
+}
+
+// ---------- HERO ----------
+function Hero({ copy, setRoute, heroVariant }) {
+  if (heroVariant === "block") return <HeroBlocks copy={copy} setRoute={setRoute} />;
+  if (heroVariant === "split") return <HeroSplit copy={copy} setRoute={setRoute} />;
+  return <HeroEditorial copy={copy} setRoute={setRoute} />;
+}
+
+function HeroEditorial({ copy, setRoute }) {
+  return (
+    <section className="bg-rojo" style={{ padding: "56px 0 80px", position: "relative", overflow: "hidden" }}>
+      <div className="wrap">
+        <div className="label" style={{ color: "var(--verde-lima)" }}>{copy.eyebrow}</div>
+        <h1 className="display" style={{ fontSize: "clamp(72px, 14vw, 220px)", margin: "32px 0 0", color: "var(--verde-lima)" }}>
+          {copy.hero.map((line, i) =>
+          <div key={i} style={{ display: "block" }}>
+              {line.join(" ")}
+            </div>
+          )}
+        </h1>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "end", marginTop: 56 }}>
+          <p className="body-l" style={{ color: "var(--verde-lima)", maxWidth: 520, margin: 0 }}>
+            {copy.lead}
+          </p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "flex-end", flexWrap: "wrap" }}>
+            <button className="btn btn-filled-lima" onClick={() => setRoute("producto")}>
+              {copy.cta} <span className="arrow">→</span>
+            </button>
+            <button className="btn" style={{ color: "var(--verde-lima)" }} onClick={() => setRoute("nosotros")}>
+              Nosotros
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* Giant ornamental diamond */}
+      <div style={{ position: "absolute", right: -80, top: -80, width: 280, height: 280, background: "var(--verde-lima)", transform: "rotate(45deg)", opacity: 0.9 }} />
+      <div style={{ position: "absolute", right: 40, top: 40, color: "var(--rojo)", fontFamily: "var(--display)", fontSize: 24, textTransform: "uppercase", transform: "rotate(8deg)", zIndex: 2 }}>
+        Nº 01
+      </div>
+    </section>);
+
+}
+
+function HeroBlocks({ copy, setRoute }) {
+  return (
+    <section style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", minHeight: "80vh" }}>
+      <div className="bg-rojo" style={{ padding: "80px 56px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div className="label" style={{ color: "var(--verde-lima)" }}>{copy.eyebrow}</div>
+        <h1 className="display" style={{ fontSize: "clamp(60px, 10vw, 180px)", color: "var(--verde-lima)", margin: 0 }}>
+          {copy.hero.flat().join(" ")}
+        </h1>
+        <div style={{ display: "flex", gap: 12 }}>
+          <button className="btn btn-filled-lima" onClick={() => setRoute("producto")}>
+            {copy.cta} <span className="arrow">→</span>
+          </button>
+        </div>
+      </div>
+      <div className="bg-lima" style={{ padding: "56px", display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative" }}>
+        <div className="display" style={{ fontSize: 60, color: "var(--rojo)", lineHeight: 0.9 }}>
+          2—8<br />jugadores
+        </div>
+        <div className="placeholder" data-label="foto de mesa · café · cartas" style={{ aspectRatio: "1/1", width: "100%", marginTop: 24 }} />
+        <p className="body-l" style={{ color: "var(--rojo)", marginTop: 24 }}>{copy.lead}</p>
+      </div>
+    </section>);
+
+}
+
+function HeroSplit({ copy, setRoute }) {
+  return (
+    <section className="bg-crema" style={{ padding: "64px 0 32px" }}>
+      <div className="wrap">
+        <div className="label">{copy.eyebrow}</div>
+        <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 48, marginTop: 40, alignItems: "end" }}>
+          <h1 className="display" style={{ fontSize: "clamp(64px, 12vw, 200px)", margin: 0, color: "var(--rojo)" }}>
+            {copy.hero.flat().join(" ")}
+          </h1>
+          <div className="placeholder" data-label="bodegón editorial · caja del juego" style={{ aspectRatio: "4/5" }} />
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", marginTop: 40, gap: 32, flexWrap: "wrap" }}>
+          <p className="body-l" style={{ maxWidth: 540, margin: 0 }}>{copy.lead}</p>
+          <div style={{ display: "flex", gap: 12 }}>
+            <button className="btn btn-filled-rojo" onClick={() => setRoute("producto")}>
+              {copy.cta} <span className="arrow">→</span>
+            </button>
+            <button className="btn" onClick={() => setRoute("nosotros")}>Nosotros</button>
+          </div>
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ---------- Marquee of signature phrases ----------
+function Marquee() {
+  const phrases = [
+  "¡Aquí se viene a jugar!",
+  "Que no se enfríe la sobremesa",
+  "Una más y nos vamos",
+  "Aquí empieza lo bueno",
+  "Cuando nadie mira el reloj",
+  "La última y nos vamos"];
+
+  const doubled = [...phrases, ...phrases];
+  return (
+    <div className="bg-lima" style={{ padding: "18px 0", borderTop: "1px solid var(--rojo)", borderBottom: "1px solid var(--rojo)" }}>
+      <div className="marquee">
+        <div className="marquee-track display" style={{ fontSize: 40, color: "var(--rojo)", paddingRight: 48 }}>
+          {doubled.map((p, i) =>
+          <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 48 }}>
+              {p} <span className="diamond" />
+            </span>
+          )}
+        </div>
+      </div>
+    </div>);
+
+}
+
+// ---------- Concept big statement ----------
+function ConceptBlock() {
+  return (
+    <section className="bg-crema" style={{ padding: "140px 0" }}>
+      <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }}>
+        <div className="label">01 — El concepto</div>
+        <div>
+          <h2 className="display" style={{ fontSize: "clamp(42px, 6vw, 84px)", margin: 0, color: "var(--tinta)" }}>
+            Enlazar la comida<br />con la cena<br /><em style={{ fontStyle: "normal", color: "var(--rojo)" }}>sin darnos cuenta.</em>
+          </h2>
+          <p className="body-l" style={{ marginTop: 32, maxWidth: 540 }}>
+            La sobremesa es ese rato raro en el que nadie recoge la mesa, alguien pone otro café,
+            y la conversación se pone interesante. Le hemos puesto cartas.
+          </p>
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ---------- Story grid — 3 beats with color blocks ----------
+function StoryGrid() {
+  const beats = [
+  { bg: "bg-azul", label: "Conversación", title: "Nadie mira el reloj.", body: "Preguntas que abren la sobremesa en canal. Sin polémica, con picardía.", tone: "var(--crema)", accent: "var(--amarillo)" },
+  { bg: "bg-rosa", label: "Risas", title: "Gana el que más haga reír.", body: "Retos, mímica, confesiones. La mesa decide quién se lleva el punto.", tone: "var(--rojo)", accent: "var(--rojo)" },
+  { bg: "bg-verde", label: "Rematar", title: "Una más y nos vamos.", body: "La ronda final es traicionera. Nunca es la última. Lo sabes tú, lo sabemos todos.", tone: "var(--crema)", accent: "var(--amarillo)" }];
+
+  return (
+    <section style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
+      {beats.map((b, i) =>
+      <div key={i} className={b.bg} style={{ padding: "72px 40px 72px", minHeight: 520, display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative" }}>
+          <div className="label" style={{ color: b.tone }}>{`0${i + 2} — ${b.label}`}</div>
+          <div>
+            <h3 className="display" style={{ fontSize: 48, margin: 0, color: b.tone }}>{b.title}</h3>
+            <p className="body-m" style={{ marginTop: 20, maxWidth: 320, color: b.tone, opacity: 0.9 }}>{b.body}</p>
+          </div>
+          <div className="display" style={{ fontSize: 160, lineHeight: 1, opacity: 0.12, color: b.tone, position: "absolute", right: 24, top: 16, pointerEvents: "none" }}>
+            {i + 1}
+          </div>
+        </div>
+      )}
+    </section>);
+
+}
+
+// ---------- Game card preview ----------
+function GameCard({ setRoute }) {
+  return (
+    <section className="bg-crema" style={{ padding: "140px 0" }}>
+      <div className="wrap">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+          <div style={{ position: "relative" }}>
+            <div className="placeholder" data-label="caja del juego · bodegón 3/4" style={{ aspectRatio: "4/5", borderRadius: 12 }} />
+            <div style={{ position: "absolute", top: -20, right: -20, background: "var(--verde-lima)", color: "var(--rojo)", fontFamily: "var(--display)", textTransform: "uppercase", padding: "14px 20px", borderRadius: 999, fontSize: 18, transform: "rotate(8deg)" }}>
+              ¡Nuevo!
+            </div>
+          </div>
+          <div>
+            <div className="label" style={{ color: "var(--rojo)" }}>El juego</div>
+            <h2 className="display" style={{ fontSize: "clamp(44px, 6vw, 88px)", margin: "20px 0 0", color: "var(--tinta)", lineHeight: 0.92 }}>
+              La Sobremesa<br />
+              <span style={{ color: "var(--rojo)" }}>— El juego.</span>
+            </h2>
+            <p className="body-l" style={{ marginTop: 24 }}>
+              156 cartas, 3 mazos, 2 dados y una regla de oro: que no se levante nadie hasta el último café.
+              Pensado para mesas de 2 a 8, probado en mesas de 12.
+            </p>
+            <div style={{ display: "flex", gap: 24, margin: "32px 0" }}>
+              <Stat label="Jugadores" value="2–8" />
+              <Stat label="Duración" value="30–∞" />
+              <Stat label="Edad" value="16+" />
+            </div>
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+              <button className="btn btn-filled-dark" onClick={() => setRoute("producto")}>
+                Ver el juego <span className="arrow">→</span>
+              </button>
+              <div className="display" style={{ fontSize: 28, color: "var(--rojo)" }}>29 €</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>);
+
+}
+function Stat({ label, value }) {
+  return (
+    <div>
+      <div className="label" style={{ opacity: 0.5 }}>{label}</div>
+      <div className="display" style={{ fontSize: 36, color: "var(--rojo)", marginTop: 4 }}>{value}</div>
+    </div>);
+
+}
+
+// ---------- Giant phrase block ----------
+function PhraseBlock() {
+  return (
+    <section className="bg-azul" style={{ padding: "120px 0" }}>
+      <div className="wrap" style={{ textAlign: "center" }}>
+        <div className="label" style={{ color: "var(--amarillo)" }}>Firma de marca</div>
+        <h2 className="display" style={{ fontSize: "clamp(72px, 13vw, 200px)", color: "var(--crema)", margin: "24px 0 0", lineHeight: 0.9 }}>
+          “Una más<br />y nos <em style={{ fontStyle: "normal", color: "var(--amarillo)" }}>vamos.”</em>
+        </h2>
+        <p className="body-l" style={{ color: "var(--crema)", opacity: 0.8, maxWidth: 520, margin: "32px auto 0" }}>
+          Lo hemos dicho todos. Nunca ha sido verdad. Por eso existe este juego.
+        </p>
+      </div>
+    </section>);
+
+}
+
+// ---------- Testimonies ----------
+function Testimonies() {
+  const items = [
+  { text: "“Empezamos con el café. Terminamos cenando.”", who: "Marta, 29, Sevilla" },
+  { text: "“Mi tía pidió una expansión. Mi tía.”", who: "Nacho, 34, Madrid" },
+  { text: "“La sobremesa más larga de 2025.”", who: "Grupo de WhatsApp «Los del jueves»" }];
+
+  return (
+    <section className="bg-crema" style={{ padding: "120px 0" }}>
+      <div className="wrap">
+        <div className="label" style={{ marginBottom: 40 }}>Lo que cuentan las mesas</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
+          {items.map((t, i) =>
+          <div key={i} className="hover-lift" style={{ border: "1px solid rgba(20,19,19,0.15)", borderRadius: 20, padding: 32, background: "var(--crema-2)" }}>
+              <div className="display" style={{ fontSize: 28, lineHeight: 1.1, color: "var(--rojo)" }}>{t.text}</div>
+              <div className="label" style={{ marginTop: 24, opacity: 0.6 }}>{t.who}</div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ---------- Big CTA ----------
+function BigCTA({ setRoute }) {
+  return (
+    <section className="bg-lima" style={{ padding: "120px 0", textAlign: "center" }}>
+      <div className="wrap">
+        <div className="label" style={{ color: "var(--rojo)" }}>¿Qué hacemos? ¿Pedimos otra?</div>
+        <h2 className="display" style={{ fontSize: "clamp(60px, 11vw, 160px)", color: "var(--rojo)", margin: "24px 0 40px", lineHeight: 0.9 }}>
+          Pide la caja.<br />El resto se hace solo.
+        </h2>
+        <button className="btn btn-filled-rojo" onClick={() => setRoute("producto")} style={{ fontSize: 16, padding: "22px 36px" }}>
+          Quiero el juego <span className="arrow">→</span>
+        </button>
+      </div>
+    </section>);
+
+}
+
+Object.assign(window, { Home });
+
+
+// ===== Producto.jsx =====
+// Producto — Historia → qué es → cómo se juega → compra
+const { useState: useStateProd } = React;
+
+function Producto({ setRoute, addToCart, tone }) {
+  return (
+    <main className="page-enter">
+      <ProdHero />
+      <ProdHistoria />
+      <ProdQueEs />
+      <ProdComoSeJuega />
+      <ProdSituaciones />
+      <ProdCompra addToCart={addToCart} />
+      <ProdFAQ />
+    </main>);
+
+}
+
+function ProdHero() {
+  return (
+    <section className="bg-rojo" style={{ padding: "72px 0 96px", position: "relative", overflow: "hidden" }}>
+      <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+        <div>
+          <div className="label" style={{ color: "var(--verde-lima)" }}>Edición única · 2025</div>
+          <h1 className="display" style={{ fontSize: "clamp(48px, 7vw, 112px)", color: "var(--verde-lima)", margin: "24px 0 0", lineHeight: 0.9 }}>
+            La Sobremesa<br />— El juego.
+          </h1>
+          <p className="body-l" style={{ opacity: 0.9, marginTop: 28, maxWidth: 500, color: "rgb(208, 202, 10)" }}>Un juego de cartas de refranes y expresiones para esas sobremesas que no tienen fin.
+
+
+          </p>
+        </div>
+        <div style={{ position: "relative" }}>
+          <div className="placeholder dark" data-label="caja del juego · frontal" style={{ aspectRatio: "1/1", borderRadius: 12 }} />
+          <div className="rotate-chip" style={{ position: "absolute", bottom: -14, left: -14, background: "var(--amarillo)", color: "var(--rojo)", padding: "10px 16px", borderRadius: 999, fontFamily: "var(--display)", textTransform: "uppercase", fontSize: 16 }}>200 CARTAS · 1 CAJA · 1 DADO
+
+          </div>
+        </div>
+      </div>
+    </section>);
+
+}
+
+function ProdHistoria() {
+  return (
+    <section className="bg-crema" style={{ padding: "120px 0" }}>
+      <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 80 }}>
+        <div>
+          <div className="label">01 — La historia</div>
+        </div>
+        <div>
+          <h2 className="display" style={{ fontSize: "clamp(40px, 6vw, 72px)", margin: 0, lineHeight: 1 }}>
+            Empezó en una mesa de domingo.
+          </h2>
+          <p className="body-l" style={{ marginTop: 24, maxWidth: 640 }}>Seis amigos, dos botellas, un café. Se nos ocurrió apuntar las preguntas que salían cuando nadie tenía prisa. Llenamos una servilleta. Luego dos. Luego una libreta entera.
+
+
+          </p>
+          <p className="body-l" style={{ marginTop: 16, maxWidth: 640 }}>
+            La Sobremesa es esa libreta, pero con mejor diseño y reglas que se aguantan de pie.
+          </p>
+        </div>
+      </div>
+    </section>);
+
+}
+
+function ProdQueEs() {
+  const features = [
+  { label: "156 cartas", text: "Tres mazos: «Tira de hilo», «A ver, cuenta», «Te la juegas»." },
+  { label: "2 dados", text: "Uno para el turno, otro para las penitencias. Ninguno es opcional." },
+  { label: "Libreto", text: "Reglas en 2 páginas. El resto son chistes malos." },
+  { label: "Caja", text: "De cartón serio. Que aguante caerse al suelo a las 3 de la mañana." }];
+
+  return (
+    <section className="bg-azul" style={{ padding: "120px 0", color: "var(--crema)" }}>
+      <div className="wrap">
+        <div className="label" style={{ color: "var(--amarillo)" }}>02 — Qué es</div>
+        <h2 className="display" style={{ fontSize: "clamp(52px, 8vw, 110px)", margin: "20px 0 48px", color: "var(--verde-lima)", lineHeight: 0.9 }}>
+          Cartas, dados,<br />y una regla de oro.
+        </h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+          {features.map((f, i) =>
+          <div key={i} className="hover-lift" style={{ border: "1px solid rgba(246,239,217,0.25)", borderRadius: 16, padding: 28, background: "rgba(0,0,0,0.15)" }}>
+              <div className="display" style={{ fontSize: 44, color: "var(--amarillo)" }}>{`0${i + 1}`}</div>
+              <div className="label" style={{ marginTop: 20, color: "var(--amarillo)" }}>{f.label}</div>
+              <p className="body-s" style={{ marginTop: 10, opacity: 0.85 }}>{f.text}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+function ProdComoSeJuega() {
+  const steps = [
+  { t: "Te repartes", d: "Cada jugador roba 3 cartas. El que tenga el café más frío empieza." },
+  { t: "Tiras", d: "El primer dado marca el mazo. El segundo, lo que toca hacer con la carta." },
+  { t: "La mesa vota", d: "Cada respuesta la puntúa la mesa, no tú. Aprendes humildad o trampas." },
+  { t: "Se alarga", d: "Gana quien consiga que nadie mire el reloj durante dos rondas seguidas." }];
+
+  return (
+    <section className="bg-crema" style={{ padding: "120px 0" }}>
+      <div className="wrap">
+        <div className="label">03 — Cómo se juega</div>
+        <h2 className="display" style={{ fontSize: "clamp(52px, 8vw, 110px)", margin: "20px 0 56px", lineHeight: 0.9 }}>
+          En cuatro pasos<br />y un cafelito.
+        </h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
+          {steps.map((s, i) =>
+          <div key={i} style={{ borderTop: "2px solid var(--tinta)", paddingTop: 20 }}>
+              <div className="display" style={{ fontSize: 72, color: "var(--rojo)", lineHeight: 1 }}>{`0${i + 1}`}</div>
+              <div className="display" style={{ fontSize: 28, marginTop: 16 }}>{s.t}</div>
+              <p className="body-m" style={{ marginTop: 12, maxWidth: 260 }}>{s.d}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+function ProdSituaciones() {
+  const tiles = [
+  { bg: "bg-rosa", label: "Cumpleaños", q: "¿Qué frase dijo tu padre en el último brindis?" },
+  { bg: "bg-verde", label: "Navidad", q: "Nombra tres tíos que no conoces en la mesa." },
+  { bg: "bg-amarillo", label: "Viernes de tapeo", q: "Imita a alguien de la mesa. Adivinan. Si no, bebes tú." },
+  { bg: "bg-azul", label: "Fin de semana en casa", q: "Cuenta una mentira pequeña. La mesa decide si cuela." }];
+
+  return (
+    <section>
+      <div className="bg-tinta" style={{ padding: "24px 0" }}>
+        <div className="wrap">
+          <div className="label" style={{ color: "var(--amarillo)" }}>04 — Situaciones reales de juego</div>
+        </div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+        {tiles.map((t, i) =>
+        <div key={i} className={t.bg} style={{ padding: 32, minHeight: 360, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div className="label">{t.label}</div>
+            <div className="display" style={{ fontSize: 34, lineHeight: 1.05 }}>{t.q}</div>
+            <div style={{ fontFamily: "var(--body)", fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              Mazo «A ver, cuenta»
+            </div>
+          </div>
+        )}
+      </div>
+    </section>);
+
+}
+
+function ProdCompra({ addToCart }) {
+  const [qty, setQty] = useStateProd(1);
+  const price = 29;
+  return (
+    <section className="bg-lima" style={{ padding: "120px 0" }}>
+      <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+        <div>
+          <div className="placeholder" data-label="bodegón · producto 3/4 con cartas" style={{ aspectRatio: "1/1", borderRadius: 12, background: "var(--crema)" }} />
+        </div>
+        <div>
+          <div className="label" style={{ color: "var(--rojo)" }}>05 — Compra</div>
+          <h2 className="display" style={{ fontSize: "clamp(56px, 8vw, 120px)", margin: "20px 0 0", color: "var(--rojo)", lineHeight: 0.9 }}>
+            Aquí<br />empieza<br />lo bueno.
+          </h2>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginTop: 32 }}>
+            <div className="display" style={{ fontSize: 72, color: "var(--rojo)" }}>{price} €</div>
+            <div className="body-s" style={{ color: "var(--rojo)" }}>IVA incluido · Envío 48h península</div>
+          </div>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 32 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, border: "1.5px solid var(--rojo)", borderRadius: 999, padding: "6px 12px" }}>
+              <button onClick={() => setQty(Math.max(1, qty - 1))} style={{ background: "none", border: 0, cursor: "pointer", color: "var(--rojo)", fontSize: 20, padding: "4px 8px" }}>−</button>
+              <div style={{ color: "var(--rojo)", fontWeight: 700, minWidth: 24, textAlign: "center" }}>{qty}</div>
+              <button onClick={() => setQty(qty + 1)} style={{ background: "none", border: 0, cursor: "pointer", color: "var(--rojo)", fontSize: 20, padding: "4px 8px" }}>+</button>
+            </div>
+            <button className="btn btn-filled-rojo" onClick={() => addToCart(qty)}>
+              Añadir a la cesta <span className="arrow">→</span>
+            </button>
+          </div>
+          <ul style={{ marginTop: 32, padding: 0, listStyle: "none", color: "var(--rojo)" }} className="stack-xs body-m">
+            <li>◆ Para 2–8 jugadores (probado con 12 y algún primo).</li>
+            <li>◆ Sesiones de 30 min a «madre mía, son las dos».</li>
+            <li>◆ Expansión de invierno disponible en diciembre.</li>
+          </ul>
+        </div>
+      </div>
+    </section>);
+
+}
+
+function ProdFAQ() {
+  const [open, setOpen] = useStateProd(0);
+  const faqs = [
+  { q: "¿Se juega con niños?", a: "Hay cartas que sí, y cartas que mejor guarda la tía Mari. A partir de 16 años." },
+  { q: "¿Cuánto dura una partida?", a: "De 30 minutos a la madrugada. Depende de tu mesa y del café." },
+  { q: "¿Habrá expansiones?", a: "Dos al año. La próxima es «Cuñados», y sí, viene cargada." },
+  { q: "¿Llega a Canarias y Baleares?", a: "Sí, tarda un par de días más. Paciencia, está en el barco." }];
+
+  return (
+    <section className="bg-crema" style={{ padding: "120px 0" }}>
+      <div className="wrap">
+        <div className="label">Dudas razonables</div>
+        <div style={{ marginTop: 32, borderTop: "1px solid var(--tinta)" }}>
+          {faqs.map((f, i) =>
+          <div key={i} style={{ borderBottom: "1px solid var(--tinta)" }}>
+              <button onClick={() => setOpen(open === i ? -1 : i)} style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "28px 0", background: "none", border: 0, cursor: "pointer", textAlign: "left" }}>
+                <span className="display" style={{ fontSize: 32 }}>{f.q}</span>
+                <span className="display" style={{ fontSize: 36, color: "var(--rojo)" }}>{open === i ? "—" : "+"}</span>
+              </button>
+              {open === i &&
+            <div style={{ paddingBottom: 28, maxWidth: 680 }} className="body-l">{f.a}</div>
+            }
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+Object.assign(window, { Producto });
+
+
+// ===== Pages.jsx =====
+// Nosotros + Contacto
+const { useState: useStateOther } = React;
+
+function Nosotros({ setRoute }) {
+  return (
+    <main className="page-enter">
+      <section className="bg-azul" style={{ padding: "96px 0 120px", color: "var(--crema)" }}>
+        <div className="wrap">
+          <div className="label" style={{ color: "var(--amarillo)" }}>Nosotros</div>
+          <h1 className="display" style={{ fontSize: "clamp(64px, 11vw, 180px)", color: "var(--verde-lima)", margin: "24px 0 0", lineHeight: 0.9 }}>
+            Existimos porque<br />la mejor hora<br />es la que sobra.
+          </h1>
+        </div>
+      </section>
+
+      <section className="bg-crema" style={{ padding: "120px 0" }}>
+        <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 80 }}>
+          <div>
+            <div className="label">Qué somos</div>
+          </div>
+          <div className="stack-m">
+            <p className="body-l" style={{ margin: 0, fontSize: 24 }}>
+              La Sobremesa nace de una obsesión muy concreta: la mesa que nadie quiere recoger.
+              Esa hora larga entre el último plato y el primer café. Entre «pedimos la cuenta» y «pues otra».
+            </p>
+            <p className="body-l" style={{ margin: 0 }}>
+              Cogemos la cultura popular española —expresiones, costumbres, manías de familia, humor de barrio—
+              y la metemos en una caja. No para explicarla, sino para jugar con ella.
+            </p>
+            <p className="body-l" style={{ margin: 0 }}>
+              Ni infantil, ni nostálgico, ni cuñado. Lo suficientemente elegante para regalarlo, lo suficientemente gamberro
+              para que nadie lo deje en la estantería.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+        <Value bg="bg-rojo" color="var(--verde-lima)" n="01" t="La cultura se juega." body="Recuperamos expresiones, refranes, costumbres. No los enseñamos: los ponemos encima de la mesa." />
+        <Value bg="bg-lima" color="var(--rojo)" n="02" t="La mesa manda." body="Todo lo que hacemos empieza por una pregunta: ¿esto alarga la sobremesa o la mata?" />
+        <Value bg="bg-amarillo" color="var(--rojo)" n="03" t="Cerca, nunca cursi." body="Hablamos de tú. Sin tecnicismos, sin postureo. Como se habla en casa de la abuela, pero más divertido." />
+      </section>
+
+      <section className="bg-crema" style={{ padding: "120px 0" }}>
+        <div className="wrap" style={{ textAlign: "center" }}>
+          <div className="label">Lo que buscamos</div>
+          <h2 className="display" style={{ fontSize: "clamp(44px, 7vw, 96px)", margin: "24px 0 0", lineHeight: 1 }}>
+            Que llegue el café<br />y no se levante nadie.
+          </h2>
+          <button className="btn btn-filled-dark" style={{ marginTop: 48 }} onClick={() => setRoute("producto")}>
+            Ver el juego <span className="arrow">→</span>
+          </button>
+        </div>
+      </section>
+    </main>);
+
+}
+
+function Value({ bg, color, n, t, body }) {
+  return (
+    <div className={bg} style={{ padding: "72px 40px", minHeight: 480, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+      <div className="display" style={{ fontSize: 120, lineHeight: 1, color, opacity: 0.22 }}>{n}</div>
+      <div>
+        <h3 className="display" style={{ fontSize: 44, margin: 0, color, lineHeight: 0.95 }}>{t}</h3>
+        <p className="body-m" style={{ marginTop: 20, color, opacity: 0.92, maxWidth: 320 }}>{body}</p>
+      </div>
+    </div>);
+
+}
+
+function Contacto({ setRoute }) {
+  const [form, setForm] = useStateOther({ nombre: "", email: "", mensaje: "", motivo: "Hablamos" });
+  const [sent, setSent] = useStateOther(false);
+  const motivos = ["Hablamos", "Quiero ser tienda", "Prensa", "Una tontería"];
+  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+  const submit = (e) => {
+    e.preventDefault();
+    setSent(true);
+  };
+  return (
+    <main className="page-enter">
+      <section className="bg-rojo" style={{ padding: "96px 0 80px", color: "var(--verde-lima)" }}>
+        <div className="wrap">
+          <div className="label" style={{ color: "var(--verde-lima)" }}>Contacto</div>
+          <h1 className="display" style={{ fontSize: "clamp(64px, 11vw, 180px)", margin: "24px 0 0", lineHeight: 0.9 }}>
+            Escríbenos.<br />Contestamos<br /><em style={{ fontStyle: "normal", color: "var(--amarillo)" }}>antes del postre.</em>
+          </h1>
+        </div>
+      </section>
+
+      <section className="bg-crema" style={{ padding: "100px 0 140px" }}>
+        <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 64 }}>
+          <div className="stack-m">
+            <div>
+              <div className="label">Hola rápido</div>
+              <p className="body-l" style={{ marginTop: 12 }}>hola@lasobremesa.es</p>
+            </div>
+            <div>
+              <div className="label">Tiendas</div>
+              <p className="body-l" style={{ marginTop: 12 }}>wholesale@lasobremesa.es</p>
+            </div>
+            <div>
+              <div className="label">Visítanos</div>
+              <p className="body-m" style={{ marginTop: 12 }}>
+                C/ del Pez, 12 · 28004 Madrid<br />
+                Jueves a sábado, de 11 a 20h<br />
+                <span style={{ color: "var(--rojo)" }}>(los lunes, sobremesa obligatoria)</span>
+              </p>
+            </div>
+          </div>
+
+          {!sent ?
+          <form onSubmit={submit} style={{ border: "1px solid var(--tinta)", borderRadius: 24, padding: 40, background: "var(--crema-2)" }}>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
+                {motivos.map((m) =>
+              <button type="button" key={m} onClick={() => setForm({ ...form, motivo: m })}
+              style={{
+                padding: "8px 14px", borderRadius: 999,
+                border: "1.5px solid var(--tinta)",
+                background: form.motivo === m ? "var(--tinta)" : "transparent",
+                color: form.motivo === m ? "var(--crema)" : "var(--tinta)",
+                fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 700, cursor: "pointer"
+              }}>
+                    {m}
+                  </button>
+              )}
+              </div>
+              <Field label="¿Cómo te llamas?" value={form.nombre} onChange={set("nombre")} placeholder="Tu nombre" />
+              <Field label="¿A qué email contestamos?" value={form.email} onChange={set("email")} placeholder="tu@email.com" type="email" />
+              <Field label="Cuéntanos" value={form.mensaje} onChange={set("mensaje")} placeholder="Una línea nos vale. Dos mejor." textarea />
+              <button type="submit" className="btn btn-filled-dark" style={{ marginTop: 8 }}>
+                Mandar <span className="arrow">→</span>
+              </button>
+              <p className="body-s" style={{ marginTop: 20, opacity: 0.6 }}>No te suscribimos a nada. Prometido.</p>
+            </form> :
+
+          <div style={{ border: "1px solid var(--tinta)", borderRadius: 24, padding: 48, background: "var(--verde-lima)" }}>
+              <div className="display" style={{ fontSize: 48, color: "var(--rojo)", lineHeight: 0.95 }}>
+                Recibido, {form.nombre || "amig@"}.
+              </div>
+              <p className="body-l" style={{ marginTop: 16, color: "var(--rojo)" }}>
+                Contestamos antes de que se enfríe el café. Mientras tanto, échale un ojo al juego.
+              </p>
+              <button className="btn btn-filled-rojo" style={{ marginTop: 24 }} onClick={() => setRoute("producto")}>
+                Ver el juego <span className="arrow">→</span>
+              </button>
+            </div>
+          }
+        </div>
+      </section>
+    </main>);
+
+}
+
+function Field({ label, value, onChange, placeholder, type = "text", textarea = false }) {
+  return (
+    <label style={{ display: "block", marginBottom: 20 }}>
+      <span className="label" style={{ display: "block", marginBottom: 8 }}>{label}</span>
+      {textarea ?
+      <textarea value={value} onChange={onChange} placeholder={placeholder} rows={4}
+      style={fieldStyle} /> :
+
+      <input type={type} value={value} onChange={onChange} placeholder={placeholder}
+      style={fieldStyle} />
+      }
+    </label>);
+
+}
+
+const fieldStyle = {
+  width: "100%", padding: "14px 0",
+  background: "transparent",
+  border: 0, borderBottom: "1.5px solid var(--tinta)",
+  outline: "none", fontFamily: "var(--body)", fontSize: 18, color: "var(--tinta)",
+  resize: "vertical"
+};
+
+Object.assign(window, { Nosotros, Contacto });
+
+
+// ===== Cesta.jsx =====
+// Cesta + Tweaks + App
+const { useState: useStateApp, useEffect: useEffectApp } = React;
+
+function Cesta({ cart, setCart, setRoute }) {
+  const gamePrice = 29;
+  const subtotal = cart.reduce((s, it) => s + it.qty * gamePrice, 0);
+  const envio = cart.length ? subtotal >= 40 ? 0 : 3.9 : 0;
+  const total = subtotal + envio;
+
+  const changeQty = (i, d) => {
+    const next = cart.map((it, idx) => idx === i ? { ...it, qty: Math.max(0, it.qty + d) } : it).filter((it) => it.qty > 0);
+    setCart(next);
+  };
+
+  const empty = cart.length === 0;
+
+  return (
+    <main className="page-enter">
+      <section className="bg-crema" style={{ padding: "72px 0 0" }}>
+        <div className="wrap">
+          <div className="label">Cesta</div>
+          <h1 className="display" style={{ fontSize: "clamp(56px, 9vw, 140px)", margin: "20px 0 16px", lineHeight: 0.9 }}>
+            {empty ? "Cesta vacía. De momento." : "Esto ya casi es tuyo."}
+          </h1>
+          <p className="body-l" style={{ maxWidth: 540 }}>
+            {empty ? "No pasa nada. Una sobremesa buena también empieza sin plan." : "No lo dejes enfriar. El cartero está al caer."}
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-crema" style={{ padding: "60px 0 120px" }}>
+        <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 56 }}>
+          <div>
+            {empty ?
+            <div style={{ border: "1px dashed var(--tinta)", borderRadius: 20, padding: 48, textAlign: "center" }}>
+                <div className="display" style={{ fontSize: 40, color: "var(--rojo)" }}>Pedimos otra.</div>
+                <button className="btn btn-filled-dark" style={{ marginTop: 24 }} onClick={() => setRoute("producto")}>
+                  Ver el juego <span className="arrow">→</span>
+                </button>
+              </div> :
+
+            cart.map((it, i) =>
+            <div key={i} style={{ display: "grid", gridTemplateColumns: "120px 1fr auto", gap: 20, padding: "24px 0", borderBottom: "1px solid rgba(20,19,19,0.15)", alignItems: "center" }}>
+                  <div className="placeholder" data-label="caja" style={{ aspectRatio: "1/1", borderRadius: 10 }} />
+                  <div>
+                    <div className="display" style={{ fontSize: 28 }}>La Sobremesa — El juego</div>
+                    <div className="body-s" style={{ opacity: 0.7, marginTop: 6 }}>Edición estándar · 156 cartas · 2 dados</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, border: "1.5px solid var(--tinta)", borderRadius: 999, padding: "4px 10px", marginTop: 12, width: "fit-content" }}>
+                      <button onClick={() => changeQty(i, -1)} style={iconBtn}>−</button>
+                      <div style={{ minWidth: 24, textAlign: "center", fontWeight: 700 }}>{it.qty}</div>
+                      <button onClick={() => changeQty(i, +1)} style={iconBtn}>+</button>
+                    </div>
+                  </div>
+                  <div className="display" style={{ fontSize: 32, color: "var(--rojo)" }}>{(it.qty * gamePrice).toFixed(0)} €</div>
+                </div>
+            )
+            }
+          </div>
+
+          <aside style={{ position: "sticky", top: 100, alignSelf: "start", border: "1px solid var(--tinta)", borderRadius: 20, padding: 32, background: "var(--crema-2)" }}>
+            <div className="label">Resumen</div>
+            <Row k="Subtotal" v={`${subtotal.toFixed(2)} €`} />
+            <Row k={`Envío${envio === 0 && !empty ? " (gratis)" : ""}`} v={envio === 0 ? empty ? "—" : "0 €" : `${envio.toFixed(2)} €`} />
+            <div className="divider" style={{ margin: "16px 0" }} />
+            <Row k="Total" v={`${total.toFixed(2)} €`} big />
+            {!empty && subtotal < 40 &&
+            <p className="body-s" style={{ marginTop: 8, color: "var(--rojo)" }}>
+                Te quedan {(40 - subtotal).toFixed(2)} € para envío gratis. ¿Otra? Por pedir...
+              </p>
+            }
+            <button disabled={empty} className="btn btn-filled-dark" style={{ width: "100%", justifyContent: "center", marginTop: 20, opacity: empty ? 0.4 : 1 }}>
+              Pagar <span className="arrow">→</span>
+            </button>
+            <p className="body-s" style={{ marginTop: 16, opacity: 0.7 }}>Pago seguro · Devolución 30 días · Envío 48h península</p>
+          </aside>
+        </div>
+
+        {!empty &&
+        <div className="wrap" style={{ marginTop: 80 }}>
+            <div className="bg-lima" style={{ borderRadius: 20, padding: "48px 40px", display: "grid", gridTemplateColumns: "1fr auto", alignItems: "center", gap: 24 }}>
+              <div>
+                <div className="label" style={{ color: "var(--rojo)" }}>Un empujoncito</div>
+                <div className="display" style={{ fontSize: 40, color: "var(--rojo)", marginTop: 10 }}>
+                  Una más y nos vamos. <em style={{ fontStyle: "normal", fontSize: 22 }}>(mentira)</em>
+                </div>
+              </div>
+              <button className="btn btn-filled-rojo" onClick={() => setRoute("producto")}>
+                Seguir mirando <span className="arrow">→</span>
+              </button>
+            </div>
+          </div>
+        }
+      </section>
+    </main>);
+
+}
+
+function Row({ k, v, big = false }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 14 }}>
+      <span className="body-m" style={{ opacity: big ? 1 : 0.8, fontWeight: big ? 700 : 400 }}>{k}</span>
+      <span className={big ? "display" : "body-m"} style={{ fontSize: big ? 34 : 16, color: big ? "var(--rojo)" : "inherit", fontWeight: big ? 400 : 600 }}>{v}</span>
+    </div>);
+
+}
+const iconBtn = { background: "none", border: 0, cursor: "pointer", color: "var(--tinta)", fontSize: 18, padding: "4px 8px" };
+
+// ---------- Toast ----------
+function Toast({ msg }) {
+  if (!msg) return null;
+  return <div className="toast"><div className="label" style={{ color: "var(--verde-lima)", marginBottom: 4 }}>Añadido</div><div className="body-m">{msg}</div></div>;
+}
+
+// ---------- Tweaks panel ----------
+function TweaksPanel({ visible, tweaks, setTweaks }) {
+  if (!visible) return null;
+  const heroOpts = [
+  { k: "editorial", l: "Editorial" },
+  { k: "block", l: "Bloques" },
+  { k: "split", l: "Split" }];
+
+  const toneOpts = [
+  { k: "gamberro", l: "Gamberro" },
+  { k: "editorial", l: "Editorial" }];
+
+  const accents = [
+  { k: "rojo", color: "#D90E15" },
+  { k: "azul", color: "#355FA9" },
+  { k: "lima", color: "#CEC80A" },
+  { k: "verde", color: "#049368" },
+  { k: "amarillo", color: "#F6D518" },
+  { k: "rosa", color: "#F4A8BE" }];
+
+  return (
+    <div className="tweaks-panel">
+      <h4>Tweaks</h4>
+      <div className="tweaks-row">
+        <span className="label">Layout del hero</span>
+        <div>
+          {heroOpts.map((o) =>
+          <button key={o.k} className="tweaks-opt" aria-pressed={tweaks.heroVariant === o.k}
+          onClick={() => setTweaks({ ...tweaks, heroVariant: o.k })}>{o.l}</button>
+          )}
+        </div>
+      </div>
+      <div className="tweaks-row">
+        <span className="label">Tono del copy</span>
+        <div>
+          {toneOpts.map((o) =>
+          <button key={o.k} className="tweaks-opt" aria-pressed={tweaks.tone === o.k}
+          onClick={() => setTweaks({ ...tweaks, tone: o.k })}>{o.l}</button>
+          )}
+        </div>
+      </div>
+      <div className="tweaks-row">
+        <span className="label">Easter egg «Una más y nos vamos»</span>
+        <div>
+          <button className="tweaks-opt" aria-pressed={tweaks.easter} onClick={() => setTweaks({ ...tweaks, easter: !tweaks.easter })}>
+            {tweaks.easter ? "On" : "Off"}
+          </button>
+        </div>
+      </div>
+      <p className="body-s" style={{ opacity: 0.6, marginTop: 8, fontSize: 10 }}>
+        Persisten al recargar.
+      </p>
+    </div>);
+
+}
+
+Object.assign(window, { Cesta, Toast, TweaksPanel });
+
+
+// ===== App.jsx =====
+// Main App — routing + state + easter egg
+const { useState: useStateMain, useEffect: useEffectMain } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "heroVariant": "editorial",
+  "tone": "gamberro",
+  "easter": false
+}/*EDITMODE-END*/;
+
+function App() {
+  const [route, setRouteState] = useStateMain(() => localStorage.getItem("ls-route") || "home");
+  const [cart, setCart] = useStateMain(() => {
+    try {return JSON.parse(localStorage.getItem("ls-cart") || "[]");} catch {return [];}
+  });
+  const [toast, setToast] = useStateMain(null);
+  const [tweaksVisible, setTweaksVisible] = useStateMain(false);
+  const [tweaks, setTweaks] = useStateMain(() => {
+    try {return { ...TWEAK_DEFAULTS, ...JSON.parse(localStorage.getItem("ls-tweaks") || "{}") };}
+    catch {return TWEAK_DEFAULTS;}
+  });
+  const [easterTriggered, setEasterTriggered] = useStateMain(false);
+
+  useEffectMain(() => {localStorage.setItem("ls-route", route);window.scrollTo(0, 0);}, [route]);
+  useEffectMain(() => {localStorage.setItem("ls-cart", JSON.stringify(cart));}, [cart]);
+  useEffectMain(() => {localStorage.setItem("ls-tweaks", JSON.stringify(tweaks));}, [tweaks]);
+
+  // Tweaks parent-postMessage contract
+  useEffectMain(() => {
+    const onMsg = (e) => {
+      if (!e.data || typeof e.data !== "object") return;
+      if (e.data.type === "__activate_edit_mode") setTweaksVisible(true);
+      if (e.data.type === "__deactivate_edit_mode") setTweaksVisible(false);
+    };
+    window.addEventListener("message", onMsg);
+    window.parent.postMessage({ type: "__edit_mode_available" }, "*");
+    return () => window.removeEventListener("message", onMsg);
+  }, []);
+
+  const setTweaksPersist = (next) => {
+    setTweaks(next);
+    window.parent.postMessage({ type: "__edit_mode_set_keys", edits: next }, "*");
+  };
+
+  const setRoute = (r) => setRouteState(r);
+
+  const addToCart = (qty = 1) => {
+    const existing = cart.find((i) => i.id === "sobremesa");
+    let next;
+    if (existing) {
+      next = cart.map((i) => i.id === "sobremesa" ? { ...i, qty: i.qty + qty } : i);
+    } else {
+      next = [...cart, { id: "sobremesa", qty }];
+    }
+    setCart(next);
+    const msgs = ["La Sobremesa × " + qty + " a la cesta.", "Otra más al carro. Buena decisión.", "Esto ya casi es tuyo."];
+    setToast(msgs[Math.floor(Math.random() * msgs.length)]);
+    setTimeout(() => setToast(null), 2400);
+  };
+
+  const cartCount = cart.reduce((s, it) => s + it.qty, 0);
+
+  // Easter egg: typing "una mas" triggers confetti of phrases
+  useEffectMain(() => {
+    if (!tweaks.easter) return;
+    let buf = "";
+    const onKey = (e) => {
+      buf = (buf + e.key.toLowerCase()).slice(-20);
+      if (buf.includes("unamas") || buf.includes("una mas")) {
+        setEasterTriggered(true);
+        setTimeout(() => setEasterTriggered(false), 3600);
+        buf = "";
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [tweaks.easter]);
+
+  const onDark = route === "home" && tweaks.heroVariant === "editorial" ? false : false;
+
+  return (
+    <React.Fragment>
+      <Nav route={route} setRoute={setRoute} cartCount={cartCount} onDark={onDark} />
+      {route === "home" && <Home setRoute={setRoute} tone={tweaks.tone} heroVariant={tweaks.heroVariant} />}
+      {route === "producto" && <Producto setRoute={setRoute} addToCart={addToCart} tone={tweaks.tone} />}
+      {route === "nosotros" && <Nosotros setRoute={setRoute} />}
+      {route === "contacto" && <Contacto setRoute={setRoute} />}
+      {route === "cesta" && <Cesta cart={cart} setCart={setCart} setRoute={setRoute} />}
+      <Footer setRoute={setRoute} />
+      <Toast msg={toast} />
+      <TweaksPanel visible={tweaksVisible} tweaks={tweaks} setTweaks={setTweaksPersist} />
+      <EasterEgg on={easterTriggered} />
+      <HintChip onClick={() => setTweaksVisible(!tweaksVisible)} visible={!tweaksVisible} />
+    </React.Fragment>);
+
+}
+
+function HintChip({ onClick, visible }) {
+  if (!visible) return null;
+  return (
+    <button onClick={onClick} style={{
+      position: "fixed", right: 20, bottom: 20, zIndex: 90,
+      background: "var(--tinta)", color: "var(--verde-lima)",
+      border: 0, borderRadius: 999, padding: "10px 16px",
+      fontFamily: "var(--body)", fontSize: 11, fontWeight: 700,
+      textTransform: "uppercase", letterSpacing: "0.08em",
+      cursor: "pointer", boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
+    }}>
+      ✦ Tweaks
+    </button>);
+
+}
+
+function EasterEgg({ on }) {
+  if (!on) return null;
+  const phrases = ["Una más y nos vamos", "(mentira)", "Que no se enfríe", "Aquí empieza lo bueno", "¡Aquí se viene a jugar!"];
+  return (
+    <div style={{
+      position: "fixed", inset: 0, pointerEvents: "none", zIndex: 120,
+      overflow: "hidden"
+    }}>
+      {Array.from({ length: 18 }).map((_, i) => {
+        const p = phrases[i % phrases.length];
+        const left = i * 53 % 100;
+        const delay = i % 6 * 0.08;
+        const rot = (i % 2 ? -1 : 1) * (4 + i * 3 % 18);
+        const colors = ["var(--rojo)", "var(--azul)", "var(--verde-lima)", "var(--amarillo)", "var(--verde)", "var(--rosa)"];
+        const bg = colors[i % colors.length];
+        return (
+          <div key={i} style={{
+            position: "absolute",
+            left: left + "%",
+            top: "-10%",
+            transform: `rotate(${rot}deg)`,
+            background: bg, color: "var(--tinta)",
+            fontFamily: "var(--display)", fontSize: 28,
+            padding: "10px 18px", borderRadius: 999,
+            animation: `fall 3.4s ${delay}s ease-in forwards`,
+            whiteSpace: "nowrap",
+            textTransform: "uppercase"
+          }}>{p}</div>);
+
+      })}
+      <style>{`@keyframes fall { to { top: 110%; transform: rotate(${Math.random() * 30 - 15}deg); } }`}</style>
+    </div>);
+
+}
+
+Object.assign(window, { App });
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

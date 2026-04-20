@@ -1,0 +1,289 @@
+/* LA SOBREMESA — Design tokens + base styles */
+
+:root {
+  /* Principales */
+  --rojo: #D90E15;
+  --azul: #355FA9;
+  --verde-lima: #CEC80A;
+  /* Secundarios */
+  --rosa: #F4A8BE;
+  --verde: #049368;
+  --amarillo: #F6D518;
+  /* Neutros */
+  --papel: #FFFFFF;
+  --papel-soft: #F7F7F5;
+  --crema: #FFFFFF;          /* mantenido como alias — ahora blanco */
+  --crema-2: #F4F4F1;
+  --tinta: #141313;
+  --tinta-soft: #1E1B1B;
+
+  /* Paalmore = firma tipográfica de marca. Yeseva One = fallback.
+     Usar SOLO en titulares de identidad y momentos clave. */
+  --display: "Palmore", "Yeseva One", "Bodoni Moda", Georgia, serif;
+  --display-alt: "Yeseva One", "Bodoni Moda", Georgia, serif;
+  --body: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+  --edge: 1px solid currentColor;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+/* Display type — Palmore, la firma de la marca. Úsala con criterio. */
+.display {
+  font-family: var(--display);
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+/* Variante ligera para cuerpo editorial largo */
+.display-light {
+  font-family: var(--display);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.005em;
+}
+/* Fallback para cuando queremos un serif high-contrast sin sobre-exponer Palmore */
+.display-alt {
+  font-family: var(--display-alt);
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 0.95;
+}
+
+/* Helvetica heavy for section labels */
+.label {
+  font-family: var(--body);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+.body-l { font-size: 19px; line-height: 1.45; }
+.body-m { font-size: 16px; line-height: 1.5; }
+.body-s { font-size: 14px; line-height: 1.5; }
+
+/* Color blocks */
+.bg-rojo     { background: var(--rojo);     color: var(--verde-lima); }
+.bg-azul     { background: var(--azul);     color: var(--papel); }
+.bg-lima     { background: var(--verde-lima); color: var(--rojo); }
+.bg-crema    { background: var(--papel);    color: var(--tinta); }
+.bg-papel    { background: var(--papel);    color: var(--tinta); }
+.bg-tinta    { background: var(--tinta);    color: var(--papel); }
+.bg-verde    { background: var(--verde);    color: var(--papel); }
+.bg-rosa     { background: var(--rosa);     color: var(--rojo); }
+.bg-amarillo { background: var(--amarillo); color: var(--rojo); }
+
+/* Layout */
+.wrap {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 700px) {
+  .wrap { padding: 0 20px; }
+}
+
+.stack-xs > * + * { margin-top: 8px; }
+.stack-s  > * + * { margin-top: 14px; }
+.stack-m  > * + * { margin-top: 24px; }
+.stack-l  > * + * { margin-top: 40px; }
+.stack-xl > * + * { margin-top: 72px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--body);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  background: transparent;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.btn:hover { transform: translate(-2px,-2px); }
+.btn:active { transform: translate(0,0); }
+
+.btn-filled-dark { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.btn-filled-dark:hover { background: var(--rojo); border-color: var(--rojo); color: var(--verde-lima); }
+
+.btn-filled-lima { background: var(--verde-lima); color: var(--rojo); border-color: var(--verde-lima); }
+.btn-filled-lima:hover { background: var(--rojo); color: var(--verde-lima); border-color: var(--rojo); }
+
+.btn-filled-rojo { background: var(--rojo); color: var(--verde-lima); border-color: var(--rojo); }
+.btn-filled-rojo:hover { background: var(--tinta); color: var(--verde-lima); border-color: var(--tinta); }
+
+.btn .arrow { display: inline-block; transition: transform 0.2s ease; }
+.btn:hover .arrow { transform: translateX(4px); }
+
+/* Marquee */
+@keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee { overflow: hidden; white-space: nowrap; }
+.marquee-track {
+  display: inline-flex;
+  gap: 48px;
+  animation: marquee-scroll 36s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* Placeholder imagery — sobre blanco, rayitas finas */
+.placeholder {
+  position: relative;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(20,19,19,0.06) 0 1px,
+      transparent 1px 14px
+    ),
+    var(--papel-soft);
+  color: var(--tinta);
+  display: grid;
+  place-items: center;
+  font-family: "IBM Plex Mono", "Menlo", "Courier New", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(20,19,19,0.1);
+}
+.placeholder::before {
+  content: attr(data-label);
+  padding: 6px 10px;
+  background: var(--tinta);
+  color: var(--papel);
+  border-radius: 999px;
+}
+.placeholder.dark {
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 14px),
+    var(--tinta-soft);
+  color: var(--papel);
+  border-color: rgba(255,255,255,0.2);
+}
+.placeholder.dark::before { background: var(--papel); color: var(--tinta); }
+
+/* Spade / suit glyphs (tiny bits we draw ourselves — trivial shapes) */
+.diamond {
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  background: currentColor;
+  transform: rotate(45deg);
+  vertical-align: middle;
+  margin: 0 0.2em;
+}
+
+/* Nav — header blanco sólido */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--papel);
+  border-bottom: 1px solid rgba(20,19,19,0.1);
+}
+.nav.on-dark { background: var(--tinta); color: var(--papel); border-bottom-color: rgba(255,255,255,0.12); }
+
+/* Focus */
+:focus-visible { outline: 2px solid var(--rojo); outline-offset: 3px; }
+
+/* Utility */
+.hover-lift { transition: transform 0.25s ease; }
+.hover-lift:hover { transform: translateY(-4px); }
+
+.divider { height: 1px; background: currentColor; opacity: 0.2; }
+
+.rotate-chip {
+  display: inline-block;
+  transform: rotate(-4deg);
+}
+
+/* Cesta / toast */
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 80;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--tinta);
+  color: var(--papel);
+  max-width: 320px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: pop 0.3s ease;
+}
+@keyframes pop {
+  from { transform: translateY(20px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Tweaks panel */
+.tweaks-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 100;
+  width: 300px;
+  background: var(--tinta);
+  color: var(--papel);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.3);
+  font-family: var(--body);
+}
+.tweaks-panel h4 {
+  font-family: var(--display);
+  text-transform: uppercase;
+  font-size: 22px;
+  margin: 0 0 10px;
+  letter-spacing: 0;
+}
+.tweaks-row { margin: 12px 0; }
+.tweaks-row .label { font-size: 10px; margin-bottom: 6px; display: block; opacity: 0.7; }
+.tweaks-swatches { display: flex; gap: 6px; }
+.tweaks-swatch {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.2);
+  cursor: pointer; padding: 0;
+}
+.tweaks-swatch[aria-pressed="true"] { border-color: var(--verde-lima); }
+.tweaks-opt {
+  padding: 6px 10px; background: rgba(255,255,255,0.08);
+  border-radius: 999px; border: 1px solid transparent; cursor: pointer;
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  margin-right: 6px; margin-bottom: 6px;
+}
+.tweaks-opt[aria-pressed="true"] { background: var(--verde-lima); color: var(--rojo); }
+
+/* Page transition */
+.page-enter { animation: fadeUp 0.4s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
