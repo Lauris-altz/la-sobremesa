@@ -103,6 +103,7 @@ img { display: block; max-width: 100%; }
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 32px;
+  overflow-x: hidden;
 }
 @media (max-width: 700px) {
   .wrap { padding: 0 20px; }
@@ -129,6 +130,7 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.08em;
   cursor: pointer;
   background: transparent;
+  white-space: nowrap;
   transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 .btn:hover { transform: translate(-2px,-2px); }
@@ -152,7 +154,7 @@ img { display: block; max-width: 100%; }
 .marquee-track {
   display: inline-flex;
   gap: 48px;
-  animation: marquee-scroll 18s linear infinite;
+  animation: marquee-scroll 9s linear infinite;
   will-change: transform;
 }
 .marquee:hover .marquee-track { animation-play-state: paused; }
@@ -209,7 +211,7 @@ img { display: block; max-width: 100%; }
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 9999;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   background: rgba(246,239,217,0.88);
@@ -281,7 +283,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* Page transition */
-.page-enter { animation: fadeUp 0.2s ease; }
+.page-enter { animation: fadeUp 0.12s ease; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ===== RESPONSIVE HELPERS ===== */
@@ -302,10 +304,26 @@ img { display: block; max-width: 100%; }
     max-width: calc(100% - 90px);
   }
 
-  /* 2. Hero h1 — reduce min so it fits on small screens */
+  /* 2. Hero h1 — bigger impact on mobile */
   .hero-h1 {
-    font-size: clamp(40px, 12vw, 120px) !important;
+    font-size: clamp(48px, 14vw, 120px) !important;
     white-space: normal !important;
+  }
+
+  /* 2b. Hero buttons — stacked, right-aligned */
+  .hero-btns {
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    width: 100% !important;
+  }
+
+  /* 2c. Cesta — single column on mobile */
+  .cesta-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .cesta-grid aside {
+    position: static !important;
   }
 
   /* 3. Any 2-column grid → single column */
@@ -568,7 +586,7 @@ function HeroEditorial({ copy, setRoute }) {
           <p className="body-l" style={{ color: "var(--verde-lima)", maxWidth: 520, margin: 0 }}>
             {copy.lead}
           </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "flex-end", flexWrap: "wrap" }}>
+          <div className="hero-btns" style={{ display: "flex", gap: 12, justifyContent: "flex-end", flexWrap: "wrap" }}>
             <button className="btn btn-filled-lima" onClick={() => setRoute("producto")}>
               {copy.cta} <span className="arrow">→</span>
             </button>
@@ -1072,7 +1090,7 @@ function Cesta({ cart, setCart, setRoute }) {
       </section>
 
       <section className="bg-crema" style={{ padding: "60px 0 120px" }}>
-        <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 56 }}>
+        <div className="wrap cesta-grid" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 56 }}>
           <div>
             {empty ?
             <div style={{ border: "1px dashed var(--tinta)", borderRadius: 20, padding: 48, textAlign: "center" }}>
