@@ -55,6 +55,7 @@ button, input, textarea, select {
   font-family: inherit;
   font-size: inherit;
   color: inherit;
+  touch-action: manipulation;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -103,7 +104,6 @@ img { display: block; max-width: 100%; }
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 32px;
-  overflow-x: hidden;
 }
 @media (max-width: 700px) {
   .wrap { padding: 0 20px; }
@@ -154,7 +154,7 @@ img { display: block; max-width: 100%; }
 .marquee-track {
   display: inline-flex;
   gap: 48px;
-  animation: marquee-scroll 9s linear infinite;
+  animation: marquee-scroll 7s linear infinite;
   will-change: transform;
 }
 .marquee:hover .marquee-track { animation-play-state: paused; }
@@ -283,7 +283,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* Page transition */
-.page-enter { animation: fadeUp 0.12s ease; }
+.page-enter { animation: fadeUp 0.1s ease; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ===== RESPONSIVE HELPERS ===== */
@@ -306,14 +306,14 @@ img { display: block; max-width: 100%; }
 
   /* 2. Hero h1 — bigger impact on mobile */
   .hero-h1 {
-    font-size: clamp(48px, 14vw, 120px) !important;
+    font-size: clamp(48px, 15vw, 120px) !important;
     white-space: normal !important;
   }
 
-  /* 2b. Hero buttons — stacked, right-aligned */
+  /* 2b. Hero buttons — stacked, left-aligned */
   .hero-btns {
     flex-direction: column !important;
-    align-items: flex-end !important;
+    align-items: flex-start !important;
     width: 100% !important;
   }
 
@@ -688,7 +688,7 @@ function GameCard({ setRoute }) {
         <div className="resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
           <div style={{ position: "relative" }}>
             <div className="placeholder" data-label="caja del juego · bodegón 3/4" style={{ aspectRatio: "4/5", borderRadius: 12 }} />
-            <div style={{ position: "absolute", top: -20, right: -20, background: "var(--verde-lima)", color: "var(--rojo)", fontFamily: "var(--display)", textTransform: "uppercase", padding: "14px 20px", borderRadius: 999, fontSize: 18, transform: "rotate(8deg)" }}>
+            <div style={{ position: "absolute", top: 12, right: 12, background: "var(--verde-lima)", color: "var(--rojo)", fontFamily: "var(--display)", textTransform: "uppercase", padding: "14px 20px", borderRadius: 999, fontSize: 18, transform: "rotate(8deg)", zIndex: 2 }}>
               ¡Nuevo!
             </div>
           </div>
