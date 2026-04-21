@@ -787,11 +787,11 @@ function ProdCompra({ addToCart }) {
         </div>
         <div>
           <h2 className="display" style={{ fontSize: "clamp(56px, 8vw, 120px)", margin: "0 0 0", color: "var(--rojo)", lineHeight: 0.9 }}>
-            Aquí<br />empieza<br />lo bueno.
+            Don refranote
           </h2>
           <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginTop: 32 }}>
             <div className="display" style={{ fontSize: 72, color: "var(--rojo)" }}>{price} €</div>
-            <div className="body-s" style={{ color: "var(--rojo)" }}>IVA incluido · Envío 48h península</div>
+            <div className="body-s" style={{ color: "var(--rojo)" }}></div>
           </div>
           <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 32, flexWrap: "wrap" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, border: "1.5px solid var(--rojo)", borderRadius: 999, padding: "6px 12px" }}>
@@ -804,9 +804,9 @@ function ProdCompra({ addToCart }) {
             </button>
           </div>
           <ul style={{ marginTop: 32, padding: 0, listStyle: "none", color: "var(--rojo)" }} className="stack-xs body-m">
-            <li>◆ Para más de 4 jugadores.</li>
-            <li>◆ Duración de 30 min.</li>
-            <li>◆ Recomendado para mayores de 14 años.</li>
+            <li>◆ IVA incluido.</li>
+            <li>◆ Envío 48h península.</li>
+            <li>◆ Envío gratis a partir de 45 €.</li>
           </ul>
         </div>
       </div>
@@ -817,7 +817,7 @@ function ProdCompra({ addToCart }) {
 function ProdFAQ() {
   const [open, setOpen] = useStateProd(0);
   const faqs = [
-  { q: "¿Se juega con niños?", a: "A partir de 14, que los refranes no se aprenden en un día. Aun así, si se animan, aquí juega toda la familia." },
+  { q: "¿Se juega con niños?", a: "Se puede jugar a cualquier edad. Ahora, si no te sabes los refranes, te toca improvisar. A partir de 14 se disfruta más, pero aquí puede entrar toda la familia." },
   { q: "¿Cuánto dura una partida?", a: "Desde 30 minutos hasta cuando tú quieras. Depende de tu mesa." },
   { q: "¿Habrá expansiones?", a: "Sí, y vienen con ganas. Esto no se queda en una sola baraja." },
   { q: "¿Llega a Canarias y Baleares?", a: "Sí, llega. Tarda un poco más, pero llega." }];
