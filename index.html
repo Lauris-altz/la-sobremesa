@@ -937,7 +937,7 @@ function Value({ bg, color, n, t, body }) {
 function Contacto({ setRoute }) {
   const [form, setForm] = useStateOther({ nombre: "", email: "", mensaje: "", motivo: "Hablamos" });
   const [sent, setSent] = useStateOther(false);
-  const motivos = ["Hablamos", "Quiero ser tienda", "Prensa", "Una tontería"];
+  const motivos = ["Tienda", "Colaboración", "Prensa", "Otra"];
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
   const submit = (e) => {
     e.preventDefault();
@@ -958,7 +958,7 @@ function Contacto({ setRoute }) {
         <div className="wrap resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 64 }}>
           <div className="stack-m">
             <div>
-              <div className="label">Hola rápido</div>
+              <div className="label">personal</div>
               <p className="body-l" style={{ marginTop: 12 }}>hola@lasobremesa.es</p>
             </div>
             <div>
@@ -966,12 +966,8 @@ function Contacto({ setRoute }) {
               <p className="body-l" style={{ marginTop: 12 }}>wholesale@lasobremesa.es</p>
             </div>
             <div>
-              <div className="label">Visítanos</div>
-              <p className="body-m" style={{ marginTop: 12 }}>
-                C/ del Pez, 12 · 28004 Madrid<br />
-                Jueves a sábado, de 11 a 20h<br />
-                <span style={{ color: "var(--rojo)" }}>(los lunes, sobremesa obligatoria)</span>
-              </p>
+              
+              
             </div>
           </div>
 
