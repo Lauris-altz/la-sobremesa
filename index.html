@@ -152,7 +152,7 @@ img { display: block; max-width: 100%; }
 .marquee-track {
   display: inline-flex;
   gap: 48px;
-  animation: marquee-scroll 36s linear infinite;
+  animation: marquee-scroll 18s linear infinite;
   will-change: transform;
 }
 .marquee:hover .marquee-track { animation-play-state: paused; }
@@ -205,10 +205,13 @@ img { display: block; max-width: 100%; }
 
 /* Nav */
 .nav {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 50;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   background: rgba(246,239,217,0.88);
   border-bottom: 1px solid rgba(20,19,19,0.1);
 }
@@ -278,7 +281,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* Page transition */
-.page-enter { animation: fadeUp 0.4s ease; }
+.page-enter { animation: fadeUp 0.2s ease; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ===== RESPONSIVE HELPERS ===== */
@@ -558,7 +561,7 @@ function HeroEditorial({ copy, setRoute }) {
     <section className="bg-rojo" style={{ padding: "56px 0 80px", position: "relative", overflow: "hidden" }}>
       <div className="wrap">
         <div className="label" style={{ color: "var(--verde-lima)" }}>{copy.eyebrow}</div>
-        <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 11vw, 120px)", margin: "32px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.9 }}>
+        <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 10vw, 200px)", margin: "32px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.9 }}>
           {copy.hero.map((line, i) => <React.Fragment key={i}>{line.join(" ")}{i < copy.hero.length - 1 && <br />}</React.Fragment>)}
         </h1>
         <div className="resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "end", marginTop: 56 }}>
@@ -628,9 +631,9 @@ function ConceptBlock() {
 // ---------- Story grid — 3 beats with color blocks ----------
 function StoryGrid() {
   const beats = [
-  { bg: "bg-azul", label: "Conversación", title: "Se habla de todo.", body: "Opiniones, historias y algún que otro pique que se queda en la mesa.", tone: "var(--crema)", accent: "var(--amarillo)" },
-  { bg: "bg-rosa", label: "Compañía", title: "Esto va de estar juntos.", body: "De alargar el rato y compartir sin prisa.", tone: "var(--rojo)", accent: "var(--rojo)" },
-  { bg: "bg-verde", label: "Juego", title: "Siempre hay algo que hacer.", body: "Una partida, otra más… y aquí nadie se levanta.", tone: "var(--crema)", accent: "var(--amarillo)" }];
+  { bg: "bg-azul", label: "Conversación", title: "Hablar de todo.", body: "Opiniones, historias y algún que otro pique que se queda en la mesa.", tone: "var(--crema)", accent: "var(--amarillo)" },
+  { bg: "bg-rosa", label: "Compañía", title: "Estar juntos.", body: "De alargar el rato y compartir sin prisa (y sin pausa).", tone: "var(--rojo)", accent: "var(--rojo)" },
+  { bg: "bg-verde", label: "Juego", title: "Alargar la partida.", body: "Y nos dieron las diez, y las once, las doce y la una…", tone: "var(--crema)", accent: "var(--amarillo)" }];
 
   return (
     <section className="resp-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", alignItems: "stretch" }}>
@@ -1194,12 +1197,14 @@ function App() {
   return (
     <React.Fragment>
       <Nav route={route} setRoute={setRoute} cartCount={cartCount} />
-      {route === "home" && <Home setRoute={setRoute} />}
-      {route === "producto" && <Producto setRoute={setRoute} addToCart={addToCart} />}
-      {route === "nosotros" && <Nosotros setRoute={setRoute} />}
-      {route === "contacto" && <Contacto setRoute={setRoute} />}
-      {route === "cesta" && <Cesta cart={cart} setCart={setCart} setRoute={setRoute} />}
-      <Footer setRoute={setRoute} />
+      <div style={{ paddingTop: 72 }}>
+        {route === "home" && <Home setRoute={setRoute} />}
+        {route === "producto" && <Producto setRoute={setRoute} addToCart={addToCart} />}
+        {route === "nosotros" && <Nosotros setRoute={setRoute} />}
+        {route === "contacto" && <Contacto setRoute={setRoute} />}
+        {route === "cesta" && <Cesta cart={cart} setCart={setCart} setRoute={setRoute} />}
+        <Footer setRoute={setRoute} />
+      </div>
       <Toast msg={toast} />
     </React.Fragment>);
 
