@@ -48,6 +48,7 @@ html, body {
   text-rendering: optimizeLegibility;
   font-size: 16px;
   line-height: 1.4;
+  overflow-x: hidden;
 }
 
 button, input, textarea, select {
@@ -246,43 +247,35 @@ img { display: block; max-width: 100%; }
   to { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-/* Tweaks panel */
-.tweaks-panel {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 100;
-  width: 300px;
-  background: var(--tinta);
-  color: var(--crema);
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 14px 40px rgba(0,0,0,0.3);
+/* Hamburger / mobile nav */
+.nav-desktop { display: flex; gap: 28px; align-items: center; }
+.nav-mobile  { display: none; align-items: center; gap: 8px; }
+.nav-dropdown {
+  background: var(--crema);
+  border-top: 1px solid rgba(20,19,19,0.1);
+  width: 100%;
+  overflow: hidden;
+}
+.nav-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 14px 24px;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(20,19,19,0.06);
+  cursor: pointer;
   font-family: var(--body);
-}
-.tweaks-panel h4 {
-  font-family: var(--display);
+  font-weight: 700;
+  font-size: 14px;
   text-transform: uppercase;
-  font-size: 22px;
-  margin: 0 0 10px;
-  letter-spacing: 0;
+  letter-spacing: 0.08em;
+  color: var(--tinta);
 }
-.tweaks-row { margin: 12px 0; }
-.tweaks-row .label { font-size: 10px; margin-bottom: 6px; display: block; opacity: 0.7; }
-.tweaks-swatches { display: flex; gap: 6px; }
-.tweaks-swatch {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.2);
-  cursor: pointer; padding: 0;
+@media (max-width: 768px) {
+  .nav-desktop { display: none !important; }
+  .nav-mobile  { display: flex !important; }
 }
-.tweaks-swatch[aria-pressed="true"] { border-color: var(--verde-lima); }
-.tweaks-opt {
-  padding: 6px 10px; background: rgba(255,255,255,0.08);
-  border-radius: 999px; border: 1px solid transparent; cursor: pointer;
-  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
-  margin-right: 6px; margin-bottom: 6px;
-}
-.tweaks-opt[aria-pressed="true"] { background: var(--verde-lima); color: var(--rojo); }
 
 /* Page transition */
 .page-enter { animation: fadeUp 0.4s ease; }
@@ -309,6 +302,7 @@ img { display: block; max-width: 100%; }
   /* 2. Hero h1 — reduce min so it fits on small screens */
   .hero-h1 {
     font-size: clamp(40px, 12vw, 120px) !important;
+    white-space: normal !important;
   }
 
   /* 3. Any 2-column grid → single column */
@@ -437,53 +431,70 @@ Object.assign(window, { LogoImg, SuitCup, SuitCoin, SuitSword, SuitClub });
 const { useEffect: useEffectNav } = React;
 
 function Nav({ route, setRoute, cartCount, onDark = false }) {
+  const [menuOpen, setMenuOpen] = React.useState(false);
   const links = [
   { key: "home", label: "Inicio" },
   { key: "producto", label: "El juego" },
   { key: "nosotros", label: "Nosotros" },
   { key: "contacto", label: "Contacto" }];
 
+  const linkStyle = (key) => ({
+    background: "none", border: 0, cursor: "pointer",
+    fontFamily: "var(--body)", fontWeight: 700, fontSize: 12,
+    textTransform: "uppercase", letterSpacing: "0.08em",
+    padding: "8px 2px",
+    borderBottom: route === key ? "2px solid currentColor" : "2px solid transparent",
+    color: "inherit"
+  });
+
   return (
-    <nav className={`nav ${onDark ? "on-dark" : ""}`}>
+    <nav className={`nav ${onDark ? "on-dark" : ""}`} style={{ maxWidth: "100vw" }}>
       <div className="wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
-        <button onClick={() => setRoute("home")} style={{ background: "none", border: 0, cursor: "pointer", padding: 0 }}>
+        <button onClick={() => setRoute("home")} style={{ background: "none", border: 0, cursor: "pointer", padding: 0, flexShrink: 0 }}>
           <LogoImg color={onDark ? "light" : "dark"} height={26} />
         </button>
-        <div className="nav-menu" style={{ display: "flex", gap: 28, alignItems: "center" }}>
+
+        {/* Desktop links */}
+        <div className="nav-desktop">
           {links.map((l) =>
-          <button
-            key={l.key}
-            onClick={() => setRoute(l.key)}
-            style={{
-              background: "none",
-              border: 0,
-              cursor: "pointer",
-              fontFamily: "var(--body)",
-              fontWeight: 700,
-              fontSize: 12,
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              padding: "8px 2px",
-              borderBottom: route === l.key ? "2px solid currentColor" : "2px solid transparent",
-              color: "inherit"
-            }}>
-            
-              {l.label}
-            </button>
+            <button key={l.key} onClick={() => setRoute(l.key)} style={linkStyle(l.key)}>{l.label}</button>
           )}
-          <button
-            onClick={() => setRoute("cesta")}
-            className="btn"
-            style={{
-              padding: "10px 16px",
-              fontSize: 11,
-              borderColor: "currentColor"
-            }}>
-            
+          <button onClick={() => setRoute("cesta")} className="btn" style={{ padding: "10px 16px", fontSize: 11, borderColor: "currentColor" }}>
             Cesta ({cartCount})
           </button>
         </div>
+
+        {/* Mobile: cesta + hamburger */}
+        <div className="nav-mobile">
+          <button onClick={() => setRoute("cesta")} className="btn" style={{ padding: "8px 14px", fontSize: 11, borderColor: "currentColor" }}>
+            Cesta ({cartCount})
+          </button>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+            style={{ background: "none", border: 0, cursor: "pointer", padding: "6px 4px", color: "inherit", display: "flex", flexDirection: "column", gap: 5 }}>
+            <span style={{ display: "block", width: 22, height: 2, background: "currentColor", transition: "transform 0.2s", transform: menuOpen ? "rotate(45deg) translate(5px,5px)" : "none" }} />
+            <span style={{ display: "block", width: 22, height: 2, background: "currentColor", transition: "opacity 0.2s", opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ display: "block", width: 22, height: 2, background: "currentColor", transition: "transform 0.2s", transform: menuOpen ? "rotate(-45deg) translate(5px,-5px)" : "none" }} />
+          </button>
+        </div>
       </div>
+
+      {menuOpen && (
+        <div className="nav-dropdown">
+          {links.map((l) =>
+            <button key={l.key} onClick={() => { setRoute(l.key); setMenuOpen(false); }} style={{
+              display: "block", width: "100%", padding: "14px 24px",
+              textAlign: "left",
+              background: route === l.key ? "var(--crema-2)" : "none",
+              border: 0, borderBottom: "1px solid rgba(20,19,19,0.06)",
+              cursor: "pointer", fontFamily: "var(--body)", fontWeight: 700,
+              fontSize: 14, textTransform: "uppercase", letterSpacing: "0.08em",
+              color: "var(--tinta)"
+            }}>{l.label}</button>
+          )}
+        </div>
+      )}
     </nav>);
 
 }
@@ -492,7 +503,7 @@ function Footer({ setRoute }) {
   return (
     <footer className="bg-tinta" style={{ color: "var(--crema)", padding: "24px 0" }}>
       <div className="wrap">
-        <div style={{ display: "flex", alignItems: "center", gap: 32, fontSize: 11, fontFamily: "var(--body)", letterSpacing: "0.06em", textTransform: "uppercase", opacity: 0.6, flexWrap: "nowrap", textAlign: "left" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 11, fontFamily: "var(--body)", letterSpacing: "0.06em", textTransform: "uppercase", opacity: 0.6, flexWrap: "wrap", textAlign: "left" }}>
           <span>© 2026 LA SOBREMESA</span>
           <button onClick={() => setRoute("home")} style={linkBtn}>Inicio</button>
           <button onClick={() => setRoute("producto")} style={linkBtn}>El juego</button>
@@ -521,34 +532,17 @@ Object.assign(window, { Nav, Footer });
 // Home page
 const { useState: useStateHome, useEffect: useEffectHome } = React;
 
-function Home({ setRoute, tone, heroVariant }) {
-  const gamberroCopy = {
+function Home({ setRoute }) {
+  const copy = {
     eyebrow: "Juego de mesa · España · Todas las generaciones",
-    hero: [
-    ["¡Aquí"],
-    ["se viene"],
-    ["a jugar!"]],
-
-    lead:
-    "Todo empieza con un café. Lo que viene después, ya sabes cómo acaba.",
+    hero: [["¡Aquí"], ["se viene"], ["a jugar!"]],
+    lead: "Todo empieza con un café. Lo que viene después, ya sabes cómo acaba.",
     cta: "Quiero una caja"
   };
-  const editorialCopy = {
-    eyebrow: "Un juego de mesa · Hecho en España · 2024",
-    hero: [
-    ["Hay"],
-    ["sobremesas"],
-    ["que no acaban."]],
-
-    lead:
-    "Lo mejor de la sobremesa es cuando la comida se junta con la cena y ni te has enterado.",
-    cta: "Descubrir la marca"
-  };
-  const copy = tone === "editorial" ? editorialCopy : gamberroCopy;
 
   return (
     <main className="page-enter">
-      <Hero copy={copy} setRoute={setRoute} heroVariant={heroVariant} />
+      <HeroEditorial copy={copy} setRoute={setRoute} />
       <Marquee />
       <ConceptBlock />
       <StoryGrid />
@@ -557,13 +551,6 @@ function Home({ setRoute, tone, heroVariant }) {
       <BigCTA setRoute={setRoute} />
     </main>);
 
-}
-
-// ---------- HERO ----------
-function Hero({ copy, setRoute, heroVariant }) {
-  if (heroVariant === "block") return <HeroBlocks copy={copy} setRoute={setRoute} />;
-  if (heroVariant === "split") return <HeroSplit copy={copy} setRoute={setRoute} />;
-  return <HeroEditorial copy={copy} setRoute={setRoute} />;
 }
 
 function HeroEditorial({ copy, setRoute }) {
@@ -589,56 +576,6 @@ function HeroEditorial({ copy, setRoute }) {
         </div>
       </div>
       
-    </section>);
-
-}
-
-function HeroBlocks({ copy, setRoute }) {
-  return (
-    <section className="resp-grid-hero-blocks" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", minHeight: "80vh" }}>
-      <div className="bg-rojo" style={{ padding: "80px 56px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-        <div className="label" style={{ color: "var(--verde-lima)" }}>{copy.eyebrow}</div>
-        <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 11vw, 120px)", color: "var(--verde-lima)", margin: 0, textAlign: "left", lineHeight: 0.9 }}>
-          {copy.hero.flat().join(" ")}
-        </h1>
-        <div style={{ display: "flex", gap: 12 }}>
-          <button className="btn btn-filled-lima" onClick={() => setRoute("producto")}>
-            {copy.cta} <span className="arrow">→</span>
-          </button>
-        </div>
-      </div>
-      <div className="bg-lima" style={{ padding: "56px", display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative" }}>
-        <div className="display" style={{ fontSize: 60, color: "var(--rojo)", lineHeight: 0.9 }}>
-          2—8<br />jugadores
-        </div>
-        <div className="placeholder" data-label="foto de mesa · café · cartas" style={{ aspectRatio: "1/1", width: "100%", marginTop: 24 }} />
-        <p className="body-l" style={{ color: "var(--rojo)", marginTop: 24 }}>{copy.lead}</p>
-      </div>
-    </section>);
-
-}
-
-function HeroSplit({ copy, setRoute }) {
-  return (
-    <section className="bg-crema" style={{ padding: "64px 0 32px" }}>
-      <div className="wrap">
-        <div className="label">{copy.eyebrow}</div>
-        <div className="resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 48, marginTop: 40, alignItems: "end" }}>
-          <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 11vw, 120px)", margin: 0, color: "var(--rojo)", textAlign: "left", lineHeight: 0.9 }}>
-            {copy.hero.flat().join(" ")}
-          </h1>
-          <div className="placeholder" data-label="bodegón editorial · caja del juego" style={{ aspectRatio: "4/5" }} />
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", marginTop: 40, gap: 32, flexWrap: "wrap" }}>
-          <p className="body-l" style={{ maxWidth: 540, margin: 0 }}>{copy.lead}</p>
-          <div style={{ display: "flex", gap: 12 }}>
-            <button className="btn btn-filled-rojo" onClick={() => setRoute("producto")}>
-              {copy.cta} <span className="arrow">→</span>
-            </button>
-            <button className="btn" onClick={() => setRoute("nosotros")}>Nosotros</button>
-          </div>
-        </div>
-      </div>
     </section>);
 
 }
@@ -698,15 +635,24 @@ function StoryGrid() {
   return (
     <section className="resp-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", alignItems: "stretch" }}>
       {beats.map((b, i) =>
-      <div key={i} className={`${b.bg} resp-story-cell`} style={{ padding: "72px 40px 72px", minHeight: 520, display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative" }}>
+      <div key={i} className={`${b.bg} resp-story-cell`} style={{
+          padding: "56px 40px",
+          minHeight: 520,
+          display: "flex",
+          flexDirection: "column",
+          textAlign: "left"
+        }}>
           <div className="label" style={{ color: b.tone }}>{`0${i + 2} — ${b.label}`}</div>
-          <div>
-            <h3 className="display" style={{ fontSize: 48, margin: 0, color: b.tone }}>{b.title}</h3>
-            <p className="body-m" style={{ marginTop: 20, maxWidth: 320, color: b.tone, opacity: 0.9 }}>{b.body}</p>
-          </div>
-          <div className="display" style={{ fontSize: 160, lineHeight: 1, opacity: 0.12, color: b.tone, position: "absolute", right: 24, top: 16, pointerEvents: "none" }}>
-            {i + 1}
-          </div>
+          <div className="display" style={{
+            fontSize: "clamp(72px, 9vw, 128px)",
+            lineHeight: 0.9,
+            opacity: 0.13,
+            color: b.tone,
+            marginTop: 20,
+            flexShrink: 0
+          }}>{`0${i + 2}`}</div>
+          <h3 className="display" style={{ fontSize: 48, margin: "16px 0 0", color: b.tone, lineHeight: 0.95 }}>{b.title}</h3>
+          <p className="body-m" style={{ marginTop: 16, maxWidth: 320, color: b.tone, opacity: 0.9 }}>{b.body}</p>
         </div>
       )}
     </section>);
@@ -802,7 +748,7 @@ Object.assign(window, { Home });
 // Producto — Historia → qué es → cómo se juega → compra
 const { useState: useStateProd } = React;
 
-function Producto({ setRoute, addToCart, tone }) {
+function Producto({ setRoute, addToCart }) {
   return (
     <main className="page-enter">
       <ProdCompra addToCart={addToCart} />
@@ -1209,74 +1155,13 @@ function Toast({ msg }) {
   return <div className="toast"><div className="label" style={{ color: "var(--verde-lima)", marginBottom: 4 }}>Añadido</div><div className="body-m">{msg}</div></div>;
 }
 
-// ---------- Tweaks panel ----------
-function TweaksPanel({ visible, tweaks, setTweaks }) {
-  if (!visible) return null;
-  const heroOpts = [
-  { k: "editorial", l: "Editorial" },
-  { k: "block", l: "Bloques" },
-  { k: "split", l: "Split" }];
 
-  const toneOpts = [
-  { k: "gamberro", l: "Gamberro" },
-  { k: "editorial", l: "Editorial" }];
-
-  const accents = [
-  { k: "rojo", color: "#D90E15" },
-  { k: "azul", color: "#355FA9" },
-  { k: "lima", color: "#CEC80A" },
-  { k: "verde", color: "#049368" },
-  { k: "amarillo", color: "#F6D518" },
-  { k: "rosa", color: "#F4A8BE" }];
-
-  return (
-    <div className="tweaks-panel">
-      <h4>Tweaks</h4>
-      <div className="tweaks-row">
-        <span className="label">Layout del hero</span>
-        <div>
-          {heroOpts.map((o) =>
-          <button key={o.k} className="tweaks-opt" aria-pressed={tweaks.heroVariant === o.k}
-          onClick={() => setTweaks({ ...tweaks, heroVariant: o.k })}>{o.l}</button>
-          )}
-        </div>
-      </div>
-      <div className="tweaks-row">
-        <span className="label">Tono del copy</span>
-        <div>
-          {toneOpts.map((o) =>
-          <button key={o.k} className="tweaks-opt" aria-pressed={tweaks.tone === o.k}
-          onClick={() => setTweaks({ ...tweaks, tone: o.k })}>{o.l}</button>
-          )}
-        </div>
-      </div>
-      <div className="tweaks-row">
-        <span className="label">Easter egg «Una más y nos vamos»</span>
-        <div>
-          <button className="tweaks-opt" aria-pressed={tweaks.easter} onClick={() => setTweaks({ ...tweaks, easter: !tweaks.easter })}>
-            {tweaks.easter ? "On" : "Off"}
-          </button>
-        </div>
-      </div>
-      <p className="body-s" style={{ opacity: 0.6, marginTop: 8, fontSize: 10 }}>
-        Persisten al recargar.
-      </p>
-    </div>);
-
-}
-
-Object.assign(window, { Cesta, Toast, TweaksPanel });
+Object.assign(window, { Cesta, Toast });
 
 
 // ===== App.jsx =====
-// Main App — routing + state + easter egg
+// Main App — routing + state
 const { useState: useStateMain, useEffect: useEffectMain } = React;
-
-const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "heroVariant": "editorial",
-  "tone": "gamberro",
-  "easter": false
-}/*EDITMODE-END*/;
 
 function App() {
   const [route, setRouteState] = useStateMain(() => localStorage.getItem("ls-route") || "home");
@@ -1284,33 +1169,9 @@ function App() {
     try {return JSON.parse(localStorage.getItem("ls-cart") || "[]");} catch {return [];}
   });
   const [toast, setToast] = useStateMain(null);
-  const [tweaksVisible, setTweaksVisible] = useStateMain(false);
-  const [tweaks, setTweaks] = useStateMain(() => {
-    try {return { ...TWEAK_DEFAULTS, ...JSON.parse(localStorage.getItem("ls-tweaks") || "{}") };}
-    catch {return TWEAK_DEFAULTS;}
-  });
-  const [easterTriggered, setEasterTriggered] = useStateMain(false);
 
   useEffectMain(() => {localStorage.setItem("ls-route", route);window.scrollTo(0, 0);}, [route]);
   useEffectMain(() => {localStorage.setItem("ls-cart", JSON.stringify(cart));}, [cart]);
-  useEffectMain(() => {localStorage.setItem("ls-tweaks", JSON.stringify(tweaks));}, [tweaks]);
-
-  // Tweaks parent-postMessage contract
-  useEffectMain(() => {
-    const onMsg = (e) => {
-      if (!e.data || typeof e.data !== "object") return;
-      if (e.data.type === "__activate_edit_mode") setTweaksVisible(true);
-      if (e.data.type === "__deactivate_edit_mode") setTweaksVisible(false);
-    };
-    window.addEventListener("message", onMsg);
-    window.parent.postMessage({ type: "__edit_mode_available" }, "*");
-    return () => window.removeEventListener("message", onMsg);
-  }, []);
-
-  const setTweaksPersist = (next) => {
-    setTweaks(next);
-    window.parent.postMessage({ type: "__edit_mode_set_keys", edits: next }, "*");
-  };
 
   const setRoute = (r) => setRouteState(r);
 
@@ -1330,91 +1191,20 @@ function App() {
 
   const cartCount = cart.reduce((s, it) => s + it.qty, 0);
 
-  // Easter egg: typing "una mas" triggers confetti of phrases
-  useEffectMain(() => {
-    if (!tweaks.easter) return;
-    let buf = "";
-    const onKey = (e) => {
-      buf = (buf + e.key.toLowerCase()).slice(-20);
-      if (buf.includes("unamas") || buf.includes("una mas")) {
-        setEasterTriggered(true);
-        setTimeout(() => setEasterTriggered(false), 3600);
-        buf = "";
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [tweaks.easter]);
-
-  const onDark = route === "home" && tweaks.heroVariant === "editorial" ? false : false;
-
   return (
     <React.Fragment>
-      <Nav route={route} setRoute={setRoute} cartCount={cartCount} onDark={onDark} />
-      {route === "home" && <Home setRoute={setRoute} tone={tweaks.tone} heroVariant={tweaks.heroVariant} />}
-      {route === "producto" && <Producto setRoute={setRoute} addToCart={addToCart} tone={tweaks.tone} />}
+      <Nav route={route} setRoute={setRoute} cartCount={cartCount} />
+      {route === "home" && <Home setRoute={setRoute} />}
+      {route === "producto" && <Producto setRoute={setRoute} addToCart={addToCart} />}
       {route === "nosotros" && <Nosotros setRoute={setRoute} />}
       {route === "contacto" && <Contacto setRoute={setRoute} />}
       {route === "cesta" && <Cesta cart={cart} setCart={setCart} setRoute={setRoute} />}
       <Footer setRoute={setRoute} />
       <Toast msg={toast} />
-      <TweaksPanel visible={tweaksVisible} tweaks={tweaks} setTweaks={setTweaksPersist} />
-      <EasterEgg on={easterTriggered} />
-      <HintChip onClick={() => setTweaksVisible(!tweaksVisible)} visible={!tweaksVisible} />
     </React.Fragment>);
 
 }
 
-function HintChip({ onClick, visible }) {
-  if (!visible) return null;
-  return (
-    <button onClick={onClick} style={{
-      position: "fixed", right: 20, bottom: 20, zIndex: 90,
-      background: "var(--tinta)", color: "var(--verde-lima)",
-      border: 0, borderRadius: 999, padding: "10px 16px",
-      fontFamily: "var(--body)", fontSize: 11, fontWeight: 700,
-      textTransform: "uppercase", letterSpacing: "0.08em",
-      cursor: "pointer", boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
-    }}>
-      ✦ Tweaks
-    </button>);
-
-}
-
-function EasterEgg({ on }) {
-  if (!on) return null;
-  const phrases = ["Una más y nos vamos", "(mentira)", "Que no se enfríe", "Aquí empieza lo bueno", "¡Aquí se viene a jugar!"];
-  return (
-    <div style={{
-      position: "fixed", inset: 0, pointerEvents: "none", zIndex: 120,
-      overflow: "hidden"
-    }}>
-      {Array.from({ length: 18 }).map((_, i) => {
-        const p = phrases[i % phrases.length];
-        const left = i * 53 % 100;
-        const delay = i % 6 * 0.08;
-        const rot = (i % 2 ? -1 : 1) * (4 + i * 3 % 18);
-        const colors = ["var(--rojo)", "var(--azul)", "var(--verde-lima)", "var(--amarillo)", "var(--verde)", "var(--rosa)"];
-        const bg = colors[i % colors.length];
-        return (
-          <div key={i} style={{
-            position: "absolute",
-            left: left + "%",
-            top: "-10%",
-            transform: `rotate(${rot}deg)`,
-            background: bg, color: "var(--tinta)",
-            fontFamily: "var(--display)", fontSize: 28,
-            padding: "10px 18px", borderRadius: 999,
-            animation: `fall 3.4s ${delay}s ease-in forwards`,
-            whiteSpace: "nowrap",
-            textTransform: "uppercase"
-          }}>{p}</div>);
-
-      })}
-      <style>{`@keyframes fall { to { top: 110%; transform: rotate(${Math.random() * 30 - 15}deg); } }`}</style>
-    </div>);
-
-}
 
 Object.assign(window, { App });
 
