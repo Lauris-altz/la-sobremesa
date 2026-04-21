@@ -287,3 +287,77 @@ img { display: block; max-width: 100%; }
 /* Page transition */
 .page-enter { animation: fadeUp 0.4s ease; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== RESPONSIVE HELPERS ===== */
+.nav-menu {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+/* ===== MOBILE — max 768px ===== */
+@media (max-width: 768px) {
+
+  /* 1. Nav: wrap links so they don't overflow */
+  .nav-menu {
+    gap: 4px 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: calc(100% - 90px);
+  }
+
+  /* 2. Hero h1 — reduce min so it fits on small screens */
+  .hero-h1 {
+    font-size: clamp(40px, 12vw, 120px) !important;
+  }
+
+  /* 3. Any 2-column grid → single column */
+  .resp-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* 4. Story grid / category grid: 3-col → 1-col */
+  .resp-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 5. HeroBlocks: stacked sections */
+  .resp-grid-hero-blocks {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+
+  /* 6. Story cells: breathable height on mobile */
+  .resp-story-cell {
+    min-height: 300px !important;
+    padding: 48px 24px !important;
+  }
+
+  /* 7. Values flex section → vertical stack */
+  .resp-values-wrap {
+    flex-direction: column !important;
+  }
+  .resp-values-wrap > * {
+    min-height: 280px !important;
+  }
+
+  /* 8. Chip: scale down slightly so it doesn't dominate */
+  .rotate-chip {
+    transform: rotate(-4deg) scale(0.82) !important;
+    transform-origin: bottom left !important;
+  }
+
+  /* 9. Global: prevent text overflow on any page */
+  .wrap,
+  .wrap * {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* 10. Loose padding reductions inside hero-like sections */
+  .hero-pad-m {
+    padding-top: 40px !important;
+    padding-bottom: 56px !important;
+  }
+}

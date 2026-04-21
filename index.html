@@ -288,6 +288,74 @@ img { display: block; max-width: 100%; }
 .page-enter { animation: fadeUp 0.4s ease; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+/* ===== RESPONSIVE HELPERS ===== */
+.nav-menu {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+/* ===== MOBILE — max 768px ===== */
+@media (max-width: 768px) {
+
+  /* 1. Nav: wrap links so they don't overflow */
+  .nav-menu {
+    gap: 4px 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: calc(100% - 90px);
+  }
+
+  /* 2. Hero h1 — reduce min so it fits on small screens */
+  .hero-h1 {
+    font-size: clamp(40px, 12vw, 120px) !important;
+  }
+
+  /* 3. Any 2-column grid → single column */
+  .resp-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* 4. Story grid / category grid: 3-col → 1-col */
+  .resp-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 5. HeroBlocks: stacked sections */
+  .resp-grid-hero-blocks {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+
+  /* 6. Story cells: breathable height on mobile */
+  .resp-story-cell {
+    min-height: 300px !important;
+    padding: 48px 24px !important;
+  }
+
+  /* 7. Values flex section → vertical stack */
+  .resp-values-wrap {
+    flex-direction: column !important;
+  }
+  .resp-values-wrap > * {
+    min-height: 280px !important;
+  }
+
+  /* 8. Chip: scale down slightly so it doesn't dominate */
+  .rotate-chip {
+    transform: rotate(-4deg) scale(0.82) !important;
+    transform-origin: bottom left !important;
+  }
+
+  /* 9. Global: prevent text overflow on any page */
+  .wrap,
+  .wrap * {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -381,7 +449,7 @@ function Nav({ route, setRoute, cartCount, onDark = false }) {
         <button onClick={() => setRoute("home")} style={{ background: "none", border: 0, cursor: "pointer", padding: 0 }}>
           <LogoImg color={onDark ? "light" : "dark"} height={26} />
         </button>
-        <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
+        <div className="nav-menu" style={{ display: "flex", gap: 28, alignItems: "center" }}>
           {links.map((l) =>
           <button
             key={l.key}
@@ -503,10 +571,10 @@ function HeroEditorial({ copy, setRoute }) {
     <section className="bg-rojo" style={{ padding: "56px 0 80px", position: "relative", overflow: "hidden" }}>
       <div className="wrap">
         <div className="label" style={{ color: "var(--verde-lima)" }}>{copy.eyebrow}</div>
-        <h1 className="display" style={{ fontSize: "clamp(64px, 11vw, 120px)", margin: "32px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.9 }}>
+        <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 11vw, 120px)", margin: "32px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.9 }}>
           {copy.hero.map((line, i) => <React.Fragment key={i}>{line.join(" ")}{i < copy.hero.length - 1 && <br />}</React.Fragment>)}
         </h1>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "end", marginTop: 56 }}>
+        <div className="resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "end", marginTop: 56 }}>
           <p className="body-l" style={{ color: "var(--verde-lima)", maxWidth: 520, margin: 0 }}>
             {copy.lead}
           </p>
@@ -527,10 +595,10 @@ function HeroEditorial({ copy, setRoute }) {
 
 function HeroBlocks({ copy, setRoute }) {
   return (
-    <section style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", minHeight: "80vh" }}>
+    <section className="resp-grid-hero-blocks" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", minHeight: "80vh" }}>
       <div className="bg-rojo" style={{ padding: "80px 56px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
         <div className="label" style={{ color: "var(--verde-lima)" }}>{copy.eyebrow}</div>
-        <h1 className="display" style={{ fontSize: "clamp(64px, 11vw, 120px)", color: "var(--verde-lima)", margin: 0, textAlign: "left", lineHeight: 0.9 }}>
+        <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 11vw, 120px)", color: "var(--verde-lima)", margin: 0, textAlign: "left", lineHeight: 0.9 }}>
           {copy.hero.flat().join(" ")}
         </h1>
         <div style={{ display: "flex", gap: 12 }}>
@@ -555,8 +623,8 @@ function HeroSplit({ copy, setRoute }) {
     <section className="bg-crema" style={{ padding: "64px 0 32px" }}>
       <div className="wrap">
         <div className="label">{copy.eyebrow}</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 48, marginTop: 40, alignItems: "end" }}>
-          <h1 className="display" style={{ fontSize: "clamp(64px, 11vw, 120px)", margin: 0, color: "var(--rojo)", textAlign: "left", lineHeight: 0.9 }}>
+        <div className="resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 48, marginTop: 40, alignItems: "end" }}>
+          <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 11vw, 120px)", margin: 0, color: "var(--rojo)", textAlign: "left", lineHeight: 0.9 }}>
             {copy.hero.flat().join(" ")}
           </h1>
           <div className="placeholder" data-label="bodegón editorial · caja del juego" style={{ aspectRatio: "4/5" }} />
@@ -605,7 +673,7 @@ function Marquee() {
 function ConceptBlock() {
   return (
     <section className="bg-crema" style={{ padding: "140px 0" }}>
-      <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }}>
+      <div className="wrap resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }}>
         <div className="label">01 — El concepto</div>
         <div>
           <h2 className="display" style={{ fontSize: "clamp(42px, 6vw, 84px)", margin: 0, color: "var(--tinta)" }}>
@@ -628,9 +696,9 @@ function StoryGrid() {
   { bg: "bg-verde", label: "Juego", title: "Siempre hay algo que hacer.", body: "Una partida, otra más… y aquí nadie se levanta.", tone: "var(--crema)", accent: "var(--amarillo)" }];
 
   return (
-    <section style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", alignItems: "stretch" }}>
+    <section className="resp-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", alignItems: "stretch" }}>
       {beats.map((b, i) =>
-      <div key={i} className={b.bg} style={{ padding: "72px 40px 72px", minHeight: 520, display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative" }}>
+      <div key={i} className={`${b.bg} resp-story-cell`} style={{ padding: "72px 40px 72px", minHeight: 520, display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative" }}>
           <div className="label" style={{ color: b.tone }}>{`0${i + 2} — ${b.label}`}</div>
           <div>
             <h3 className="display" style={{ fontSize: 48, margin: 0, color: b.tone }}>{b.title}</h3>
@@ -650,7 +718,7 @@ function GameCard({ setRoute }) {
   return (
     <section className="bg-crema" style={{ padding: "140px 0" }}>
       <div className="wrap">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+        <div className="resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
           <div style={{ position: "relative" }}>
             <div className="placeholder" data-label="caja del juego · bodegón 3/4" style={{ aspectRatio: "4/5", borderRadius: 12 }} />
             <div style={{ position: "absolute", top: -20, right: -20, background: "var(--verde-lima)", color: "var(--rojo)", fontFamily: "var(--display)", textTransform: "uppercase", padding: "14px 20px", borderRadius: 999, fontSize: 18, transform: "rotate(8deg)" }}>
@@ -762,7 +830,7 @@ function ProdComoSeJuega() {
           Consigue una carta<br />de cada categoría.
         </h2>
         <p className="body-l" style={{ marginBottom: 48, maxWidth: 560 }}>Juego de cartas y dado para 4 o más jugadores. Lanza el dado, actúa según la categoría y gana el que antes complete su colección.</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+        <div className="resp-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
           {cats.map((c, i) =>
           <div key={i} className={c.bg} style={{ padding: "28px 24px", borderRadius: 16, display: "flex", flexDirection: "column", gap: 8 }}>
               <div className="label" style={{ opacity: 0.7, fontSize: 10 }}>{c.desc}</div>
@@ -780,7 +848,7 @@ function ProdCompra({ addToCart }) {
   const price = 29;
   return (
     <section className="bg-lima" style={{ padding: "80px 0" }}>
-      <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+      <div className="wrap resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
         <div style={{ position: "relative" }}>
           <div className="placeholder" data-label="bodegón · producto 3/4 con cartas" style={{ aspectRatio: "1/1", borderRadius: 12, background: "var(--crema)" }} />
           <div className="rotate-chip" style={{ position: "absolute", bottom: 20, left: 20, transform: "rotate(-4deg)", background: "var(--amarillo)", color: "var(--rojo)", padding: "10px 16px", borderRadius: 999, fontFamily: "var(--display)", textTransform: "uppercase", fontSize: 16 }}>Cartas · Dado · 4+ Jugadores</div>
@@ -857,14 +925,14 @@ function Nosotros({ setRoute }) {
       <section className="bg-azul" style={{ padding: "96px 0 120px", color: "var(--crema)" }}>
         <div className="wrap">
           <div className="label" style={{ color: "var(--amarillo)" }}>Nosotros</div>
-          <h1 className="display" style={{ fontSize: "clamp(64px, 11vw, 120px)", color: "var(--verde-lima)", margin: "24px 0 0", lineHeight: 0.9, textAlign: "left" }}>
+          <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 11vw, 120px)", color: "var(--verde-lima)", margin: "24px 0 0", lineHeight: 0.9, textAlign: "left" }}>
             Tenemos claro lo que nos gusta: quedarnos hasta que nos echen.
           </h1>
         </div>
       </section>
 
       <section className="bg-crema" style={{ padding: "120px 0" }}>
-        <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 80 }}>
+        <div className="wrap resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 80 }}>
           <div>
             <div className="label">Qué somos</div>
           </div>
@@ -884,7 +952,7 @@ No para explicarla, sino para compartirla jugando.
         </div>
       </section>
 
-      <section style={{ display: "flex", alignItems: "stretch" }}>
+      <section className="resp-values-wrap" style={{ display: "flex", alignItems: "stretch" }}>
         <Value bg="bg-rojo" color="var(--verde-lima)" n="01" t="Somos cercanos." body="Hablamos de tú. Sin tecnicismos, como si estuviéramos en la mesa." />
         <Value bg="bg-lima" color="var(--rojo)" n="02" t="Somos sociales." body="Esto va de juntarse. De compartir tiempo entre generaciones." />
         <Value bg="bg-amarillo" color="var(--rojo)" n="03" t="Somos actuales." body="Recuperamos expresiones, refranes, costumbres. Partimos de la tradición y la traemos al presente." />
@@ -931,14 +999,14 @@ function Contacto({ setRoute }) {
       <section className="bg-rojo" style={{ padding: "96px 0 80px", color: "var(--verde-lima)" }}>
         <div className="wrap">
           <div className="label" style={{ color: "var(--verde-lima)" }}>Contacto</div>
-          <h1 className="display" style={{ fontSize: "clamp(64px, 11vw, 120px)", margin: "24px 0 0", lineHeight: 0.9, textAlign: "left" }}>
+          <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 11vw, 120px)", margin: "24px 0 0", lineHeight: 0.9, textAlign: "left" }}>
             Escríbenos.<br />Contestamos <em style={{ fontStyle: "normal", color: "var(--amarillo)" }}>antes del postre.</em>
           </h1>
         </div>
       </section>
 
       <section className="bg-crema" style={{ padding: "100px 0 140px" }}>
-        <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 64 }}>
+        <div className="wrap resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 64 }}>
           <div className="stack-m">
             <div>
               <div className="label">Hola rápido</div>
