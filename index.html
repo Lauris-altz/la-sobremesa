@@ -26,7 +26,7 @@
   --amarillo: #F6D518;
   /* Neutros */
   --crema: #fbfaf4;
-  --crema-2: #fbf9f4;
+  --crema-2: #ffffff;
   --tinta: #141313;
   --tinta-soft: #1E1B1B;
 
@@ -1122,7 +1122,7 @@ function Cesta({ cart, setCart, setRoute }) {
 
             cart.map((it, i) =>
             <div key={i} style={{ display: "grid", gridTemplateColumns: "120px 1fr auto", gap: 20, padding: "24px 0", borderBottom: "1px solid rgba(20,19,19,0.15)", alignItems: "center" }}>
-                  <div className="placeholder" data-label="caja" style={{ aspectRatio: "1/1", borderRadius: 10 }} />
+                  <img src="./brand/Gemini_Generated_Image_bl3stfbl3stfbl3s.png" alt="Don Refranote · El juego" style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover", borderRadius: 10, display: "block" }} />
                   <div>
                     <div className="display" style={{ fontSize: 28 }}>Don Refranote · El juego</div>
                     <div className="body-s" style={{ opacity: 0.7, marginTop: 6 }}>Edición estándar · 200 cartas · 1 dado</div>
@@ -1177,10 +1177,17 @@ function Cesta({ cart, setCart, setRoute }) {
 }
 
 function Row({ k, v, big = false }) {
+  if (big) {
+    return (
+      <div style={{ marginTop: 28 }}>
+        <span className="body-m" style={{ fontWeight: 700, display: "block" }}>{k}</span>
+        <span className="display" style={{ fontSize: 34, color: "var(--rojo)", display: "block", marginTop: 10 }}>{v}</span>
+      </div>);
+  }
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: big ? 24 : 14 }}>
-      <span className="body-m" style={{ opacity: big ? 1 : 0.8, fontWeight: big ? 700 : 400 }}>{k}</span>
-      <span className={big ? "display" : "body-m"} style={{ fontSize: big ? 34 : 16, color: big ? "var(--rojo)" : "inherit", fontWeight: big ? 400 : 600 }}>{v}</span>
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 14 }}>
+      <span className="body-m" style={{ opacity: 0.8, fontWeight: 400 }}>{k}</span>
+      <span className="body-m" style={{ fontSize: 16, fontWeight: 600 }}>{v}</span>
     </div>);
 
 }
