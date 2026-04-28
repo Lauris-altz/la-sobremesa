@@ -25,8 +25,8 @@
   --verde: #049368;
   --amarillo: #F6D518;
   /* Neutros */
-  --crema: #F6EFD9;
-  --crema-2: #EFE6C8;
+  --crema: #fbfaf4;
+  --crema-2: #fbf9f4;
   --tinta: #141313;
   --tinta-soft: #1E1B1B;
 
@@ -326,7 +326,17 @@ img { display: block; max-width: 100%; }
     position: static !important;
   }
 
-  /* 2d. Empujoncito — stack button below text on mobile */
+  /* 2d. Concepto — imagen arriba, texto abajo en móvil */
+  .concepto-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 2d2. Nosotros qué somos — imagen arriba, texto abajo en móvil */
+  .nosotros-que-somos {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 2e. Empujoncito — stack button below text on mobile */
   .empujoncito-grid {
     grid-template-columns: 1fr !important;
     padding: 36px 24px !important;
@@ -587,8 +597,8 @@ function Home({ setRoute }) {
 
 function HeroEditorial({ copy, setRoute }) {
   return (
-    <section className="bg-rojo" style={{ padding: "56px 0 80px", position: "relative", overflow: "hidden" }}>
-      <div className="wrap">
+    <section className="bg-rojo" style={{ padding: "56px 0 80px", position: "relative", overflow: "hidden", backgroundImage: "url('./brand/Gemini_Generated_Image_ipfj1eipfj1eipfj-3.2.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
+      <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
         <div className="label" style={{ color: "var(--verde-lima)" }}>{copy.eyebrow}</div>
         <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 10vw, 200px)", margin: "32px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.9 }}>
           {copy.hero.map((line, i) => <React.Fragment key={i}>{line.join(" ")}{i < copy.hero.length - 1 && <br />}</React.Fragment>)}
@@ -642,9 +652,14 @@ function Marquee() {
 function ConceptBlock() {
   return (
     <section className="bg-crema" style={{ padding: "140px 0" }}>
-      <div className="wrap resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }}>
-        <div className="label">01 — El concepto</div>
+      <div className="wrap concepto-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}>
+        <img
+          src="./brand/Gemini_Generated_Image_vv4bypvv4bypvv4b.png"
+          alt="El concepto — La Sobremesa"
+          style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: 12, display: "block" }}
+        />
         <div>
+          <div className="label" style={{ marginBottom: 24 }}>01 — El concepto</div>
           <h2 className="display" style={{ fontSize: "clamp(42px, 6vw, 84px)", margin: 0, color: "var(--tinta)" }}>
             Enlazar la comida<br />con la cena<br /><em style={{ fontStyle: "normal", color: "var(--rojo)" }}>sin darnos cuenta.</em>
           </h2>
@@ -698,7 +713,7 @@ function GameCard({ setRoute }) {
       <div className="wrap">
         <div className="resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
           <div style={{ position: "relative" }}>
-            <div className="placeholder" data-label="caja del juego · bodegón 3/4" style={{ aspectRatio: "4/5", borderRadius: 12 }} />
+            <img src="./brand/Gemini_Generated_Image_an3d83an3d83an3d.png" alt="La Sobremesa · caja del juego" style={{ width: "100%", aspectRatio: "4/5", borderRadius: 12, objectFit: "cover", display: "block" }} />
             <div style={{ position: "absolute", top: 12, right: 12, background: "var(--verde-lima)", color: "var(--rojo)", fontFamily: "var(--display)", textTransform: "uppercase", padding: "14px 20px", borderRadius: 999, fontSize: 18, transform: "rotate(8deg)", zIndex: 2 }}>
               ¡Nuevo!
             </div>
@@ -746,7 +761,7 @@ function PhraseBlock() {
       <div className="wrap" style={{ textAlign: "center" }}>
         <div className="label" style={{ color: "var(--amarillo)" }}>Firma de marca</div>
         <h2 className="display" style={{ fontSize: "clamp(72px, 13vw, 200px)", color: "var(--crema)", margin: "24px 0 0", lineHeight: 0.9 }}>
-          “Una más<br />y nos <em style={{ fontStyle: "normal", color: "var(--amarillo)" }}>vamos.”</em>
+          "Una más<br />y nos <em style={{ fontStyle: "normal", color: "var(--amarillo)" }}>vamos."</em>
         </h2>
         <p className="body-l" style={{ color: "var(--crema)", opacity: 0.8, maxWidth: 520, margin: "32px auto 0" }}>
           Lo decimos todos y sabemos de sobra que no es verdad. Por eso existe este juego.
@@ -803,7 +818,7 @@ function ProdComoSeJuega() {
   return (
     <section className="bg-crema" style={{ padding: "80px 0 100px" }}>
       <div className="wrap">
-        <div className="label" style={{ marginBottom: 8 }}>Cómo se juega</div>
+        <div className="label" style={{ marginBottom: 20 }}>Cómo se juega</div>
         <h2 className="display" style={{ fontSize: "clamp(44px, 7vw, 100px)", margin: "0 0 16px", lineHeight: 0.9 }}>
           Consigue una carta<br />de cada categoría.
         </h2>
@@ -828,7 +843,7 @@ function ProdCompra({ addToCart }) {
     <section className="bg-lima" style={{ padding: "80px 0" }}>
       <div className="wrap resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
         <div style={{ position: "relative" }}>
-          <div className="placeholder" data-label="bodegón · producto 3/4 con cartas" style={{ aspectRatio: "1/1", borderRadius: 12, background: "var(--crema)" }} />
+          <img src="./brand/Gemini_Generated_Image_bl3stfbl3stfbl3s.png" alt="La Sobremesa · detalle cartas y dado" style={{ width: "100%", aspectRatio: "1/1", borderRadius: 12, objectFit: "cover", display: "block" }} />
           <div className="rotate-chip" style={{ position: "absolute", bottom: 20, left: 20, transform: "rotate(-4deg)", background: "var(--amarillo)", color: "var(--rojo)", padding: "10px 16px", borderRadius: 999, fontFamily: "var(--display)", textTransform: "uppercase", fontSize: 16 }}>Cartas · Dado · 4+ Jugadores</div>
         </div>
         <div>
@@ -910,21 +925,21 @@ function Nosotros({ setRoute }) {
       </section>
 
       <section className="bg-crema" style={{ padding: "120px 0" }}>
-        <div className="wrap resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 80 }}>
-          <div>
-            <div className="label">Qué somos</div>
-          </div>
+        <div className="wrap nosotros-que-somos" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "start" }}>
+          <img
+            src="./brand/Gemini_Generated_Image_kphnpvkphnpvkphn.png"
+            alt="Qué somos — La Sobremesa"
+            style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: 12, display: "block" }}
+          />
           <div className="stack-m">
-            <p className="body-l" style={{ margin: 0, fontSize: 24 }}>
+            <div className="label" style={{ marginBottom: 16 }}>Qué somos</div>
+            <p className="body-l" style={{ margin: 0 }}>
               La Sobremesa nace de una obsesión muy concreta: la mesa que nadie quiere recoger.
-              Esa hora larga entre el último plato y el que dice “uy, qué tarde es ya, no?”.
+              Esa hora larga entre el último plato y el que dice "uy, qué tarde es ya, no?".
             </p>
             <p className="body-l" style={{ margin: 0 }}>
               <br />Partimos de la cultura popular española: costumbres, tradiciones, formas de hablar, gestos que nos hacen únicos... y la llevamos al juego.
 No para explicarla, sino para compartirla jugando.
-            </p> 
-            <p className="body-l" style={{ margin: 0 }}>
-              
             </p>
           </div>
         </div>
