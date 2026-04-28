@@ -310,11 +310,16 @@ img { display: block; max-width: 100%; }
     white-space: normal !important;
   }
 
-  /* 2b. Hero buttons — stacked, left-aligned */
+  /* 2b. Hero buttons — stacked, left-aligned + smaller on mobile */
   .hero-btns {
     flex-direction: column !important;
     align-items: flex-start !important;
     width: 100% !important;
+    gap: 8px !important;
+  }
+  .hero-btns .btn {
+    padding: 10px 16px !important;
+    font-size: 10px !important;
   }
 
   /* 2c. Cesta — single column on mobile */
@@ -578,7 +583,6 @@ function Home({ setRoute }) {
   const copy = {
     eyebrow: "Juego de mesa · España · Todas las generaciones",
     hero: [["¡Aquí"], ["se viene"], ["a jugar!"]],
-    lead: "Todo empieza con un café. Lo que viene después, ya sabes cómo acaba.",
     cta: "Quiero una caja"
   };
 
@@ -603,19 +607,17 @@ function HeroEditorial({ copy, setRoute }) {
         <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 10vw, 200px)", margin: "32px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.9 }}>
           {copy.hero.map((line, i) => <React.Fragment key={i}>{line.join(" ")}{i < copy.hero.length - 1 && <br />}</React.Fragment>)}
         </h1>
-        <div className="resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "end", marginTop: 56 }}>
-          <p className="body-l" style={{ color: "var(--verde-lima)", maxWidth: 520, margin: 0 }}>
-            {copy.lead}
-          </p>
-          <div className="hero-btns" style={{ display: "flex", gap: 12, justifyContent: "flex-end", flexWrap: "wrap" }}>
-            <button className="btn btn-filled-lima" onClick={() => setRoute("producto")}>
-              {copy.cta} <span className="arrow">→</span>
-            </button>
-            <button className="btn" style={{ color: "var(--verde-lima)" }} onClick={() => setRoute("nosotros")}>
-              Nosotros
-            </button>
-          </div>
+        <div className="hero-btns" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 40 }}>
+          <button className="btn btn-filled-lima" onClick={() => setRoute("producto")}>
+            {copy.cta} <span className="arrow">→</span>
+          </button>
+          <button className="btn" style={{ color: "var(--verde-lima)" }} onClick={() => setRoute("nosotros")}>
+            Nosotros
+          </button>
         </div>
+        <p className="body-l" style={{ color: "var(--verde-lima)", maxWidth: 520, marginTop: 32 }}>
+          {copy.lead}
+        </p>
       </div>
       
     </section>);
@@ -690,15 +692,7 @@ function StoryGrid() {
           textAlign: "left"
         }}>
           <div className="label" style={{ color: b.tone }}>{`0${i + 2} — ${b.label}`}</div>
-          <div className="display" style={{
-            fontSize: "clamp(72px, 9vw, 128px)",
-            lineHeight: 0.9,
-            opacity: 0.13,
-            color: b.tone,
-            marginTop: 20,
-            flexShrink: 0
-          }}>{`0${i + 2}`}</div>
-          <h3 className="display" style={{ fontSize: 48, margin: "16px 0 0", color: b.tone, lineHeight: 0.95 }}>{b.title}</h3>
+          <h3 className="display" style={{ fontSize: 48, margin: "24px 0 0", color: b.tone, lineHeight: 0.95 }}>{b.title}</h3>
           <p className="body-m" style={{ marginTop: 16, maxWidth: 320, color: b.tone, opacity: 0.9 }}>{b.body}</p>
         </div>
       )}
@@ -822,7 +816,7 @@ function ProdComoSeJuega() {
         <h2 className="display" style={{ fontSize: "clamp(44px, 7vw, 100px)", margin: "0 0 16px", lineHeight: 0.9 }}>
           Consigue una carta<br />de cada categoría.
         </h2>
-        <p className="body-l" style={{ marginBottom: 48, maxWidth: 560 }}>Juego de cartas y dado para 4 o más jugadores. Lanza el dado, actúa según la categoría y gana el que antes complete su colección.</p>
+        <p className="body-l" style={{ marginBottom: 48, maxWidth: 560 }}>Juego de cartas y dado para 4 o más jugadores. Lanza el dado y actúa según la categoría. Gana el que antes complete su colección.</p>
         <div className="resp-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
           {cats.map((c, i) =>
           <div key={i} className={c.bg} style={{ padding: "28px 24px", borderRadius: 16, display: "flex", flexDirection: "column", gap: 8 }}>
