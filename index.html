@@ -25,7 +25,7 @@
   --verde: #049368;
   --amarillo: #F6D518;
   /* Neutros */
-  --crema: #fbfaf4;
+  --crema: #ffffff;
   --crema-2: #ffffff;
   --tinta: #141313;
   --tinta-soft: #1E1B1B;
@@ -285,6 +285,106 @@ img { display: block; max-width: 100%; }
 /* Page transition */
 .page-enter { animation: fadeUp 0.1s ease; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== GAME CAROUSEL ===== */
+.carousel-wrap {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+}
+.carousel-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.4s ease;
+}
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(246,239,217,0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(20,19,19,0.12);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: var(--tinta);
+  transition: background 0.15s ease, transform 0.15s ease;
+  touch-action: manipulation;
+}
+.carousel-btn:hover { background: rgba(246,239,217,0.98); transform: translateY(-50%) scale(1.06); }
+.carousel-btn.prev { left: 12px; }
+.carousel-btn.next { right: 12px; }
+.carousel-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 3;
+}
+.carousel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(246,239,217,0.5);
+  transition: background 0.2s ease;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+.carousel-dot.active { background: rgba(246,239,217,1); }
+
+/* ===== TYPOGRAPHY OVERRIDE — Helvetica Neue on cream/white sections ===== */
+/* Titles on bg-crema backgrounds switch to Helvetica Neue Black + tight tracking */
+.bg-crema .display {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.075em;
+  font-stretch: normal;
+}
+
+/* ===== MOBILE BACK BUTTON ===== */
+@keyframes backBtnIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+.back-btn {
+  display: none;
+}
+@media (max-width: 768px) {
+  .back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 84px;
+    left: 16px;
+    z-index: 9998;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(246,239,217,0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(20,19,19,0.12);
+    cursor: pointer;
+    color: var(--tinta);
+    font-size: 17px;
+    line-height: 1;
+    animation: backBtnIn 0.22s ease;
+    touch-action: manipulation;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+}
 
 /* ===== RESPONSIVE HELPERS ===== */
 .nav-menu {
@@ -604,7 +704,7 @@ function HeroEditorial({ copy, setRoute }) {
     <section className="bg-rojo" style={{ padding: "56px 0 80px", position: "relative", overflow: "hidden", backgroundImage: "url('./brand/Gemini_Generated_Image_ipfj1eipfj1eipfj-3.2.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
       <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
         <div className="label" style={{ color: "var(--verde-lima)" }}>{copy.eyebrow}</div>
-        <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 10vw, 200px)", margin: "32px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.9 }}>
+        <h1 className="display hero-h1" aria-hidden="true" style={{ fontSize: "clamp(64px, 10vw, 200px)", margin: "32px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.9, opacity: 0, pointerEvents: "none", userSelect: "none" }}>
           {copy.hero.map((line, i) => <React.Fragment key={i}>{line.join(" ")}{i < copy.hero.length - 1 && <br />}</React.Fragment>)}
         </h1>
         <div className="hero-btns" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 40 }}>
@@ -692,12 +792,36 @@ function StoryGrid() {
           textAlign: "left"
         }}>
           <div className="label" style={{ color: b.tone }}>{`0${i + 2} — ${b.label}`}</div>
-          <h3 className="display" style={{ fontSize: 48, margin: "24px 0 0", color: b.tone, lineHeight: 0.95 }}>{b.title}</h3>
+          <h3 className="display" style={{ fontSize: 48, margin: "24px 0 0", color: b.tone, lineHeight: 0.95, fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', fontWeight: 700, letterSpacing: "-0.075em", fontStretch: "normal" }}>{b.title}</h3>
           <p className="body-m" style={{ marginTop: 16, maxWidth: 320, color: b.tone, opacity: 0.9 }}>{b.body}</p>
         </div>
       )}
     </section>);
 
+}
+
+// ---------- Game image carousel ----------
+function GameCarousel({ ratio = "4/5" }) {
+  const [idx, setIdx] = React.useState(0);
+  const images = [
+    { src: "./brand/Gemini_Generated_Image_hkq1jdhkq1jdhkq1.png", alt: "La Sobremesa · Don Refranote" },
+    { src: "./brand/Gemini_Generated_Image_uxy26iuxy26iuxy2.png", alt: "La Sobremesa · Don Refranote · detalle" }
+  ];
+  const prev = () => setIdx((i) => (i + images.length - 1) % images.length);
+  const next = () => setIdx((i) => (i + 1) % images.length);
+  return (
+    <div className="carousel-wrap" style={{ aspectRatio: ratio }}>
+      {images.map((img, i) => (
+        <img key={img.src} src={img.src} alt={img.alt} style={{ opacity: idx === i ? 1 : 0 }} />
+      ))}
+      <button className="carousel-btn prev" onClick={prev} aria-label="Anterior">&#8592;</button>
+      <button className="carousel-btn next" onClick={next} aria-label="Siguiente">&#8594;</button>
+      <div className="carousel-dots">
+        {images.map((_, i) => (
+          <button key={i} className={"carousel-dot" + (idx === i ? " active" : "")} onClick={() => setIdx(i)} aria-label={"Imagen " + (i + 1)} />
+        ))}
+      </div>
+    </div>);
 }
 
 // ---------- Game card preview ----------
@@ -707,16 +831,15 @@ function GameCard({ setRoute }) {
       <div className="wrap">
         <div className="resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
           <div style={{ position: "relative" }}>
-            <img src="./brand/Gemini_Generated_Image_an3d83an3d83an3d.png" alt="La Sobremesa · caja del juego" style={{ width: "100%", aspectRatio: "4/5", borderRadius: 12, objectFit: "cover", display: "block" }} />
-            <div style={{ position: "absolute", top: 12, right: 12, background: "var(--verde-lima)", color: "var(--rojo)", fontFamily: "var(--display)", textTransform: "uppercase", padding: "14px 20px", borderRadius: 999, fontSize: 18, transform: "rotate(8deg)", zIndex: 2 }}>
+            <GameCarousel />
+            <div style={{ position: "absolute", top: 12, right: 12, background: "var(--verde-lima)", color: "var(--rojo)", fontFamily: "var(--display)", textTransform: "uppercase", padding: "14px 20px", borderRadius: 999, fontSize: 18, transform: "rotate(8deg)", zIndex: 4 }}>
               ¡Nuevo!
             </div>
           </div>
           <div>
             <div className="label" style={{ color: "var(--rojo)" }}>El juego</div>
-            <h2 className="display" style={{ fontSize: "clamp(44px, 6vw, 88px)", margin: "20px 0 0", color: "var(--tinta)", lineHeight: 0.92 }}>
-              Don refranote<br />
-              
+            <h2 className="display" style={{ fontSize: "clamp(44px, 6vw, 88px)", margin: "20px 0 0", color: "var(--tinta)", lineHeight: 0.92, fontFamily: "var(--display)", fontWeight: 400, letterSpacing: 0, fontStretch: "150%" }}>
+              Don refranote
             </h2>
             <p className="body-l" style={{ marginTop: 24 }}>
               200 cartas, 1 caja, 1 dado y una regla de oro: que no se levante nadie hasta la última carta.
@@ -742,8 +865,8 @@ function GameCard({ setRoute }) {
 function Stat({ label, value }) {
   return (
     <div>
-      <div className="label" style={{ opacity: 0.5 }}>{label}</div>
-      <div className="display" style={{ fontSize: 36, color: "var(--rojo)", marginTop: 4 }}>{value}</div>
+      <div style={{ fontFamily: "var(--display)", fontWeight: 400, fontStretch: "150%", textTransform: "uppercase", fontSize: 13, letterSpacing: "0.02em", opacity: 0.55 }}>{label}</div>
+      <div className="display" style={{ fontSize: 36, color: "var(--rojo)", marginTop: 4, fontFamily: "var(--display)", fontWeight: 400, letterSpacing: 0, fontStretch: "150%" }}>{value}</div>
     </div>);
 
 }
@@ -837,8 +960,8 @@ function ProdCompra({ addToCart }) {
     <section className="bg-lima" style={{ padding: "80px 0" }}>
       <div className="wrap resp-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
         <div style={{ position: "relative" }}>
-          <img src="./brand/Gemini_Generated_Image_bl3stfbl3stfbl3s.png" alt="La Sobremesa · detalle cartas y dado" style={{ width: "100%", aspectRatio: "1/1", borderRadius: 12, objectFit: "cover", display: "block" }} />
-          <div className="rotate-chip" style={{ position: "absolute", bottom: 20, left: 20, transform: "rotate(-4deg)", background: "var(--amarillo)", color: "var(--rojo)", padding: "10px 16px", borderRadius: 999, fontFamily: "var(--display)", textTransform: "uppercase", fontSize: 16 }}>Cartas · Dado · 4+ Jugadores</div>
+          <GameCarousel ratio="1/1" />
+          <div className="rotate-chip" style={{ position: "absolute", bottom: 20, left: 20, transform: "rotate(-4deg)", background: "var(--amarillo)", color: "var(--rojo)", padding: "10px 16px", borderRadius: 999, fontFamily: "var(--display)", textTransform: "uppercase", fontSize: 16, zIndex: 4 }}>Cartas · Dado · 4+ Jugadores</div>
         </div>
         <div>
           <h2 className="display" style={{ fontSize: "clamp(56px, 8vw, 120px)", margin: "0 0 0", color: "var(--rojo)", lineHeight: 0.9 }}>
@@ -965,7 +1088,7 @@ function Value({ bg, color, n, t, body }) {
     <div className={bg} style={{ flex: 1, padding: "72px 40px", minHeight: 480, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <div className="display" style={{ fontSize: 120, lineHeight: 1, color, opacity: 0.22 }}>{n}</div>
       <div>
-        <h3 className="display" style={{ fontSize: 44, margin: 0, color, lineHeight: 0.95 }}>{t}</h3>
+        <h3 className="display" style={{ fontSize: 44, margin: 0, color, lineHeight: 0.95, fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', fontWeight: 700, letterSpacing: "-0.075em", fontStretch: "normal" }}>{t}</h3>
         <p className="body-m" style={{ marginTop: 20, color, opacity: 0.92, maxWidth: 320 }}>{body}</p>
       </div>
     </div>);
@@ -1214,10 +1337,26 @@ function App() {
   });
   const [toast, setToast] = useStateMain(null);
 
-  useEffectMain(() => {localStorage.setItem("ls-route", route);window.scrollTo(0, 0);}, [route]);
+  useEffectMain(() => {
+    localStorage.setItem("ls-route", route);
+    window.scrollTo(0, 0);
+  }, [route]);
   useEffectMain(() => {localStorage.setItem("ls-cart", JSON.stringify(cart));}, [cart]);
 
-  const setRoute = (r) => setRouteState(r);
+  useEffectMain(() => {
+    window.history.replaceState({ route }, "", "#" + route);
+    const handlePop = (e) => {
+      const r = (e.state && e.state.route) || "home";
+      setRouteState(r);
+    };
+    window.addEventListener("popstate", handlePop);
+    return () => window.removeEventListener("popstate", handlePop);
+  }, []);
+
+  const setRoute = (r) => {
+    window.history.pushState({ route: r }, "", "#" + r);
+    setRouteState(r);
+  };
 
   const addToCart = (qty = 1) => {
     const existing = cart.find((i) => i.id === "sobremesa");
@@ -1238,6 +1377,9 @@ function App() {
   return (
     <React.Fragment>
       <Nav route={route} setRoute={setRoute} cartCount={cartCount} />
+      {route !== "home" && (
+        <button className="back-btn" onClick={() => window.history.back()} aria-label="Volver">&#8592;</button>
+      )}
       <div style={{ paddingTop: 72 }}>
         {route === "home" && <Home setRoute={setRoute} />}
         {route === "producto" && <Producto setRoute={setRoute} addToCart={addToCart} />}
