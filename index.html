@@ -17,12 +17,12 @@
 
 :root {
   /* Principales */
-  --rojo: #D90E15;
+  --rojo: #C90C12;
   --azul: #355FA9;
   --verde-lima: #CEC80A;
   /* Secundarios */
   --rosa: #F4A8BE;
-  --verde: #049368;
+  --verde: #03784E;
   --amarillo: #F6D518;
   /* Neutros */
   --crema: #ffffff;
@@ -137,13 +137,13 @@ img { display: block; max-width: 100%; }
 .btn:active { transform: translate(0,0); }
 
 .btn-filled-dark { background: var(--tinta); color: var(--crema); border-color: var(--tinta); }
-.btn-filled-dark:hover { background: var(--rojo); border-color: var(--rojo); color: var(--verde-lima); }
+.btn-filled-dark:hover { background: var(--rojo); border-color: var(--rojo); color: var(--crema); }
 
-.btn-filled-lima { background: var(--verde-lima); color: var(--rojo); border-color: var(--verde-lima); }
-.btn-filled-lima:hover { background: var(--rojo); color: var(--verde-lima); border-color: var(--rojo); }
+.btn-filled-lima { background: var(--verde-lima); color: var(--tinta); border-color: var(--verde-lima); }
+.btn-filled-lima:hover { background: var(--tinta); color: var(--verde-lima); border-color: var(--tinta); }
 
-.btn-filled-rojo { background: var(--rojo); color: var(--verde-lima); border-color: var(--rojo); }
-.btn-filled-rojo:hover { background: var(--tinta); color: var(--verde-lima); border-color: var(--tinta); }
+.btn-filled-rojo { background: var(--rojo); color: var(--crema); border-color: var(--rojo); }
+.btn-filled-rojo:hover { background: var(--tinta); color: var(--crema); border-color: var(--tinta); }
 
 .btn .arrow { display: inline-block; transition: transform 0.2s ease; }
 .btn:hover .arrow { transform: translateX(4px); }
@@ -187,10 +187,10 @@ img { display: block; max-width: 100%; }
 }
 .placeholder.dark {
   background:
-    repeating-linear-gradient(45deg, rgba(246,239,217,0.10) 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.10) 0 1px, transparent 1px 14px),
     var(--tinta-soft);
   color: var(--crema);
-  border-color: rgba(246,239,217,0.2);
+  border-color: rgba(255,255,255,0.2);
 }
 .placeholder.dark::before { background: var(--crema); color: var(--tinta); }
 
@@ -214,10 +214,10 @@ img { display: block; max-width: 100%; }
   z-index: 9999;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  background: rgba(246,239,217,0.88);
+  background: rgba(255,255,255,0.88);
   border-bottom: 1px solid rgba(20,19,19,0.1);
 }
-.nav.on-dark { background: rgba(20,19,19,0.85); color: var(--crema); border-bottom-color: rgba(246,239,217,0.15); }
+.nav.on-dark { background: rgba(20,19,19,0.85); color: var(--crema); border-bottom-color: rgba(255,255,255,0.15); }
 
 /* Focus */
 :focus-visible { outline: 2px solid var(--rojo); outline-offset: 3px; }
@@ -309,7 +309,7 @@ img { display: block; max-width: 100%; }
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(246,239,217,0.82);
+  background: rgba(255,255,255,0.82);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   border: 1px solid rgba(20,19,19,0.12);
@@ -322,7 +322,7 @@ img { display: block; max-width: 100%; }
   transition: background 0.15s ease, transform 0.15s ease;
   touch-action: manipulation;
 }
-.carousel-btn:hover { background: rgba(246,239,217,0.98); transform: translateY(-50%) scale(1.06); }
+.carousel-btn:hover { background: rgba(255,255,255,0.98); transform: translateY(-50%) scale(1.06); }
 .carousel-btn.prev { left: 12px; }
 .carousel-btn.next { right: 12px; }
 .carousel-dots {
@@ -338,13 +338,13 @@ img { display: block; max-width: 100%; }
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(246,239,217,0.5);
+  background: rgba(255,255,255,0.5);
   transition: background 0.2s ease;
   cursor: pointer;
   border: none;
   padding: 0;
 }
-.carousel-dot.active { background: rgba(246,239,217,1); }
+.carousel-dot.active { background: rgba(255,255,255,1); }
 
 /* ===== TYPOGRAPHY OVERRIDE — Helvetica Neue on cream/white sections ===== */
 /* Titles on bg-crema backgrounds switch to Helvetica Neue Black + tight tracking */
@@ -372,7 +372,7 @@ img { display: block; max-width: 100%; }
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: rgba(246,239,217,0.78);
+    background: rgba(255,255,255,0.78);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(20,19,19,0.12);
@@ -404,9 +404,9 @@ img { display: block; max-width: 100%; }
     max-width: calc(100% - 90px);
   }
 
-  /* 2. Hero h1 — bigger impact on mobile */
+  /* 2. Hero h1 — proportionally sized on mobile */
   .hero-h1 {
-    font-size: clamp(48px, 15vw, 120px) !important;
+    font-size: clamp(30px, 9vw, 52px) !important;
     white-space: normal !important;
   }
 
@@ -495,6 +495,14 @@ img { display: block; max-width: 100%; }
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
+
+  /* 10. El juego — Don Refranote + precio más pequeños en móvil */
+  .prod-title { font-size: clamp(36px, 10vw, 52px) !important; }
+  .prod-price { font-size: 52px !important; }
+
+  /* 11. FAQ — símbolo "+" separado y alineado a la derecha */
+  .faq-q-text { flex: 1; }
+  .faq-plus-icon { flex-shrink: 0; padding-left: 20px; }
 }
 
 </style>
@@ -703,19 +711,19 @@ function HeroEditorial({ copy, setRoute }) {
   return (
     <section className="bg-rojo" style={{ padding: "56px 0 80px", position: "relative", overflow: "hidden", backgroundImage: "url('./brand/Gemini_Generated_Image_ipfj1eipfj1eipfj-3.2.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
       <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
-        <div className="label" style={{ color: "var(--verde-lima)" }}>{copy.eyebrow}</div>
-        <h1 className="display hero-h1" aria-hidden="true" style={{ fontSize: "clamp(64px, 10vw, 200px)", margin: "32px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.9, opacity: 0, pointerEvents: "none", userSelect: "none" }}>
+        <div className="label" style={{ color: "var(--crema)" }}>{copy.eyebrow}</div>
+        <h1 className="display hero-h1" style={{ fontSize: "clamp(36px, 4.5vw, 80px)", margin: "24px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.92 }}>
           {copy.hero.map((line, i) => <React.Fragment key={i}>{line.join(" ")}{i < copy.hero.length - 1 && <br />}</React.Fragment>)}
         </h1>
         <div className="hero-btns" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 40 }}>
           <button className="btn btn-filled-lima" onClick={() => setRoute("producto")}>
             {copy.cta} <span className="arrow">→</span>
           </button>
-          <button className="btn" style={{ color: "var(--verde-lima)" }} onClick={() => setRoute("nosotros")}>
+          <button className="btn" style={{ color: "var(--crema)" }} onClick={() => setRoute("nosotros")}>
             Nosotros
           </button>
         </div>
-        <p className="body-l" style={{ color: "var(--verde-lima)", maxWidth: 520, marginTop: 32 }}>
+        <p className="body-l" style={{ color: "var(--crema)", maxWidth: 520, marginTop: 32 }}>
           {copy.lead}
         </p>
       </div>
@@ -778,7 +786,7 @@ function ConceptBlock() {
 function StoryGrid() {
   const beats = [
   { bg: "bg-azul", label: "Conversación", title: "Hablar de todo.", body: "Opiniones, historias y algún que otro pique que se queda en la mesa.", tone: "var(--crema)", accent: "var(--amarillo)" },
-  { bg: "bg-rosa", label: "Compañía", title: "Estar juntos.", body: "De alargar el rato y compartir sin prisa (y sin pausa).", tone: "var(--rojo)", accent: "var(--rojo)" },
+  { bg: "bg-rosa", label: "Compañía", title: "Estar juntos.", body: "De alargar el rato y compartir sin prisa (y sin pausa).", tone: "var(--rojo)", smallTone: "var(--tinta)", accent: "var(--rojo)" },
   { bg: "bg-verde", label: "Juego", title: "Alargar la partida.", body: "Y nos dieron las diez, y las once, las doce y la una…", tone: "var(--crema)", accent: "var(--amarillo)" }];
 
   return (
@@ -791,9 +799,9 @@ function StoryGrid() {
           flexDirection: "column",
           textAlign: "left"
         }}>
-          <div className="label" style={{ color: b.tone }}>{`0${i + 2} — ${b.label}`}</div>
+          <div className="label" style={{ color: b.smallTone || b.tone }}>{`0${i + 2} — ${b.label}`}</div>
           <h3 className="display" style={{ fontSize: 48, margin: "24px 0 0", color: b.tone, lineHeight: 0.95, fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', fontWeight: 700, letterSpacing: "-0.075em", fontStretch: "normal" }}>{b.title}</h3>
-          <p className="body-m" style={{ marginTop: 16, maxWidth: 320, color: b.tone, opacity: 0.9 }}>{b.body}</p>
+          <p className="body-m" style={{ marginTop: 16, maxWidth: 320, color: b.smallTone || b.tone, opacity: 0.9 }}>{b.body}</p>
         </div>
       )}
     </section>);
@@ -842,7 +850,7 @@ function GameCard({ setRoute }) {
               Don refranote
             </h2>
             <p className="body-l" style={{ marginTop: 24 }}>
-              200 cartas, 1 caja, 1 dado y una regla de oro: que no se levante nadie hasta la última carta.
+              216 cartas, 1 caja, 1 dado y una regla de oro: que no se levante nadie hasta la última carta.
               Pensado para mesas de más de 4 personas, probado en mesas de 12.
             </p>
             <div style={{ display: "flex", gap: 24, margin: "32px 0" }}>
@@ -876,7 +884,7 @@ function PhraseBlock() {
   return (
     <section className="bg-azul" style={{ padding: "120px 0" }}>
       <div className="wrap" style={{ textAlign: "center" }}>
-        <div className="label" style={{ color: "var(--amarillo)" }}>Firma de marca</div>
+        <div className="label" style={{ color: "var(--crema)" }}>Firma de marca</div>
         <h2 className="display" style={{ fontSize: "clamp(72px, 13vw, 200px)", color: "var(--crema)", margin: "24px 0 0", lineHeight: 0.9 }}>
           "Una más<br />y nos <em style={{ fontStyle: "normal", color: "var(--amarillo)" }}>vamos."</em>
         </h2>
@@ -893,7 +901,7 @@ function BigCTA({ setRoute }) {
   return (
     <section className="bg-lima" style={{ padding: "120px 0", textAlign: "center" }}>
       <div className="wrap">
-        <div className="label" style={{ color: "var(--rojo)" }}>¿Qué hacemos? ¿Pedimos otra? Otra caja. Que ya te veo venir.</div>
+        <div className="label" style={{ color: "var(--tinta)" }}>¿Qué hacemos? ¿Pedimos otra? Otra caja. Que ya te veo venir.</div>
         <h2 className="display" style={{ fontSize: "clamp(60px, 11vw, 160px)", color: "var(--rojo)", margin: "24px 0 40px", lineHeight: 0.9 }}>
           Pide la caja.<br />El resto se hace solo.
         </h2>
@@ -964,11 +972,11 @@ function ProdCompra({ addToCart }) {
           <div className="rotate-chip" style={{ position: "absolute", bottom: 20, left: 20, transform: "rotate(-4deg)", background: "var(--amarillo)", color: "var(--rojo)", padding: "10px 16px", borderRadius: 999, fontFamily: "var(--display)", textTransform: "uppercase", fontSize: 16, zIndex: 4 }}>Cartas · Dado · 4+ Jugadores</div>
         </div>
         <div>
-          <h2 className="display" style={{ fontSize: "clamp(56px, 8vw, 120px)", margin: "0 0 0", color: "var(--rojo)", lineHeight: 0.9 }}>
+          <h2 className="display prod-title" style={{ fontSize: "clamp(56px, 8vw, 120px)", margin: "0 0 0", color: "var(--rojo)", lineHeight: 0.9 }}>
             Don refranote
           </h2>
           <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginTop: 32 }}>
-            <div className="display" style={{ fontSize: 72, color: "var(--rojo)" }}>{price} €</div>
+            <div className="display prod-price" style={{ fontSize: 72, color: "var(--rojo)" }}>{price} €</div>
             <div className="body-s" style={{ color: "var(--rojo)" }}></div>
           </div>
           <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 32, flexWrap: "wrap" }}>
@@ -1008,8 +1016,8 @@ function ProdFAQ() {
           {faqs.map((f, i) =>
           <div key={i} style={{ borderBottom: "1px solid var(--tinta)" }}>
               <button onClick={() => setOpen(open === i ? -1 : i)} style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "28px 0", background: "none", border: 0, cursor: "pointer", textAlign: "left" }}>
-                <span className="display" style={{ fontSize: 32 }}>{f.q}</span>
-                <span className="display" style={{ fontSize: 36, color: "var(--rojo)" }}>{open === i ? "—" : "+"}</span>
+                <span className="display faq-q-text" style={{ fontSize: 32 }}>{f.q}</span>
+                <span className="display faq-plus-icon" style={{ fontSize: 36, color: "var(--rojo)" }}>{open === i ? "—" : "+"}</span>
               </button>
               {open === i &&
             <div style={{ paddingBottom: 28, maxWidth: 680 }} className="body-l">{f.a}</div>
@@ -1034,7 +1042,7 @@ function Nosotros({ setRoute }) {
     <main className="page-enter">
       <section className="bg-azul" style={{ padding: "96px 0 120px", color: "var(--crema)" }}>
         <div className="wrap">
-          <div className="label" style={{ color: "var(--amarillo)" }}>Nosotros</div>
+          <div className="label" style={{ color: "var(--crema)" }}>Nosotros</div>
           <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 11vw, 120px)", color: "var(--verde-lima)", margin: "24px 0 0", lineHeight: 0.9, textAlign: "left" }}>
             Tenemos claro lo que nos gusta: quedarnos hasta que nos echen.
           </h1>
@@ -1063,8 +1071,8 @@ No para explicarla, sino para compartirla jugando.
       </section>
 
       <section className="resp-values-wrap" style={{ display: "flex", alignItems: "stretch" }}>
-        <Value bg="bg-rojo" color="var(--verde-lima)" n="01" t="Somos cercanos." body="Hablamos de tú. Sin tecnicismos, como si estuviéramos en la mesa." />
-        <Value bg="bg-lima" color="var(--rojo)" n="02" t="Somos sociales." body="Esto va de juntarse. De compartir tiempo entre generaciones." />
+        <Value bg="bg-rojo" color="var(--verde-lima)" bodyColor="var(--crema)" n="01" t="Somos cercanos." body="Hablamos de tú. Sin tecnicismos, como si estuviéramos en la mesa." />
+        <Value bg="bg-lima" color="var(--rojo)" bodyColor="var(--tinta)" n="02" t="Somos sociales." body="Esto va de juntarse. De compartir tiempo entre generaciones." />
         <Value bg="bg-amarillo" color="var(--rojo)" n="03" t="Somos actuales." body="Recuperamos expresiones, refranes, costumbres. Partimos de la tradición y la traemos al presente." />
       </section>
 
@@ -1083,13 +1091,13 @@ No para explicarla, sino para compartirla jugando.
 
 }
 
-function Value({ bg, color, n, t, body }) {
+function Value({ bg, color, n, t, body, bodyColor }) {
   return (
     <div className={bg} style={{ flex: 1, padding: "72px 40px", minHeight: 480, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <div className="display" style={{ fontSize: 120, lineHeight: 1, color, opacity: 0.22 }}>{n}</div>
       <div>
         <h3 className="display" style={{ fontSize: 44, margin: 0, color, lineHeight: 0.95, fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', fontWeight: 700, letterSpacing: "-0.075em", fontStretch: "normal" }}>{t}</h3>
-        <p className="body-m" style={{ marginTop: 20, color, opacity: 0.92, maxWidth: 320 }}>{body}</p>
+        <p className="body-m" style={{ marginTop: 20, color: bodyColor || color, opacity: 0.92, maxWidth: 320 }}>{body}</p>
       </div>
     </div>);
 
@@ -1108,7 +1116,7 @@ function Contacto({ setRoute }) {
     <main className="page-enter">
       <section className="bg-rojo" style={{ padding: "96px 0 80px", color: "var(--verde-lima)" }}>
         <div className="wrap">
-          <div className="label" style={{ color: "var(--verde-lima)" }}>Contacto</div>
+          <div className="label" style={{ color: "var(--crema)" }}>Contacto</div>
           <h1 className="display hero-h1" style={{ fontSize: "clamp(64px, 11vw, 120px)", margin: "24px 0 0", lineHeight: 0.9, textAlign: "left" }}>
             Escríbenos.<br />Contestamos <em style={{ fontStyle: "normal", color: "var(--amarillo)" }}>antes del postre.</em>
           </h1>
@@ -1248,7 +1256,7 @@ function Cesta({ cart, setCart, setRoute }) {
                   <img src="./brand/Gemini_Generated_Image_bl3stfbl3stfbl3s.png" alt="Don Refranote · El juego" style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover", borderRadius: 10, display: "block" }} />
                   <div>
                     <div className="display" style={{ fontSize: 28 }}>Don Refranote · El juego</div>
-                    <div className="body-s" style={{ opacity: 0.7, marginTop: 6 }}>Edición estándar · 200 cartas · 1 dado</div>
+                    <div className="body-s" style={{ opacity: 0.7, marginTop: 6 }}>Edición estándar · 216 cartas · 1 dado</div>
                     <div style={{ display: "flex", alignItems: "center", gap: 6, border: "1.5px solid var(--tinta)", borderRadius: 999, padding: "4px 10px", marginTop: 12, width: "fit-content" }}>
                       <button onClick={() => changeQty(i, -1)} style={iconBtn}>−</button>
                       <div style={{ minWidth: 24, textAlign: "center", fontWeight: 700 }}>{it.qty}</div>
