@@ -505,6 +505,14 @@ img { display: block; max-width: 100%; }
   .faq-plus-icon { flex-shrink: 0; padding-left: 20px; }
 }
 
+/* ===== DESKTOP — hero image mucho más visible ===== */
+@media (min-width: 769px) {
+  .hero-editorial {
+    min-height: clamp(640px, 78vh, 820px) !important;
+    background-position: center 18% !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -709,7 +717,7 @@ function Home({ setRoute }) {
 
 function HeroEditorial({ copy, setRoute }) {
   return (
-    <section className="bg-rojo" style={{ padding: "56px 0 80px", minHeight: "clamp(440px, 58vh, 540px)", position: "relative", overflow: "hidden", backgroundImage: "url('./brand/Gemini_Generated_Image_ipfj1eipfj1eipfj-3.2.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
+    <section className="bg-rojo hero-editorial" style={{ padding: "56px 0 80px", minHeight: "clamp(440px, 58vh, 540px)", position: "relative", overflow: "hidden", backgroundImage: "url('./brand/Gemini_Generated_Image_ipfj1eipfj1eipfj-3.2.png')", backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat" }}>
       <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
         <div className="label" style={{ color: "var(--crema)" }}>{copy.eyebrow}</div>
         <h1 className="display hero-h1" style={{ fontSize: "clamp(36px, 4.5vw, 80px)", margin: "24px 0 0", color: "var(--verde-lima)", textAlign: "left", lineHeight: 0.92 }}>
